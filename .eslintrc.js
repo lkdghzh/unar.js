@@ -36,11 +36,11 @@ module.exports = {
      */
     rules: {
         // 警告用console
-        "no-console": "warn",
+        "no-console": "off",
         // 警告用debugger
-        "no-debugger": "warn",
+        "no-debugger": "off",
         // 警告定义但未使用
-        "no-unused-vars": "warn",
+        "no-unused-vars": "off",
         // 关闭要求箭头函数的参数使用圆括号(可以不带括号)
         "arrow-parens": "off",
         // 警告常亮表达式  1==1?2:3  if(true){} 
