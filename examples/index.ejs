@@ -11,21 +11,6 @@
         <input v-model="a" :id="id" />
         <button @click="fn"></button>
     </div>
-    
-    <script>
-        const app = new Unar({
-            el: "#root",
-            data: {
-                a: 1,
-                id: 'input1'
-            },
-            methods: {
-                fn() {
-                    console.log(this.a)
-                }
-            }
-        })
-    </script>
 </body>
 
 </html>

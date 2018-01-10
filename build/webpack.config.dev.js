@@ -13,7 +13,7 @@ const DIST_HTML_PATH = path.resolve(__dirname, '../dist/index.html')
 
 module.exports = {
     entry: {
-        Unar: ['webpack-hot-middleware/client', './src/Instance/index.js']
+        Unar: ['webpack-hot-middleware/client', './src/index.js']
     },
     output: {
         path: DIST_JS_PATH,
@@ -53,8 +53,7 @@ module.exports = {
         new htmlWebpackPlugin({
             filename: DIST_HTML_PATH,
             template: TPL_PATH,
-            inject: "head"
         }),
-        new webpack.HotModuleReplacementPlugin()
-    ]
+        new webpack.HotModuleReplacementPlugin(),
+    ],devtool: 'eval-source-map'//这个占的打包太大，上线去掉
 }
