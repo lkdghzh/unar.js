@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>
+        <!-- by 李可 -->
+        拷贝dom的耗时测试用例
+    </title>
+</head>
+<body>
+    <ul id="ul">
+    </ul>
+    <script>
+        function creatDom(){
+            const ul=document.querySelector('#ul');
+            console.log("脚本化文档用时")
+            console.time()
+            for(let i=0;i<10000;i++){
+                const li =document.createElement('li')
+                li.innerHTML=i;
+                ul.appendChild(li)
+            }
+            console.timeEnd()
+        }
+        function copyByEle(){
+            const ul=document.querySelector('#ul');
+            console.log("ele方式拷贝用时")
+            console.time()
+            for(let li of ul.childNodes){
+                ul.appendChild(li)
+            }
+            console.timeEnd()
+        }
+
+        function copyByFrag(){
+            const fragment = document.createDocumentFragment();
+            const ul=document.querySelector('#ul');
+            console.log("Frag方式拷贝用时")
+            console.time()
+            for(let li of ul.childNodes){
+                fragment.appendChild(li)
+            }
+            ul.appendChild(fragment)
+            console.timeEnd()
+        }
+
+        /*
+        function creatFrag(){
+            //fragment 相当于一个Element 只有appendChild removeChild insertBefore    有没有innerHTML?
+            //先将创建的多个dom放到这个缓冲中    fragment.appendChild
+            //最后放到文档中(将fragment的所有缓冲)
+            const fragment = document.createDocumentFragment();
+            const ul=document.querySelector('#ul');
+            
+            for(let i=0;i<100000;i++){
+                const li =document.createElement('li')
+                li.innerHTML=i+"FF";
+                fragment.appendChild(li)
+            }
+           
+            ul.appendChild(fragment)
+        }
+        */
+        creatDom()
+        copyByEle()
+        copyByFrag()
+        /*
+        chrome 版本 60.0.3112.78（正式版本） （64 位）
+
+        脚本化文档用时
+        default: 61.451904296875ms
+        ele方式拷贝用时
+        default: 1115.27001953125ms
+        Frag方式拷贝用时
+        default: 474.7880859375ms
+
+        chrome 版本 63.0.3239.132（正式版本） （64 位）    
+        脚本化文档用时
+        default: 39.425048828125ms
+        ele方式拷贝用时
+        default: 198.9130859375ms
+        Frag方式拷贝用时
+        default: 61.670166015625ms
+        */
+
+        //creatFrag()
+    </script>
+</body>
+</html>

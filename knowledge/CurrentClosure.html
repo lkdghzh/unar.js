@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>当前闭包</title>
+    <input type="text" id="input1" />
+    <input type="text" id="input2" />
+    <input type="text" id="input3" />
+    <input type="text" id="input4" />
+    <input type="text" id="input5" />
+</head>
+
+<body>
+    <script>
+        //这里仅仅了input标签来做示例
+        function domEventCB(node, val) {
+            node.value = val;
+        }
+
+        var id = 0;
+        class CurrentCache {
+            constructor(fn, node) {
+                this.id = ++id;
+                //bind 定义的时候改变scope外，还具备传值的功能
+                this.cb = fn.bind(null, node, node.getAttribute('id')); //this.id
+            }
+        }
+
+        var cacheArray = [];
+
+        //模仿初始化dom就做的事情
+        var doms = document.getElementsByTagName("input");
+
+        // doms.forEach((node, inx) => {
+        //     var currentCache = new CurrentCache(domEventCB, node);
+        //     console.log(currentCache);
+        //     cacheArray.push(currentCache);
+        // })
+        for (let node of doms) {
+            var currentCache = new CurrentCache(domEventCB, node);
+            console.log(currentCache);
+            cacheArray.push(currentCache);
+        }
+
+        console.log(cacheArray)
+        cacheArray.forEach(cache => {
+            cache.cb();
+        })
+        // cacheArray[2].cb(5)
+    </script>
+</body>
+
+</html>

@@ -17,17 +17,11 @@ or
 or
 + http://localhost:9000/dist/index.html
 
-# 6,How To Run Dev Test Example 
+# 6,How To Run Dev TestPackage
 > there will be has some error information about `webpack-hmr`,it doesn't matter.because this command is just test package  in dev-enviroment,for we can see the packaged files
-+ npm run packTest
++ npm run dev:testpkg
 + open /dist/index.html in broswer
 
-
-# 7,How To Run Local Example
-> there will be has some error information about `Unar is undefined`,it doesn't matter.because the real project will `import Unar from ..`.
-+ npm run publish
-+ open /example/index.html in broswer
-
-# 8,How To Run Product Example 
+# 7,How To Run Product
 > there will be `Unar.js` library in `/dist` Path .
 + npm run publish
