@@ -1,0 +1,47 @@
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script src="http://cdn.bootcss.com/knockout/3.4.0/knockout-min.js"></script>
+</head>
+
+<body>
+	<!-- ko foreach:{data:selectCount,as:'app'}-->
+	<select data-bind="options:  $parent.array_all, value: $parent.select_obj[app.toString().substr(0,app.toString().indexOf(','))],optionsValue:'0', optionsText: '1',optionsAfterRender:$parent.optionsAfterRender"></select>
+	<!-- /ko -->
+	<script>
+		var vm = function () {
+			var self = this;
+			self.select_obj = {
+				a1: ko.observable(""),//预先定义
+				b1: ko.observable(""),
+				c1: ko.observable("")
+			}
+			self.array_all = ko.observableArray([
+				["a", "aaa"],
+				["b", "bbbb"],
+				["c", "ccc"]
+			]);
+
+			self.selectCount = [
+				['a1', '5555'],
+				['b1', '6666'],
+				['c1', '777']
+			]
+			self.optionsAfterRender=function(option,item){
+				// var ttt=self.select_obj
+				// debugger
+				
+			}
+			//不能监控{}
+			self.select_obj.a1.subscribe((newVal)=>{
+				debugger
+			})
+		}
+		window.a;
+		ko.applyBindings(a = new vm());
+	</script>
+</body>
+
+</html>

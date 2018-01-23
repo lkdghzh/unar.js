@@ -5,7 +5,7 @@
 // }
 
 //merge
-export default {
+export default var config={
     actionPrefix:"u",
     attrPrefix:":",
     evtPrefix:"@",

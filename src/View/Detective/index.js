@@ -1,8 +1,12 @@
-import config from "../../Config"
+//整体加载
+import config from "../../Config/index.js"
+debugger
 import DomFn from "../DomEvent"
 
 export default class Detictive {
+    constructor(){}
     static[config.actionPrefix + "model"](node, val) {
+        debugger
         this._update("model", node, val)
     }
     static[config.actionPrefix + "text"](node, text) {

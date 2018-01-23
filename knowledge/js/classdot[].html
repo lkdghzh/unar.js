@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!-- 李可 -->
+    <title>键的可配置性的测试（类和对象和数组）。</title>
+</head>
+<body>
+    <script>
+        var prefix="u-";
+        class U{
+            static fn(){
+                console.log("类的方法")
+            }
+            static [prefix+'fn'](){
+                console.log("类的可配置方法")
+            }
+            [prefix+'fn1'](){
+                console.log("类的可配置实例方法")
+            }
+        }
+        U.fn();//√
+        U['u-fn']();//√  类型静态方法名的可配置性
+        new U()['u-fn1']()//√ 
+
+        const o={
+            [prefix+'a']:1,
+            [prefix+'fn'](){
+                console.log('o的fn')
+            }
+        }
+
+       console.log( o['u-a']);
+        o[prefix+'fn']()
+        </script>
+    
+</body>
+</html>

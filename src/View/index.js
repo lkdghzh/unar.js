@@ -3,25 +3,30 @@ import Detective from "./Detective"
 debugger
 export default class Templater {
     constructor(selector, vm) {
-        debugger
         this.vm = vm;
         this.el = document.querySelector(selector);
+        console.log(Detective,1)
+        debugger
         if (this.el) {
             this.el.appendChild(this.init());
         }
     }
     init() {
         const fragment = document.createDocumentFragment();
-        var waitDeletedNode;
-        //所有节点node
-        //node appendChild之前会被删除，影响原始数据
-        //   for (let [inx,node] of this.el.childNodes.entries()) {
-        //     const nodeType = node.nodeType;
-        //     if (nodeType === 1 || nodeType === 8) {
-        //         fragment.appendChild(node);
-        //         inx=inx-1;
-        //     }
+        this.filterNodeTofragment(fragment)
+        //初始化view
+        fragment.childNodes.forEach((node)=>{
+            this.initAttrEvt(node)
+        })
+        console.log(fragment)
+        // for (let node of fragment.childNodes) {
+        //     debugger
+        //     this.initAttrEvt(node)
         // }
+        return fragment
+    }
+    filterNodeTofragment(fragment){
+        //所有节点node
         for (let i = 0; i < this.el.childNodes.length; i++) {
             const node = this.el.childNodes[i];
             const nodeType = node.nodeType;
@@ -31,44 +36,40 @@ export default class Templater {
                 i = i - 1;
             }
         }
-        // while (waitDeletedNode = this.el.firstChild) {
-        //     fragment.appendChild(waitDeletedNode); //隐式删除waitDeletedNode节点
-        // }
-        for (let node of fragment.childNodes) {
-            this._initFragment(node)
-        }
-        return fragment
     }
-    _initFragment(parentNode) {
-        for (let node of parentNode.childNodes) {
-            //排除元素、文本以外的节点
-            if (node.nodeType === 1) {
-                //node.attributes
-                for (let attr of node.attributes) {
-                    //过滤掉非unar的动作、属性、事件
-                    const attrName = attr.name;
-                    const attrVal = attr.value;
-                    //u-html u-model
-                    if (Attr.isAction(attrName)) {
-                        Detective[attrName](node, attrVal)
-                    }
-                    //:id
-                    if (Attr.isProp(attrName)) {
-                        Detective.bind(node, attrName, attrVal)
-                    }
-                    //@click
-                    if (Attr.isEvt(attrName)) {
-                        Detective.addEvt(node, attrName, attrVal)
-                    }
+    initAttrEvt(node) {
+       
+        //排除元素、文本以外的节点
+        if (node.nodeType === 1) {
+            //node.attributes
+            for (let attr of node.attributes) {
+                //过滤掉非unar的动作、属性、事件
+                const attrName = attr.name;
+                const attrVal = attr.value;
+                //u-html u-model
+                if (Attr.isAction(attrName)) {
+                    console.log(Detective)
+                    debugger
+                    Detective[attrName](node, attrVal)
+                    debugger
                 }
-                if (node.childNodes.length) {
-                    this._initFrag(node)
+                //:id
+                if (Attr.isProp(attrName)) {
+                    Detective.bind(node, attrName, attrVal)
+                }
+                //@click
+                if (Attr.isEvt(attrName)) {
+                    Detective.addEvt(node, attrName, attrVal)
                 }
             }
-            if (node.nodeType === 3 && Attr.isExpression(attr)) {
-
+            if (node.childNodes.length) {
+                this._initFrag(node)
             }
         }
+        if (node.nodeType === 3 && Attr.isExpression(attr)) {
+
+        }
+       
     }
     /**
      * https://developer.mozilla.org/zh-CN/docs/Web/Guide/API/DOM/Whitespace_in_the_DOM

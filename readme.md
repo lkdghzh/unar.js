@@ -25,3 +25,5 @@ or
 # 7,How To Run Product
 > there will be `Unar.js` library in `/dist` Path .
 + npm run publish
+
+# 8，rollup打包

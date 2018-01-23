@@ -3,7 +3,6 @@
 // import model from "./Model"
 import Templater from "../View"
 
-debugger
 export default class Unar {
     /*options
     methods{
@@ -18,8 +17,7 @@ export default class Unar {
     fn2
     */
     constructor(o) {
-        debugger
-        new Templater(options.el, this)
+        new Templater(o.el, this)
         this.$options = {};
         //在vm新建_data、$options属性
         var data = this._data = this.$options.data = o.data;
@@ -30,14 +28,12 @@ export default class Unar {
                 configurable: false,
                 enumerable: true,
                 get: function () {
-                    debugger
                     //data[key]、this._data[key]、this.$options.data 、o.data都可以
                     //实现代理对象（读写都要通过这个代理），然后访问this._data[key]、this.$options.data的存取器属性
                     //此getter会调用下面getter
                     return data[key];
                 },
                 set: function (newVal) {
-                    debugger
                     data[key] = newVal;
                 }
             });
@@ -50,13 +46,11 @@ export default class Unar {
                 configurable: false,
                 enumerable: true,
                 get: function () {
-                    debugger
                     //可以尝试这个
                     //this._data[key]，this.$options.data[key]和data[key]都会爆栈
                     return valCache;
                 },
                 set: function (newVal) {
-                    debugger
                     valCache = newVal;
                 }
             });
