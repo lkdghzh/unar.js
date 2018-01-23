@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        Array.prototype.map = function (fn, context) {
+            var arr = [];
+            for (var k = 0, length = this.length; k < length; k++) {
+                debugger
+                var item = fn.call(context, this[k], k, this);
+                arr.push(item);
+            }
+            return arr;
+        }
+        var instance = ["a", "b", "c"]//new Array("a", "b", "c");
+        console.log(instance, Object.prototype.toString.call(instance))
+        var result = instance.map(function (val, key, arr) {
+            return val + 1
+        })
+        console.log(instance, result)
+    </script>
+</body>
+
+</html>
