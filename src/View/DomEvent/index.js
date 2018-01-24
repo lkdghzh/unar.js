@@ -1,4 +1,6 @@
-import Listener from "../../Hub/listener"
+/**
+ * DomEvent
+ */
 export default class DomEvent {
     static model(node, val) {
         node.value = val;
@@ -13,6 +15,7 @@ export default class DomEvent {
         node[attrName.substr(config.attrPrefix.length, attrName.length)] = attrVal;
     }
     static addEvt(node, attrName, fn) {
+        debugger
         node.addEventListener(attrName.substr(config.evtPrefix.length, attrName.length), fn.bind(this), false)
     }
 }

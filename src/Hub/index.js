@@ -1,11 +1,16 @@
-import Listener from "./listener"
+/**
+ * one vm prop <---> one Hub
+ */
+var id = 0;
 export default class Hub{
-    constructor(){
-        this.id=0;
+    constructor(cb){
+        this.id=++id;
         this.listeners=[]
+        this.addListener(cb)
+        debugger
     }
-    addListener(){
-        this.listeners.push(new Listener())
+    addListener(cb){
+        this.listeners.push(cb)
     }
     deleteListener(){
         

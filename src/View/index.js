@@ -1,19 +1,22 @@
+/**
+ * Templater
+ */
 import Attr from "./attr"
 import Detective from "./Detective"
-debugger
+
 export default class Templater {
     constructor(selector, vm) {
         this.vm = vm;
         this.el = document.querySelector(selector);
         console.log(Detective,1)
-        debugger
+        
         if (this.el) {
             this.el.appendChild(this.init());
         }
     }
     init() {
         const fragment = document.createDocumentFragment();
-        this.filterNodeTofragment(fragment)
+        this.filterNode2fragment(fragment)
         //初始化view
         fragment.childNodes.forEach((node)=>{
             this.initAttrEvt(node)
@@ -25,15 +28,15 @@ export default class Templater {
         // }
         return fragment
     }
-    filterNodeTofragment(fragment){
+    filterNode2fragment(fragment){
         //所有节点node
         for (let i = 0; i < this.el.childNodes.length; i++) {
             const node = this.el.childNodes[i];
             const nodeType = node.nodeType;
-            //for reduce the loop count ,filt nodes to Element Comment Text(not contain pure whitespace)
+            //for reduce the loop count ,filter nodes to Element Comment Text(not contain pure whitespace)
             if (nodeType === 1 || nodeType === 8 || (nodeType === 3) && !this._isPureBlankNode(node)) {
                 fragment.appendChild(node);
-                i = i - 1;
+                --i;
             }
         }
     }
@@ -63,11 +66,12 @@ export default class Templater {
                 }
             }
             if (node.childNodes.length) {
-                this._initFrag(node)
+                this.initAttrEvt(node)
             }
         }
-        if (node.nodeType === 3 && Attr.isExpression(attr)) {
-
+        //text {{}}
+        if (node.nodeType === 3 && Attr.isExpression(node.data)) {
+            debugger
         }
        
     }
