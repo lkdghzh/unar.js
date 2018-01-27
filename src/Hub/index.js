@@ -7,7 +7,6 @@ export default class Hub{
         this.id=++id;
         this.listeners=[]
         this.addListener(cb)
-        debugger
     }
     addListener(cb){
         this.listeners.push(cb)

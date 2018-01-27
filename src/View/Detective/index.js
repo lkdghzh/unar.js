@@ -8,7 +8,6 @@ import Hub from "../../Hub"
 var hubs=[];
 export default class Detictive {
     static [config.actionPrefix + "-model"](node, val) {
-        debugger
         this._update("model", node, val)
     }
     static [config.actionPrefix + "-text"](node, text) {
@@ -23,7 +22,6 @@ export default class Detictive {
     }
     //@
     static addEvt(node, attrName, fn) {
-        debugger
         DomFn.addEvt(node, attrName, attrVal)
     }
     static _update(detictive, node, val) {

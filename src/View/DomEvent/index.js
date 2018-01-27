@@ -15,7 +15,6 @@ export default class DomEvent {
         node[attrName.substr(config.attrPrefix.length, attrName.length)] = attrVal;
     }
     static addEvt(node, attrName, fn) {
-        debugger
         node.addEventListener(attrName.substr(config.evtPrefix.length, attrName.length), fn.bind(this), false)
     }
 }

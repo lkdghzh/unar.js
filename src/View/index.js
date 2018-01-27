@@ -23,7 +23,6 @@ export default class Templater {
         })
         console.log(fragment)
         // for (let node of fragment.childNodes) {
-        //     debugger
         //     this.initAttrEvt(node)
         // }
         return fragment
@@ -41,20 +40,17 @@ export default class Templater {
         }
     }
     initAttrEvt(node) {
-       
         //排除元素、文本以外的节点
         if (node.nodeType === 1) {
             //node.attributes
             for (let attr of node.attributes) {
                 //过滤掉非unar的动作、属性、事件
-                const attrName = attr.name;
-                const attrVal = attr.value;
+                const attrName = attr.nodeValue;
+                const attrVal = attr.nodeValue;
                 //u-html u-model
                 if (Attr.isAction(attrName)) {
                     console.log(Detective)
-                    debugger
                     Detective[attrName](node, attrVal)
-                    debugger
                 }
                 //:id
                 if (Attr.isProp(attrName)) {
@@ -65,13 +61,12 @@ export default class Templater {
                     Detective.addEvt(node, attrName, attrVal)
                 }
             }
-            if (node.childNodes.length) {
-                this.initAttrEvt(node)
-            }
+            node.childNodes.forEach((childNode)=>{
+                this.initAttrEvt(childNode)
+            })
         }
         //text {{}}
         if (node.nodeType === 3 && Attr.isExpression(node.data)) {
-            debugger
         }
        
     }
