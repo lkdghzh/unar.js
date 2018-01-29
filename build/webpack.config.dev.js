@@ -33,11 +33,17 @@ module.exports = {
                 exclude: NODE_MODULES_PATH,
                 include: SRC_PATH,
                 use: "babel-loader"
+            },
+            {
+                test: /\.ts$/,
+                exclude: NODE_MODULES_PATH,
+                include: SRC_PATH,
+                use: 'ts-loader'
             }
         ]
     },
     resolve: {
-        extensions: ['.js']
+        extensions: ['.js','ts']
     },
     plugins: [
         new webpack.optimize.UglifyJsPlugin({
@@ -55,5 +61,6 @@ module.exports = {
             template: TPL_PATH,
         }),
         new webpack.HotModuleReplacementPlugin(),
-    ],devtool: 'eval-source-map'//这个占的打包太大，上线去掉
+    ],
+    devtool: 'eval-source-map' //这个占的打包太大，上线去掉
 }
