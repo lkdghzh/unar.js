@@ -27,6 +27,8 @@ export default class Detictive {
     static _update(detictive, node, val) {
         var cb = DomFn[detictive];
         cb(node, val);
-        hubs.push(new Hub(cb))
+        //检测hubs 是否具备此prop（value）hub，有的添加cb回调，没有创建便hub
+        
+        hubs.push(new Hub(val,cb))
     }
 }

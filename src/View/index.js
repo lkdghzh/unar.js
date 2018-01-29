@@ -45,7 +45,7 @@ export default class Templater {
             //node.attributes
             for (let attr of node.attributes) {
                 //过滤掉非unar的动作、属性、事件
-                const attrName = attr.nodeValue;
+                const attrName = attr.nodeName;
                 const attrVal = attr.nodeValue;
                 //u-html u-model
                 if (Attr.isAction(attrName)) {

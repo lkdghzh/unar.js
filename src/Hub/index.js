@@ -3,8 +3,9 @@
  */
 var id = 0;
 export default class Hub{
-    constructor(cb){
+    constructor(prop,cb){
         this.id=++id;
+        this.prop=prop;
         this.listeners=[]
         this.addListener(cb)
     }
@@ -13,5 +14,10 @@ export default class Hub{
     }
     deleteListener(){
         
+    }
+    notify(){
+        this.listeners.forEach((fn)=>{
+            fn()
+        })
     }
 }
