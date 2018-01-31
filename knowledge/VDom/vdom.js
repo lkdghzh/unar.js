@@ -270,124 +270,14 @@ module.exports = g;
 /* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var version = __webpack_require__(1)
+var document = __webpack_require__(11)
 
-VirtualPatch.NONE = 0
-VirtualPatch.VTEXT = 1
-VirtualPatch.VNODE = 2
-VirtualPatch.WIDGET = 3
-VirtualPatch.PROPS = 4
-VirtualPatch.ORDER = 5
-VirtualPatch.INSERT = 6
-VirtualPatch.REMOVE = 7
-VirtualPatch.THUNK = 8
-
-module.exports = VirtualPatch
-
-function VirtualPatch(type, vNode, patch) {
-    this.type = Number(type)
-    this.vNode = vNode
-    this.patch = patch
-}
-
-VirtualPatch.prototype.version = version
-VirtualPatch.prototype.type = "VirtualPatch"
-
-
-/***/ }),
-/* 11 */
-/***/ (function(module, exports, __webpack_require__) {
+var applyProperties = __webpack_require__(12)
 
 var isVNode = __webpack_require__(2)
 var isVText = __webpack_require__(5)
 var isWidget = __webpack_require__(0)
-var isThunk = __webpack_require__(3)
-
-module.exports = handleThunk
-
-function handleThunk(a, b) {
-    var renderedA = a
-    var renderedB = b
-
-    if (isThunk(b)) {
-        renderedB = renderThunk(b, a)
-    }
-
-    if (isThunk(a)) {
-        renderedA = renderThunk(a, null)
-    }
-
-    return {
-        a: renderedA,
-        b: renderedB
-    }
-}
-
-function renderThunk(thunk, previous) {
-    var renderedThunk = thunk.vnode
-
-    if (!renderedThunk) {
-        renderedThunk = thunk.vnode = thunk.render(previous)
-    }
-
-    if (!(isVNode(renderedThunk) ||
-            isVText(renderedThunk) ||
-            isWidget(renderedThunk))) {
-        throw new Error("thunk did not return a valid node");
-    }
-
-    return renderedThunk
-}
-
-
-/***/ }),
-/* 12 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-module.exports = function isObject(x) {
-	return typeof x === "object" && x !== null;
-};
-
-
-/***/ }),
-/* 13 */
-/***/ (function(module, exports, __webpack_require__) {
-
-/* WEBPACK VAR INJECTION */(function(global) {var topLevel = typeof global !== 'undefined' ? global :
-    typeof window !== 'undefined' ? window : {}
-var minDoc = __webpack_require__(31);
-
-var doccy;
-
-if (typeof document !== 'undefined') {
-    doccy = document;
-} else {
-    doccy = topLevel['__GLOBAL_DOCUMENT_CACHE@4'];
-
-    if (!doccy) {
-        doccy = topLevel['__GLOBAL_DOCUMENT_CACHE@4'] = minDoc;
-    }
-}
-
-module.exports = doccy;
-
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(9)))
-
-/***/ }),
-/* 14 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var document = __webpack_require__(13)
-
-var applyProperties = __webpack_require__(15)
-
-var isVNode = __webpack_require__(2)
-var isVText = __webpack_require__(5)
-var isWidget = __webpack_require__(0)
-var handleThunk = __webpack_require__(11)
+var handleThunk = __webpack_require__(14)
 
 module.exports = createElement
 
@@ -429,10 +319,34 @@ function createElement(vnode, opts) {
 
 
 /***/ }),
-/* 15 */
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isObject = __webpack_require__(12)
+/* WEBPACK VAR INJECTION */(function(global) {var topLevel = typeof global !== 'undefined' ? global :
+    typeof window !== 'undefined' ? window : {}
+var minDoc = __webpack_require__(27);
+
+var doccy;
+
+if (typeof document !== 'undefined') {
+    doccy = document;
+} else {
+    doccy = topLevel['__GLOBAL_DOCUMENT_CACHE@4'];
+
+    if (!doccy) {
+        doccy = topLevel['__GLOBAL_DOCUMENT_CACHE@4'] = minDoc;
+    }
+}
+
+module.exports = doccy;
+
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(9)))
+
+/***/ }),
+/* 12 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var isObject = __webpack_require__(13)
 var isHook = __webpack_require__(4)
 
 module.exports = applyProperties
@@ -532,19 +446,110 @@ function getPrototype(value) {
 
 
 /***/ }),
+/* 13 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function isObject(x) {
+	return typeof x === "object" && x !== null;
+};
+
+
+/***/ }),
+/* 14 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var isVNode = __webpack_require__(2)
+var isVText = __webpack_require__(5)
+var isWidget = __webpack_require__(0)
+var isThunk = __webpack_require__(3)
+
+module.exports = handleThunk
+
+function handleThunk(a, b) {
+    var renderedA = a
+    var renderedB = b
+
+    if (isThunk(b)) {
+        renderedB = renderThunk(b, a)
+    }
+
+    if (isThunk(a)) {
+        renderedA = renderThunk(a, null)
+    }
+
+    return {
+        a: renderedA,
+        b: renderedB
+    }
+}
+
+function renderThunk(thunk, previous) {
+    var renderedThunk = thunk.vnode
+
+    if (!renderedThunk) {
+        renderedThunk = thunk.vnode = thunk.render(previous)
+    }
+
+    if (!(isVNode(renderedThunk) ||
+            isVText(renderedThunk) ||
+            isWidget(renderedThunk))) {
+        throw new Error("thunk did not return a valid node");
+    }
+
+    return renderedThunk
+}
+
+
+/***/ }),
+/* 15 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var version = __webpack_require__(1)
+
+VirtualPatch.NONE = 0
+VirtualPatch.VTEXT = 1
+VirtualPatch.VNODE = 2
+VirtualPatch.WIDGET = 3
+VirtualPatch.PROPS = 4
+VirtualPatch.ORDER = 5
+VirtualPatch.INSERT = 6
+VirtualPatch.REMOVE = 7
+VirtualPatch.THUNK = 8
+
+module.exports = VirtualPatch
+
+function VirtualPatch(type, vNode, patch) {
+    this.type = Number(type)
+    this.vNode = vNode
+    this.patch = patch
+}
+
+VirtualPatch.prototype.version = version
+VirtualPatch.prototype.type = "VirtualPatch"
+
+
+/***/ }),
 /* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var h = __webpack_require__(17);
-var diff = __webpack_require__(26);
-var patch = __webpack_require__(29);
-var createElement = __webpack_require__(35);
+let h = __webpack_require__(17)
+let createElement = __webpack_require__(26)
 
-var VNode = __webpack_require__(7);
-var VText = __webpack_require__(8);
+let diff = __webpack_require__(28)
+let patch = __webpack_require__(31)
+
+let VNode = __webpack_require__(7)
+let VText = __webpack_require__(8)
 
 //创建vdom
-const createOldVirtualDomTree = () => {
+/**
+ * createOldVirtualDomTree
+ * render
+ */
+const render = (count) => {
     return h('ul', {
         style: {
             color: 'red'
@@ -555,15 +560,34 @@ const createOldVirtualDomTree = () => {
                 color: 'red'
             }
         }, [
-            String('aaa1'),
-            String('aaa1')
+            String("当前值"+count)
         ])
     ])
 }
-const realDom = createElement(createOldVirtualDomTree())
-document.body.appendChild(realDom);
+//创建真实dom
+let vtree = render(0)
+const realDom = createElement(vtree)
 
-fun
+//将真实dom添加上去
+document.body.appendChild(realDom)
+
+
+/**更新dom（diff两个 得到补丁patch）
+ * 
+ */
+
+
+function update(count) {
+    const newVTree = render(count)
+    const patchs = diff(vtree, newVTree)
+    console.log(patchs)
+    patch(realDom, patchs)
+    vtree=newVTree
+}
+let i=0
+setInterval(() => {
+    update(++i)
+}, 1000)
 
 /***/ }),
 /* 17 */
@@ -1036,25 +1060,40 @@ function Individual(key, value) {
 /* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var diff = __webpack_require__(27)
+var createElement = __webpack_require__(10)
+
+module.exports = createElement
+
+
+/***/ }),
+/* 27 */
+/***/ (function(module, exports) {
+
+/* (ignored) */
+
+/***/ }),
+/* 28 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var diff = __webpack_require__(29)
 
 module.exports = diff
 
 
 /***/ }),
-/* 27 */
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var isArray = __webpack_require__(6)
 
-var VPatch = __webpack_require__(10)
+var VPatch = __webpack_require__(15)
 var isVNode = __webpack_require__(2)
 var isVText = __webpack_require__(5)
 var isWidget = __webpack_require__(0)
 var isThunk = __webpack_require__(3)
-var handleThunk = __webpack_require__(11)
+var handleThunk = __webpack_require__(14)
 
-var diffProps = __webpack_require__(28)
+var diffProps = __webpack_require__(30)
 
 module.exports = diff
 
@@ -1475,10 +1514,10 @@ function appendPatch(apply, patch) {
 
 
 /***/ }),
-/* 28 */
+/* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isObject = __webpack_require__(12)
+var isObject = __webpack_require__(13)
 var isHook = __webpack_require__(4)
 
 module.exports = diffProps
@@ -1539,24 +1578,24 @@ function getPrototype(value) {
 
 
 /***/ }),
-/* 29 */
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var patch = __webpack_require__(30)
+var patch = __webpack_require__(32)
 
 module.exports = patch
 
 
 /***/ }),
-/* 30 */
+/* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var document = __webpack_require__(13)
+var document = __webpack_require__(11)
 var isArray = __webpack_require__(6)
 
-var render = __webpack_require__(14)
-var domIndex = __webpack_require__(32)
-var patchOp = __webpack_require__(33)
+var render = __webpack_require__(10)
+var domIndex = __webpack_require__(33)
+var patchOp = __webpack_require__(34)
 module.exports = patch
 
 function patch(rootNode, patches, renderOptions) {
@@ -1634,13 +1673,7 @@ function patchIndices(patches) {
 
 
 /***/ }),
-/* 31 */
-/***/ (function(module, exports) {
-
-/* (ignored) */
-
-/***/ }),
-/* 32 */
+/* 33 */
 /***/ (function(module, exports) {
 
 // Maps a virtual DOM tree onto a real DOM tree in an efficient manner.
@@ -1731,15 +1764,15 @@ function ascending(a, b) {
 
 
 /***/ }),
-/* 33 */
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var applyProperties = __webpack_require__(15)
+var applyProperties = __webpack_require__(12)
 
 var isWidget = __webpack_require__(0)
-var VPatch = __webpack_require__(10)
+var VPatch = __webpack_require__(15)
 
-var updateWidget = __webpack_require__(34)
+var updateWidget = __webpack_require__(35)
 
 module.exports = applyPatch
 
@@ -1888,7 +1921,7 @@ function replaceRoot(oldRoot, newRoot) {
 
 
 /***/ }),
-/* 34 */
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var isWidget = __webpack_require__(0)
@@ -1906,15 +1939,6 @@ function updateWidget(a, b) {
 
     return false
 }
-
-
-/***/ }),
-/* 35 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var createElement = __webpack_require__(14)
-
-module.exports = createElement
 
 
 /***/ })
