@@ -8,7 +8,7 @@
     "dev:testpkg": "webpack --config ./build/webpack.config.dev.js",
     "publish": "webpack --config ./build/webpack.config.publish.js",
     "publish:concat": "webpack --config ./build/webpack.config.concat.js",
-    "test:vdom":"webpack ./knowledge/VDom/virtual-dom.js ./knowledge/VDom/vdom.js"
+    "test:vdom":"webpack ./knowledge/virtual-dom/virtual-dom.js ./knowledge/virtual-dom/vdom.js"
   },
   "repository": {
     "type": "git",
