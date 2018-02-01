@@ -76,19 +76,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 
-console.log(
-    Object(__WEBPACK_IMPORTED_MODULE_0__v_js__["a" /* v */])('div', {
-            id: 1
-        },
+let vnode = Object(__WEBPACK_IMPORTED_MODULE_0__v_js__["a" /* v */])(
+    'div',
+    {
+        id: 1
+    },
         Object(__WEBPACK_IMPORTED_MODULE_0__v_js__["a" /* v */])('input', {
             id: 1
         }),
         Object(__WEBPACK_IMPORTED_MODULE_0__v_js__["a" /* v */])('button', {
-                id: 1
-            },
+            id: 1
+        },
             Object(__WEBPACK_IMPORTED_MODULE_0__v_js__["a" /* v */])('text'))
-    )
 )
+console.log(vnode)
 
 /***/ }),
 /* 1 */
