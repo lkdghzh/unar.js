@@ -1,7 +1,7 @@
 /**
  * Templater
  */
-import Attr from "./attr"
+import Attr from "./Attr"
 import Detective from "./Detective"
 
 export default class Templater {
