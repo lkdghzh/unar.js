@@ -27,3 +27,4 @@ or
 + npm run publish
 # 7,ts
 # 8,rollup打包
+1,scripts--config.js
