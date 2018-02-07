@@ -23,7 +23,7 @@ export default class Detictive {
     //@
     static addEvt(node, attrName, fn) {
         var evtName = attrName.substr(config.evtPrefix.length, attrName.length)
-        var fn=this.methods[fn]
+        var fn=this.methods[fn].bind(this)
         debugger
         DomFn.addEvt(node, evtName, fn)
     }
