@@ -5,15 +5,15 @@
 import config from "../../Config"
 import DomFn from "../DomEvent"
 import Hub from "../../Hub"
-var hubs=[];
+var hubs = [];
 export default class Detictive {
-    static [config.actionPrefix + "-model"](node, val) {
+    static[config.actionPrefix + "-model"](node, val) {
         this._update("model", node, val)
     }
-    static [config.actionPrefix + "-text"](node, text) {
+    static[config.actionPrefix + "-text"](node, text) {
         this._update("text", node, text)
     }
-    static [config.actionPrefix + "-html"](node, html) {
+    static[config.actionPrefix + "-html"](node, html) {
         this._update("html", node, html)
     }
     //:
@@ -22,13 +22,16 @@ export default class Detictive {
     }
     //@
     static addEvt(node, attrName, fn) {
-        DomFn.addEvt(node, attrName, attrVal)
+        var evtName = attrName.substr(config.evtPrefix.length, attrName.length)
+        var fn=this.methods[fn]
+        debugger
+        DomFn.addEvt(node, evtName, fn)
     }
     static _update(detictive, node, val) {
         var cb = DomFn[detictive];
         cb(node, val);
         //检测hubs 是否具备此prop（value）hub，有的添加cb回调，没有创建便hub
-        
-        hubs.push(new Hub(val,cb))
+
+        hubs.push(new Hub(val, cb))
     }
 }

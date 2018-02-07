@@ -58,7 +58,7 @@ export default class Templater {
                 }
                 //@click
                 if (Attr.isEvt(attrName)) {
-                    Detective.addEvt(node, attrName, attrVal)
+                    Detective.addEvt.call(this.vm,node, attrName, attrVal)
                 }
             }
             node.childNodes.forEach((childNode)=>{

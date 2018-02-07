@@ -6,7 +6,7 @@
 // import util from "../Util"
 // import detective from "./Detective"
 // import model from "./Model"
-import Templater from "../View"
+import Templater from "../View/index.js"
 
 export default class Unar {
     /*options
@@ -22,7 +22,7 @@ export default class Unar {
     fn2
     */
     constructor(o) {
-        new Templater(o.el, this)
+        this.methods=o.methods;
         this.$options = {};
         //在vm新建_data、$options属性
         var data = this._data = this.$options.data = o.data;
@@ -60,34 +60,11 @@ export default class Unar {
                 }
             });
         })
-        // return new Proxy(this, {
-        //     get: function (obj, prop) {
-        //         if (prop in options.data) {
-        //             //属性
-        //             return options.data[prop]
-        //         } else if (prop in options.methods) {
-        //             //方法
-        //             return options.methods[prop]
-        //         } else {
-        //             console.error(`this scope havn't "${prop}" attribute or method`)
-        //         }
-        //     },
-        //     set: function (obj, prop, value) {
-        //         if (prop in options.data) {
-        //             //属性
-        //             options.data[prop] = value
-        //         } else if (prop in options.methods) {
-        //             //方法
-        //             options.methods[prop] = value
-        //         } else {
-        //             console.error(`this scope havn't "${prop}" attribute or method`)
-        //         }
-        //     }
-        // })
+        new Templater(o.el, this)
     }
     // static use() {}
     // static extend() {}
-    // static nextTick() {}
+    // static $nextTick() {}
     // $get() {
     //     //utils.get(this, key, val)
     // }

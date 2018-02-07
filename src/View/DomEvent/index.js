@@ -2,6 +2,9 @@
  * DomEvent
  */
 export default class DomEvent {
+    constructor(vm){
+        this.vm=vm
+    }
     static model(node, val) {
         node.value = val;
     }
@@ -14,7 +17,8 @@ export default class DomEvent {
     static bind(node, attrName, attrVal) {
         node[attrName.substr(config.attrPrefix.length, attrName.length)] = attrVal;
     }
-    static addEvt(node, attrName, fn) {
-        node.addEventListener(attrName.substr(config.evtPrefix.length, attrName.length), fn.bind(this), false)
+    static addEvt(node, evtName, fn) {
+        debugger
+        node.addEventListener(evtName, fn, false)
     }
 }
