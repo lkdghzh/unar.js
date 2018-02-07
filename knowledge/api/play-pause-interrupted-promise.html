@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- https://edu.hivoice.cn/WebAudio-1.0-SNAPSHOT/audio/play/FC7C4DE7-FBC0-4432-A8DF-51D94755A5DB/1513008368848360314/bj -->
+    <audio id="audio" controls src="http://edu.hivoice.cn:9088/WebAudio-1.0-SNAPSHOT/audio/play/d98ac557-31c8-415e-89dc-597e93059efc/1514894566153419734/bj"></audio>
+    <script>
+        // audio.play() //Uncaught (in promise) DOMException: The play() request was interrupted by a call to pause()  https://goo.gl/LdLk22
+        // audio.pause()
+
+        var playPromise = audio.play();
+
+        if (playPromise !== undefined) {
+            playPromise.then(_ => {
+                    // Automatic playback started! 
+                    // Show playing UI.
+
+                    //not autoloop ，不是自动循环!!!!
+
+                    //先打印，再播放
+                    //debugger
+                    console.log(1)
+
+                    //让其自动循环播放，但此自动循环播放不会调用此play()对应的promise  不会递归
+                    //audio.loop=true
+                })
+                .catch(error => {
+                    // Auto-play was prevented
+                    // Show paused UI.
+                });
+        }
+    </script>
+</body>
+
+</html>
