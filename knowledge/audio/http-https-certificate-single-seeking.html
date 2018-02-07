@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    
+</head>
+
+<body>
+        <!-- https://edu.hivoice.cn/WebAudio-1.0-SNAPSHOT/audio/play/FC7C4DE7-FBC0-4432-A8DF-51D94755A5DB/1513008368848360314/bj 
+
+             The SSL certificate used to load resources from https://edu.hivoice.cn will be distrusted in M70. Once distrusted, 
+            users will be prevented from loading these resources. See https://g.co/chrome/symantecpkicerts for more information.
+        -->
+        <!-- http://edu.hivoice.cn:9088/WebAudio-1.0-SNAPSHOT/audio/play/d98ac557-31c8-415e-89dc-597e93059efc/1514894566153419734/bj -->
+        
+    <audio id="audio" controls preload="auto" src="http://edu.hivoice.cn:9088/WebAudio-1.0-SNAPSHOT/audio/play/d98ac557-31c8-415e-89dc-597e93059efc/1514894566153419734/bj"></audio>
+    <script>
+        /**
+         * 单独注册寻址seeking,
+         * （未播放，播放中，播放后）拖动的时候能触发
+        */
+        audio.addEventListener("seeking", function (e) {
+            console.log(1)
+        });
+    </script>
+</body>
+
+</html>
