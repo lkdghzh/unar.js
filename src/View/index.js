@@ -8,8 +8,6 @@ export default class Templater {
     constructor(selector, vm) {
         this.vm = vm;
         this.el = document.querySelector(selector);
-        console.log(Detective,1)
-        
         if (this.el) {
             this.el.appendChild(this.init());
         }
@@ -49,7 +47,6 @@ export default class Templater {
                 const attrVal = attr.nodeValue;
                 //u-html u-model
                 if (Attr.isAction(attrName)) {
-                    console.log(Detective)
                     Detective[attrName](node, attrVal)
                 }
                 //:id

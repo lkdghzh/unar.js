@@ -6,6 +6,7 @@ import config from "../../Config"
 import DomFn from "../DomEvent"
 import Hub from "../../Hub"
 var hubs = [];
+window.hubs=hubs
 export default class Detictive {
     static[config.actionPrefix + "-model"](node, val) {
         this._update("model", node, val)
@@ -23,15 +24,13 @@ export default class Detictive {
     //@
     static addEvt(node, attrName, fn) {
         var evtName = attrName.substr(config.evtPrefix.length, attrName.length)
-        var fn=this.methods[fn].bind(this)
-        debugger
+        var fn = this.methods[fn].bind(this)
         DomFn.addEvt(node, evtName, fn)
     }
     static _update(detictive, node, val) {
         var cb = DomFn[detictive];
         cb(node, val);
         //检测hubs 是否具备此prop（value）hub，有的添加cb回调，没有创建便hub
-
         hubs.push(new Hub(val, cb))
     }
 }
