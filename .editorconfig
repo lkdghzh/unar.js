@@ -1,0 +1,14 @@
+#https://github.com/editorconfig/editorconfig/wiki/EditorConfig-Properties
+root = true
+
+[*]
+charset = utf-8 #文件编码latin1 utf-8 utf-16be utf-16le
+indent_style = tab#缩进类型 tab space
+indent_size = 4#缩进数量
+end_of_line = lf# 换行符格式 lf crlf cr
+insert_final_newline = true # 文件的最后插入一个空行
+trim_trailing_whitespace = true #删除行尾的空格
+
+
+[*.md]
+trim_trailing_whitespace = false
