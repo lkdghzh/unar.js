@@ -312,7 +312,37 @@ var Detictive = function () {
             var cb = _DomEvent2.default[detictive];
             cb(node, vm[key]);
             //检测hubs 是否具备此prop（value）hub，有的添加cb回调，没有创建便hub
-            hubs.push(new _Hub2.default(key, cb));
+            var has = false;
+            var _iteratorNormalCompletion = true;
+            var _didIteratorError = false;
+            var _iteratorError = undefined;
+
+            try {
+                for (var _iterator = hubs[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+                    var hub = _step.value;
+
+                    if (hub.prop === key) {
+                        hub.listeners.push(cb);
+                        has = true;
+                        break;
+                    }
+                }
+            } catch (err) {
+                _didIteratorError = true;
+                _iteratorError = err;
+            } finally {
+                try {
+                    if (!_iteratorNormalCompletion && _iterator.return) {
+                        _iterator.return();
+                    }
+                } finally {
+                    if (_didIteratorError) {
+                        throw _iteratorError;
+                    }
+                }
+            }
+
+            !has && hubs.push(new _Hub2.default(key, cb));
         }
     }]);
 
@@ -592,7 +622,7 @@ var app = new _index2.default({
 });
 // import {p} from "./parcel.js"
 // p.es6fn('like')
-},{"../src/Instance/index.js":3}],15:[function(require,module,exports) {
+},{"../src/Instance/index.js":3}],19:[function(require,module,exports) {
 
 var global = (1, eval)('this');
 var OldModule = module.bundle.Module;
@@ -713,5 +743,5 @@ function hmrAccept(bundle, id) {
     return hmrAccept(global.require, id);
   });
 }
-},{}]},{},[15,2])
+},{}]},{},[19,2])
 //# sourceMappingURL=/dist/5b72c79f27ef43dd868834849ff2663e.map

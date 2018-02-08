@@ -5,17 +5,17 @@
 import config from "../../Config"
 import DomFn from "../DomEvent"
 import Hub from "../../Hub"
-var hubs = [];
-window.hubs=hubs
+var hubs = []
+window.hubs = hubs
 export default class Detictive {
-    static[config.actionPrefix + "-model"](node, key,vm) {
+    static [config.actionPrefix + "-model"](node, key, vm) {
         debugger
-        this._update("model", node, key,vm)
+        this._update("model", node, key, vm)
     }
-    static[config.actionPrefix + "-text"](node, text,vm) {
+    static [config.actionPrefix + "-text"](node, text, vm) {
         this._update("text", node, text)
     }
-    static[config.actionPrefix + "-html"](node, html,vm) {
+    static [config.actionPrefix + "-html"](node, html, vm) {
         this._update("html", node, html)
     }
     //:
@@ -28,10 +28,18 @@ export default class Detictive {
         var fn = this.methods[fn].bind(this)
         DomFn.addEvt(node, evtName, fn)
     }
-    static _update(detictive, node, key,vm) {
-        var cb = DomFn[detictive];
-        cb(node,vm[key]);
+    static _update(detictive, node, key, vm) {
+        var cb = DomFn[detictive]
+        cb(node, vm[key])
         //检测hubs 是否具备此prop（value）hub，有的添加cb回调，没有创建便hub
-        hubs.push(new Hub(key, cb))
+        var has = false
+        for (let hub of hubs) {
+            if (hub.prop === key) {
+                hub.listeners.push(cb)
+                has = true
+                break
+            }
+        }
+        !has && hubs.push(new Hub(key, cb))
     }
 }
