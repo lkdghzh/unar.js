@@ -4,6 +4,7 @@
   "description": "unar.js",
   "main": "index.js",
   "scripts": {
+    "dev:parcel": "parcel ./examples/index.html",
     "dev": "node ./build/dev-server.js",
     "dev:testpkg": "webpack --config ./build/webpack.config.dev.js",
     "publish": "webpack --config ./build/webpack.config.publish.js",

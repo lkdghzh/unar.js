@@ -26,11 +26,11 @@ app.get('/start', function(req, res){
     res.redirect("/dist/index.html")
 });
 
-// 监听 9000端口，开启服务器
-app.listen(9000, function (err) {
+// 监听 1234端口，开启服务器
+app.listen(1234, function (err) {
     if (err) {
         console.log(err)
         return
     }
-    console.log('Listening at http://localhost:9000')
+    console.log('Listening at http://localhost:1234')
 })
