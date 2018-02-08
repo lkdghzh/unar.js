@@ -8,13 +8,14 @@ import Hub from "../../Hub"
 var hubs = [];
 window.hubs=hubs
 export default class Detictive {
-    static[config.actionPrefix + "-model"](node, val) {
-        this._update("model", node, val)
+    static[config.actionPrefix + "-model"](node, key,vm) {
+        debugger
+        this._update("model", node, key,vm)
     }
-    static[config.actionPrefix + "-text"](node, text) {
+    static[config.actionPrefix + "-text"](node, text,vm) {
         this._update("text", node, text)
     }
-    static[config.actionPrefix + "-html"](node, html) {
+    static[config.actionPrefix + "-html"](node, html,vm) {
         this._update("html", node, html)
     }
     //:
@@ -27,10 +28,10 @@ export default class Detictive {
         var fn = this.methods[fn].bind(this)
         DomFn.addEvt(node, evtName, fn)
     }
-    static _update(detictive, node, val) {
+    static _update(detictive, node, key,vm) {
         var cb = DomFn[detictive];
-        cb(node, val);
+        cb(node,vm[key]);
         //检测hubs 是否具备此prop（value）hub，有的添加cb回调，没有创建便hub
-        hubs.push(new Hub(val, cb))
+        hubs.push(new Hub(key, cb))
     }
 }

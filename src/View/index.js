@@ -16,7 +16,7 @@ export default class Templater {
         const fragment = document.createDocumentFragment();
         this.filterNode2fragment(fragment)
         //初始化view
-        fragment.childNodes.forEach((node)=>{
+        fragment.childNodes.forEach((node) => {
             this.initAttrEvt(node)
         })
         console.log(fragment)
@@ -25,7 +25,7 @@ export default class Templater {
         // }
         return fragment
     }
-    filterNode2fragment(fragment){
+    filterNode2fragment(fragment) {
         //所有节点node
         for (let i = 0; i < this.el.childNodes.length; i++) {
             const node = this.el.childNodes[i];
@@ -43,29 +43,29 @@ export default class Templater {
             //node.attributes
             for (let attr of node.attributes) {
                 //过滤掉非unar的动作、属性、事件
-                const attrName = attr.nodeName;
-                const attrVal = attr.nodeValue;
+                const detec = attr.nodeName;
+                const key = attr.nodeValue;
                 //u-html u-model
-                if (Attr.isAction(attrName)) {
-                    Detective[attrName](node, attrVal)
+                if (Attr.isAction(detec)) {
+                    Detective[detec](node, key,this.vm)
                 }
                 //:id
-                if (Attr.isProp(attrName)) {
-                    Detective.bind(node, attrName, attrVal)
+                if (Attr.isProp(detec)) {
+                    Detective.bind(node, detec, key,this.vm)
                 }
                 //@click
-                if (Attr.isEvt(attrName)) {
-                    Detective.addEvt.call(this.vm,node, attrName, attrVal)
+                if (Attr.isEvt(detec)) {
+                    Detective.addEvt.call(this.vm, node, detec, key)
                 }
             }
-            node.childNodes.forEach((childNode)=>{
+            node.childNodes.forEach((childNode) => {
                 this.initAttrEvt(childNode)
             })
         }
         //text {{}}
         if (node.nodeType === 3 && Attr.isExpression(node.data)) {
         }
-       
+
     }
     /**
      * https://developer.mozilla.org/zh-CN/docs/Web/Guide/API/DOM/Whitespace_in_the_DOM

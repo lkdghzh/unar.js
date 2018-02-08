@@ -69,7 +69,7 @@ require = (function (modules, cache, entry) {
 
   // Override the current require with this new one
   return newRequire;
-})({7:[function(require,module,exports) {
+})({8:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -140,7 +140,7 @@ var Attr = function () {
 }();
 
 exports.default = Attr;
-},{"../../Config":7}],9:[function(require,module,exports) {
+},{"../../Config":8}],9:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -155,10 +155,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
  * DomEvent
  */
 var DomEvent = function () {
-    function DomEvent(vm) {
+    function DomEvent() {
         _classCallCheck(this, DomEvent);
-
-        this.vm = vm;
     }
 
     _createClass(DomEvent, null, [{
@@ -184,7 +182,6 @@ var DomEvent = function () {
     }, {
         key: "addEvt",
         value: function addEvt(node, evtName, fn) {
-            debugger;
             node.addEventListener(evtName, fn, false);
         }
     }]);
@@ -193,7 +190,7 @@ var DomEvent = function () {
 }();
 
 exports.default = DomEvent;
-},{}],8:[function(require,module,exports) {
+},{}],7:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -279,17 +276,18 @@ var Detictive = function () {
 
     _createClass(Detictive, null, [{
         key: _Config2.default.actionPrefix + "-model",
-        value: function value(node, val) {
-            this._update("model", node, val);
+        value: function value(node, key, vm) {
+            debugger;
+            this._update("model", node, key, vm);
         }
     }, {
         key: _Config2.default.actionPrefix + "-text",
-        value: function value(node, text) {
+        value: function value(node, text, vm) {
             this._update("text", node, text);
         }
     }, {
         key: _Config2.default.actionPrefix + "-html",
-        value: function value(node, html) {
+        value: function value(node, html, vm) {
             this._update("html", node, html);
         }
         //:
@@ -310,11 +308,11 @@ var Detictive = function () {
         }
     }, {
         key: "_update",
-        value: function _update(detictive, node, val) {
+        value: function _update(detictive, node, key, vm) {
             var cb = _DomEvent2.default[detictive];
-            cb(node, val);
+            cb(node, vm[key]);
             //检测hubs 是否具备此prop（value）hub，有的添加cb回调，没有创建便hub
-            hubs.push(new _Hub2.default(val, cb));
+            hubs.push(new _Hub2.default(key, cb));
         }
     }]);
 
@@ -322,7 +320,7 @@ var Detictive = function () {
 }();
 
 exports.default = Detictive;
-},{"../../Config":7,"../DomEvent":9,"../../Hub":8}],4:[function(require,module,exports) {
+},{"../../Config":8,"../DomEvent":9,"../../Hub":7}],4:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -405,19 +403,19 @@ var Templater = function () {
                         var attr = _step.value;
 
                         //过滤掉非unar的动作、属性、事件
-                        var attrName = attr.nodeName;
-                        var attrVal = attr.nodeValue;
+                        var detec = attr.nodeName;
+                        var key = attr.nodeValue;
                         //u-html u-model
-                        if (_Attr2.default.isAction(attrName)) {
-                            _Detective2.default[attrName](node, attrVal);
+                        if (_Attr2.default.isAction(detec)) {
+                            _Detective2.default[detec](node, key, this.vm);
                         }
                         //:id
-                        if (_Attr2.default.isProp(attrName)) {
-                            _Detective2.default.bind(node, attrName, attrVal);
+                        if (_Attr2.default.isProp(detec)) {
+                            _Detective2.default.bind(node, detec, key, this.vm);
                         }
                         //@click
-                        if (_Attr2.default.isEvt(attrName)) {
-                            _Detective2.default.addEvt.call(this.vm, node, attrName, attrVal);
+                        if (_Attr2.default.isEvt(detec)) {
+                            _Detective2.default.addEvt.call(this.vm, node, detec, key);
                         }
                     }
                 } catch (err) {
@@ -594,7 +592,7 @@ var app = new _index2.default({
 });
 // import {p} from "./parcel.js"
 // p.es6fn('like')
-},{"../src/Instance/index.js":3}],10:[function(require,module,exports) {
+},{"../src/Instance/index.js":3}],15:[function(require,module,exports) {
 
 var global = (1, eval)('this');
 var OldModule = module.bundle.Module;
@@ -614,7 +612,7 @@ module.bundle.Module = Module;
 
 if (!module.bundle.parent && typeof WebSocket !== 'undefined') {
   var hostname = '' || location.hostname;
-  var ws = new WebSocket('ws://' + hostname + ':' + '55731' + '/');
+  var ws = new WebSocket('ws://' + hostname + ':' + '61184' + '/');
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);
 
@@ -715,5 +713,5 @@ function hmrAccept(bundle, id) {
     return hmrAccept(global.require, id);
   });
 }
-},{}]},{},[10,2])
+},{}]},{},[15,2])
 //# sourceMappingURL=/dist/5b72c79f27ef43dd868834849ff2663e.map
