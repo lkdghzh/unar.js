@@ -5,8 +5,8 @@
 import config from "../../Config"
 import DomFn from "../DomEvent"
 import Hub from "../../Hub"
-var hubs = []
-window.hubs = hubs
+import Unar from "../../../src/Instance"
+debugger
 export default class Detictive {
     static [config.actionPrefix + "-model"](node, key, vm) {
         debugger
@@ -30,16 +30,21 @@ export default class Detictive {
     }
     static _update(detictive, node, key, vm) {
         var cb = DomFn[detictive]
+        if(key==='model'){
+            node.addEventListener('input',e=>{
+                vm[key]=e.target.value
+            },false)
+        }
         cb(node, vm[key])
         //检测hubs 是否具备此prop（value）hub，有的添加cb回调，没有创建便hub
         var has = false
-        for (let hub of hubs) {
+        for (let hub of Unar.hubs) {
             if (hub.prop === key) {
                 hub.listeners.push(cb)
                 has = true
                 break
             }
         }
-        !has && hubs.push(new Hub(key, cb))
+        !has && Unar.hubs.push(new Hub(key, cb))
     }
 }
