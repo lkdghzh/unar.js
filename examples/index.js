@@ -1,4 +1,5 @@
 import Unar from "../src/Instance/index.js"
+window.Unar=Unar
 const app = new Unar({
     el: "#root",
     data: {

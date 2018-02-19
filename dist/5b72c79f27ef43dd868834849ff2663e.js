@@ -69,7 +69,7 @@ require = (function (modules, cache, entry) {
 
   // Override the current require with this new one
   return newRequire;
-})({8:[function(require,module,exports) {
+})({9:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -88,7 +88,7 @@ var config = {
     evtPrefix: "@"
 };
 exports.default = config;
-},{}],5:[function(require,module,exports) {
+},{}],7:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -140,7 +140,7 @@ var Attr = function () {
 }();
 
 exports.default = Attr;
-},{"../../Config":8}],9:[function(require,module,exports) {
+},{"../../Config":9}],11:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -190,7 +190,7 @@ var DomEvent = function () {
 }();
 
 exports.default = DomEvent;
-},{}],7:[function(require,module,exports) {
+},{}],10:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -262,12 +262,15 @@ var _Hub = require("../../Hub");
 
 var _Hub2 = _interopRequireDefault(_Hub);
 
+var _Instance = require("../../../src/Instance");
+
+var _Instance2 = _interopRequireDefault(_Instance);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-var hubs = [];
-window.hubs = hubs;
+debugger;
 
 var Detictive = function () {
     function Detictive() {
@@ -310,6 +313,11 @@ var Detictive = function () {
         key: "_update",
         value: function _update(detictive, node, key, vm) {
             var cb = _DomEvent2.default[detictive];
+            if (key === 'model') {
+                node.addEventListener('input', function (e) {
+                    vm[key] = e.target.value;
+                }, false);
+            }
             cb(node, vm[key]);
             //检测hubs 是否具备此prop（value）hub，有的添加cb回调，没有创建便hub
             var has = false;
@@ -318,7 +326,7 @@ var Detictive = function () {
             var _iteratorError = undefined;
 
             try {
-                for (var _iterator = hubs[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+                for (var _iterator = _Instance2.default.hubs[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
                     var hub = _step.value;
 
                     if (hub.prop === key) {
@@ -342,7 +350,7 @@ var Detictive = function () {
                 }
             }
 
-            !has && hubs.push(new _Hub2.default(key, cb));
+            !has && _Instance2.default.hubs.push(new _Hub2.default(key, cb));
         }
     }]);
 
@@ -350,7 +358,7 @@ var Detictive = function () {
 }();
 
 exports.default = Detictive;
-},{"../../Config":8,"../DomEvent":9,"../../Hub":7}],4:[function(require,module,exports) {
+},{"../../Config":9,"../DomEvent":11,"../../Hub":10,"../../../src/Instance":3}],5:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -499,11 +507,11 @@ var Templater = function () {
 }();
 
 exports.default = Templater;
-},{"./Attr":5,"./Detective":6}],3:[function(require,module,exports) {
+},{"./Attr":7,"./Detective":6}],3:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+	value: true
 });
 
 var _index = require("../View/index.js");
@@ -528,56 +536,58 @@ methods{
     fn2
 }
 data{a:1,b:2}
-  a:1
+
+a:1
 b:2
 fn1,
 fn2
 */
 function Unar(o) {
-    var _this = this;
+	var _this = this;
 
-    _classCallCheck(this, Unar);
+	_classCallCheck(this, Unar);
 
-    this.methods = o.methods;
-    this.$options = {};
-    //在vm新建_data、$options属性
-    var data = this._data = this.$options.data = o.data;
+	this.methods = o.methods;
+	this.$options = {};
+	//在vm新建_data、$options属性
+	var data = this._data = this.$options.data = o.data;
 
-    //创建代理（存取）属性，代理_data、$options对象下的存取属性
-    Object.keys(data).forEach(function (key) {
-        Object.defineProperty(_this, key, {
-            configurable: false,
-            enumerable: true,
-            get: function get() {
-                //data[key]、this._data[key]、this.$options.data 、o.data都可以
-                //实现代理对象（读写都要通过这个代理），然后访问this._data[key]、this.$options.data的存取器属性
-                //此getter会调用下面getter
-                return data[key];
-            },
-            set: function set(newVal) {
-                data[key] = newVal;
-            }
-        });
-        //使用闭包，存储这个值。（data[key],运行到此还是数据属性）
-        //data[key]、this._data[key]、this.$options.data 、o.data都可以
-        var valCache = data[key];
+	//创建代理（存取）属性，代理_data、$options对象下的存取属性
+	Object.keys(data).forEach(function (key) {
+		Object.defineProperty(_this, key, {
+			configurable: false,
+			enumerable: true,
+			get: function get() {
+				//data[key]、this._data[key]、this.$options.data 、o.data都可以
+				//实现代理对象（读写都要通过这个代理），然后访问this._data[key]、this.$options.data的存取器属性
+				//此getter会调用下面getter
+				return data[key];
+			},
+			set: function set(newVal) {
+				data[key] = newVal;
+			}
+		});
+		//使用闭包，存储这个值。（data[key],运行到此还是数据属性）
+		//data[key]、this._data[key]、this.$options.data 、o.data都可以
+		var valCache = data[key];
 
-        //data相当于同时，把this_data和this.$options.data,o.data三个都变成了存取器属性
-        Object.defineProperty(data, key, {
-            configurable: false,
-            enumerable: true,
-            get: function get() {
-                //可以尝试这个
-                //this._data[key]，this.$options.data[key]和data[key]都会爆栈
-                return valCache;
-            },
-            set: function set(newVal) {
-                valCache = newVal;
-            }
-        });
-    });
-    new _index2.default(o.el, this);
+		//data相当于同时，把this_data和this.$options.data,o.data三个都变成了存取器属性
+		Object.defineProperty(data, key, {
+			configurable: false,
+			enumerable: true,
+			get: function get() {
+				//可以尝试这个
+				//this._data[key]，this.$options.data[key]和data[key]都会爆栈
+				return valCache;
+			},
+			set: function set(newVal) {
+				valCache = newVal;
+			}
+		});
+	});
+	new _index2.default(o.el, this);
 }
+
 // static use() {}
 // static extend() {}
 // static $nextTick() {}
@@ -598,8 +608,10 @@ function Unar(o) {
 // 'emit', 'on', 'off', 'once'
 ;
 
+Unar.hubs = [];
+
 exports.default = Unar;
-},{"../View/index.js":4}],2:[function(require,module,exports) {
+},{"../View/index.js":5}],2:[function(require,module,exports) {
 "use strict";
 
 var _index = require("../src/Instance/index.js");
@@ -608,6 +620,7 @@ var _index2 = _interopRequireDefault(_index);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+window.Unar = _index2.default;
 var app = new _index2.default({
     el: "#root",
     data: {
@@ -622,7 +635,7 @@ var app = new _index2.default({
 });
 // import {p} from "./parcel.js"
 // p.es6fn('like')
-},{"../src/Instance/index.js":3}],19:[function(require,module,exports) {
+},{"../src/Instance/index.js":3}],12:[function(require,module,exports) {
 
 var global = (1, eval)('this');
 var OldModule = module.bundle.Module;
@@ -642,7 +655,7 @@ module.bundle.Module = Module;
 
 if (!module.bundle.parent && typeof WebSocket !== 'undefined') {
   var hostname = '' || location.hostname;
-  var ws = new WebSocket('ws://' + hostname + ':' + '61184' + '/');
+  var ws = new WebSocket('ws://' + hostname + ':' + '49441' + '/');
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);
 
@@ -743,5 +756,5 @@ function hmrAccept(bundle, id) {
     return hmrAccept(global.require, id);
   });
 }
-},{}]},{},[19,2])
+},{}]},{},[12,2])
 //# sourceMappingURL=/dist/5b72c79f27ef43dd868834849ff2663e.map
