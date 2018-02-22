@@ -6,10 +6,10 @@ import config from "../../Config"
 import DomFn from "../DomEvent"
 import Hub from "../../Hub"
 import Unar from "../../../src/Instance"
-debugger
+// debugger
 export default class Detictive {
     static [config.actionPrefix + "-model"](node, key, vm) {
-        debugger
+        // debugger
         this._update("model", node, key, vm)
     }
     static [config.actionPrefix + "-text"](node, text, vm) {
@@ -30,8 +30,11 @@ export default class Detictive {
     }
     static _update(detictive, node, key, vm) {
         var cb = DomFn[detictive]
-        if(key==='model'){
+        // debugger
+        if(detictive==='model'){
+            console.log(`model`)
             node.addEventListener('input',e=>{
+                debugger
                 vm[key]=e.target.value
             },false)
         }

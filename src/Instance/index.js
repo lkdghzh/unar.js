@@ -20,6 +20,7 @@ class Unar {
 	fn1,
 	fn2
 	*/
+	static hubs = []
 	constructor(o) {
 		this.methods = o.methods;
 		this.$options = {};
@@ -55,6 +56,7 @@ class Unar {
 					return valCache;
 				},
 				set: function (newVal) {
+					debugger
 					valCache = newVal;
 				}
 			});
@@ -81,6 +83,6 @@ class Unar {
 	// $after() {}
 	// 'emit', 'on', 'off', 'once'
 }
-Unar.hubs=[];
+// Unar.
 
 export default Unar
