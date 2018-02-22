@@ -20,7 +20,7 @@ class Unar {
 	fn1,
 	fn2
 	*/
-	static hubs = []
+	// static hubs = []
 	constructor(o) {
 		this.methods = o.methods;
 		this.$options = {};
@@ -83,6 +83,5 @@ class Unar {
 	// $after() {}
 	// 'emit', 'on', 'off', 'once'
 }
-// Unar.
 
 export default Unar

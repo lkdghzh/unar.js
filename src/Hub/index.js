@@ -1,23 +1,29 @@
 /**
  * one vm prop <---> one Hub
  */
-var id = 0;
-export default class Hub{
-    constructor(prop,cb){
-        this.id=++id;
-        this.prop=prop;
-        this.listeners=[]
-        this.addListener(cb)
-    }
-    addListener(cb){
-        this.listeners.push(cb)
-    }
-    deleteListener(){
-        
-    }
-    notify(){
-        this.listeners.forEach((fn)=>{
-            fn()
-        })
-    }
+var hubs = {}
+window.hubs=hubs
+var id = 0
+class Hub {
+	constructor(prop, cb) {
+		this.id = ++id
+		this.prop = prop
+		this.listeners = []
+		this.addListener(cb)
+	}
+	addListener(cb) {
+		this.listeners.push(cb)
+	}
+	deleteListener() {
+	}
+	notify() {
+		this.listeners.forEach((fn) => {
+			fn()
+		})
+	}
+}
+//使用Object 比array在取值赋值时候，节省代码遍历。
+export {
+	hubs,
+	Hub
 }

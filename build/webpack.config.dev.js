@@ -52,9 +52,9 @@ module.exports = {
             //     warnings: false // 在UglifyJs删除没有用到的代码时不输出警告  
             // },
             comments: false, // 删除所有的注释
-            mangle: {
-                except: ['Unar'] //避免关键字被混淆
-            }
+            // mangle: {
+            //     except: ['Unar'] //避免关键字被混淆
+            // }
         }),
         new htmlWebpackPlugin({
             filename: DIST_HTML_PATH,

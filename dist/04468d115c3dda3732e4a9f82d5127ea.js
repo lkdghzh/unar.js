@@ -69,7 +69,7 @@ require = (function (modules, cache, entry) {
 
   // Override the current require with this new one
   return newRequire;
-})({12:[function(require,module,exports) {
+})({9:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -88,7 +88,7 @@ var config = {
     evtPrefix: "@"
 };
 exports.default = config;
-},{}],8:[function(require,module,exports) {
+},{}],7:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -140,11 +140,11 @@ var Attr = function () {
 }();
 
 exports.default = Attr;
-},{"../../Config":12}],14:[function(require,module,exports) {
+},{"../../Config":9}],11:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+	value: true
 });
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -155,46 +155,46 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
  * DomEvent
  */
 var DomEvent = function () {
-    function DomEvent() {
-        _classCallCheck(this, DomEvent);
-    }
+	function DomEvent() {
+		_classCallCheck(this, DomEvent);
+	}
 
-    _createClass(DomEvent, null, [{
-        key: "model",
-        value: function model(node, val) {
-            node.value = val;
-        }
-    }, {
-        key: "text",
-        value: function text(node, _text) {
-            node.textContent = _text;
-        }
-    }, {
-        key: "html",
-        value: function html(node, _html) {
-            node.innerHTML = _html;
-        }
-    }, {
-        key: "bind",
-        value: function bind(node, attrName, attrVal) {
-            node[attrName.substr(config.attrPrefix.length, attrName.length)] = attrVal;
-        }
-    }, {
-        key: "addEvt",
-        value: function addEvt(node, evtName, fn) {
-            node.addEventListener(evtName, fn, false);
-        }
-    }]);
+	_createClass(DomEvent, null, [{
+		key: "model",
+		value: function model(node, val) {
+			node.value = val;
+		}
+	}, {
+		key: "text",
+		value: function text(node, _text) {
+			node.textContent = _text;
+		}
+	}, {
+		key: "html",
+		value: function html(node, _html) {
+			node.innerHTML = _html;
+		}
+	}, {
+		key: "bind",
+		value: function bind(node, attrName, attrVal) {
+			node[attrName.substr(config.attrPrefix.length, attrName.length)] = attrVal;
+		}
+	}, {
+		key: "addEvt",
+		value: function addEvt(node, evtName, fn) {
+			node.addEventListener(evtName, fn, false);
+		}
+	}]);
 
-    return DomEvent;
+	return DomEvent;
 }();
 
 exports.default = DomEvent;
-},{}],13:[function(require,module,exports) {
+},{}],10:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+	value: true
 });
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -204,44 +204,49 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 /**
  * one vm prop <---> one Hub
  */
+var hubs = {};
+window.hubs = hubs;
 var id = 0;
 
 var Hub = function () {
-    function Hub(prop, cb) {
-        _classCallCheck(this, Hub);
+	function Hub(prop, cb) {
+		_classCallCheck(this, Hub);
 
-        this.id = ++id;
-        this.prop = prop;
-        this.listeners = [];
-        this.addListener(cb);
-    }
+		this.id = ++id;
+		this.prop = prop;
+		this.listeners = [];
+		this.addListener(cb);
+	}
 
-    _createClass(Hub, [{
-        key: "addListener",
-        value: function addListener(cb) {
-            this.listeners.push(cb);
-        }
-    }, {
-        key: "deleteListener",
-        value: function deleteListener() {}
-    }, {
-        key: "notify",
-        value: function notify() {
-            this.listeners.forEach(function (fn) {
-                fn();
-            });
-        }
-    }]);
+	_createClass(Hub, [{
+		key: "addListener",
+		value: function addListener(cb) {
+			this.listeners.push(cb);
+		}
+	}, {
+		key: "deleteListener",
+		value: function deleteListener() {}
+	}, {
+		key: "notify",
+		value: function notify() {
+			this.listeners.forEach(function (fn) {
+				fn();
+			});
+		}
+	}]);
 
-    return Hub;
+	return Hub;
 }();
+//使用Object 比array在取值赋值时候，节省代码遍历。
 
-exports.default = Hub;
-},{}],9:[function(require,module,exports) {
+
+exports.hubs = hubs;
+exports.Hub = Hub;
+},{}],8:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+	value: true
 });
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }(); /**
@@ -260,107 +265,75 @@ var _DomEvent2 = _interopRequireDefault(_DomEvent);
 
 var _Hub = require("../../Hub");
 
-var _Hub2 = _interopRequireDefault(_Hub);
-
-var _Instance = require("../../../src/Instance");
-
-var _Instance2 = _interopRequireDefault(_Instance);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 // debugger
 var Detictive = function () {
-    function Detictive() {
-        _classCallCheck(this, Detictive);
-    }
+	function Detictive() {
+		_classCallCheck(this, Detictive);
+	}
 
-    _createClass(Detictive, null, [{
-        key: _Config2.default.actionPrefix + "-model",
-        value: function value(node, key, vm) {
-            // debugger
-            this._update("model", node, key, vm);
-        }
-    }, {
-        key: _Config2.default.actionPrefix + "-text",
-        value: function value(node, text, vm) {
-            this._update("text", node, text);
-        }
-    }, {
-        key: _Config2.default.actionPrefix + "-html",
-        value: function value(node, html, vm) {
-            this._update("html", node, html);
-        }
-        //:
+	_createClass(Detictive, null, [{
+		key: _Config2.default.actionPrefix + "-model",
+		value: function value(node, key, vm) {
+			// debugger
+			this._update("model", node, key, vm);
+		}
+	}, {
+		key: _Config2.default.actionPrefix + "-text",
+		value: function value(node, text, vm) {
+			this._update("text", node, text);
+		}
+	}, {
+		key: _Config2.default.actionPrefix + "-html",
+		value: function value(node, html, vm) {
+			this._update("html", node, html);
+		}
+		//:
 
-    }, {
-        key: "bind",
-        value: function bind(node, attrName, attrVal) {
-            _DomEvent2.default.bind(node, attrName, attrVal);
-        }
-        //@
+	}, {
+		key: "bind",
+		value: function bind(node, attrName, attrVal) {
+			_DomEvent2.default.bind(node, attrName, attrVal);
+		}
+		//@
 
-    }, {
-        key: "addEvt",
-        value: function addEvt(node, attrName, fn) {
-            var evtName = attrName.substr(_Config2.default.evtPrefix.length, attrName.length);
-            var fn = this.methods[fn].bind(this);
-            _DomEvent2.default.addEvt(node, evtName, fn);
-        }
-    }, {
-        key: "_update",
-        value: function _update(detictive, node, key, vm) {
-            var cb = _DomEvent2.default[detictive];
-            // debugger
-            if (detictive === 'model') {
-                console.log("model");
-                node.addEventListener('input', function (e) {
-                    debugger;
-                    vm[key] = e.target.value;
-                }, false);
-            }
-            cb(node, vm[key]);
-            //检测hubs 是否具备此prop（value）hub，有的添加cb回调，没有创建便hub
-            var has = false;
-            var _iteratorNormalCompletion = true;
-            var _didIteratorError = false;
-            var _iteratorError = undefined;
+	}, {
+		key: "addEvt",
+		value: function addEvt(node, attrName, fn) {
+			var evtName = attrName.substr(_Config2.default.evtPrefix.length, attrName.length);
+			var fn = this.methods[fn].bind(this);
+			_DomEvent2.default.addEvt(node, evtName, fn);
+		}
+	}, {
+		key: "_update",
+		value: function _update(detictive, node, key, vm) {
+			var cb = _DomEvent2.default[detictive];
+			// debugger
+			if (detictive === 'model') {
+				console.log("model");
+				node.addEventListener('input', function (e) {
+					debugger;
+					vm[key] = e.target.value;
+				}, false);
+			}
+			cb(node, vm[key]);
+			//检测hubs 是否具备此key，有的添加cb回调，没有创建便hub
+			if (_Hub.hubs[key]) {
+				_Hub.hubs[key].listeners.push(cb);
+			} else {
+				_Hub.hubs[key] = new _Hub.Hub(key, cb);
+			}
+		}
+	}]);
 
-            try {
-                for (var _iterator = _Instance2.default.hubs[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-                    var hub = _step.value;
-
-                    if (hub.prop === key) {
-                        hub.listeners.push(cb);
-                        has = true;
-                        break;
-                    }
-                }
-            } catch (err) {
-                _didIteratorError = true;
-                _iteratorError = err;
-            } finally {
-                try {
-                    if (!_iteratorNormalCompletion && _iterator.return) {
-                        _iterator.return();
-                    }
-                } finally {
-                    if (_didIteratorError) {
-                        throw _iteratorError;
-                    }
-                }
-            }
-
-            !has && _Instance2.default.hubs.push(new _Hub2.default(key, cb));
-        }
-    }]);
-
-    return Detictive;
+	return Detictive;
 }();
 
 exports.default = Detictive;
-},{"../../Config":12,"../DomEvent":14,"../../Hub":13,"../../../src/Instance":4}],6:[function(require,module,exports) {
+},{"../../Config":9,"../DomEvent":11,"../../Hub":10}],5:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -509,7 +482,7 @@ var Templater = function () {
 }();
 
 exports.default = Templater;
-},{"./Attr":8,"./Detective":9}],4:[function(require,module,exports) {
+},{"./Attr":7,"./Detective":8}],3:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -531,7 +504,21 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 // import model from "./Model"
 
 
-var Unar = function Unar(o) {
+var Unar =
+/*options
+methods{
+    fn1,
+    fn2
+}
+data{a:1,b:2}
+
+a:1
+b:2
+fn1,
+fn2
+*/
+// static hubs = []
+function Unar(o) {
 	var _this = this;
 
 	_classCallCheck(this, Unar);
@@ -596,25 +583,10 @@ var Unar = function Unar(o) {
 // $before() {}
 // $after() {}
 // 'emit', 'on', 'off', 'once'
-
-/*options
-methods{
-    fn1,
-    fn2
-}
-data{a:1,b:2}
-
-a:1
-b:2
-fn1,
-fn2
-*/
 ;
-// Unar.
 
-Unar.hubs = [];
 exports.default = Unar;
-},{"../View/index.js":6}],2:[function(require,module,exports) {
+},{"../View/index.js":5}],2:[function(require,module,exports) {
 "use strict";
 
 var _index = require("../src/Instance/index.js");
@@ -638,7 +610,7 @@ var app = new _index2.default({
 });
 // import {p} from "./parcel.js"
 // p.es6fn('like')
-},{"../src/Instance/index.js":4}],18:[function(require,module,exports) {
+},{"../src/Instance/index.js":3}],19:[function(require,module,exports) {
 
 var global = (1, eval)('this');
 var OldModule = module.bundle.Module;
@@ -658,7 +630,7 @@ module.bundle.Module = Module;
 
 if (!module.bundle.parent && typeof WebSocket !== 'undefined') {
   var hostname = '' || location.hostname;
-  var ws = new WebSocket('ws://' + hostname + ':' + '4682' + '/');
+  var ws = new WebSocket('ws://' + hostname + ':' + '6091' + '/');
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);
 
@@ -759,5 +731,5 @@ function hmrAccept(bundle, id) {
     return hmrAccept(global.require, id);
   });
 }
-},{}]},{},[18,2])
+},{}]},{},[19,2])
 //# sourceMappingURL=/dist/04468d115c3dda3732e4a9f82d5127ea.map
