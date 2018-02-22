@@ -1,3 +1,6 @@
+ 
+ 
+babel "preset-stage-2" only transform static prop
 # 1,virtual dom
 - fragment
 - create-virtual-dom
