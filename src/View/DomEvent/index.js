@@ -3,7 +3,9 @@
  */
 export default class DomEvent {
 	static model(node, val) {
-		node.value = val
+		// return function () {
+			node.value = val
+		// }()
 	}
 	static text(node, text) {
 		node.textContent = text

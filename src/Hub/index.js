@@ -3,8 +3,9 @@
  */
 
 // a:{id: 1, prop: "a", listeners: [cb1,cb2]
-// b:{id: 2, prop: "b", listeners: [cb1,cb2]
+// b:{id: 2, prop: "b", listeners: [cb3,cb4]
 var hubs = {}
+
 window.hubs=hubs
 var id = 0
 class Hub {
@@ -19,8 +20,10 @@ class Hub {
 	}
 	deleteListener() {
 	}
-	notify() {
+	notify(newVal) {
 		this.listeners.forEach((fn) => {
+			debugger
+			console.log(fn.length)
 			fn()
 		})
 	}

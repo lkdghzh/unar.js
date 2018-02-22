@@ -69,7 +69,7 @@ require = (function (modules, cache, entry) {
 
   // Override the current require with this new one
   return newRequire;
-})({9:[function(require,module,exports) {
+})({7:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -88,7 +88,7 @@ var config = {
     evtPrefix: "@"
 };
 exports.default = config;
-},{}],7:[function(require,module,exports) {
+},{}],6:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -140,7 +140,7 @@ var Attr = function () {
 }();
 
 exports.default = Attr;
-},{"../../Config":9}],11:[function(require,module,exports) {
+},{"../../Config":7}],9:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -190,7 +190,7 @@ var DomEvent = function () {
 }();
 
 exports.default = DomEvent;
-},{}],10:[function(require,module,exports) {
+},{}],8:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -245,7 +245,7 @@ var Hub = function () {
 
 exports.hubs = hubs;
 exports.Hub = Hub;
-},{}],8:[function(require,module,exports) {
+},{}],5:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -336,7 +336,7 @@ var Detictive = function () {
 }();
 
 exports.default = Detictive;
-},{"../../Config":9,"../DomEvent":11,"../../Hub":10}],5:[function(require,module,exports) {
+},{"../../Config":7,"../DomEvent":9,"../../Hub":8}],4:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -485,7 +485,7 @@ var Templater = function () {
 }();
 
 exports.default = Templater;
-},{"./Attr":7,"./Detective":8}],3:[function(require,module,exports) {
+},{"./Attr":6,"./Detective":5}],3:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -589,7 +589,7 @@ function Unar(o) {
 ;
 
 exports.default = Unar;
-},{"../View/index.js":5}],2:[function(require,module,exports) {
+},{"../View/index.js":4}],2:[function(require,module,exports) {
 "use strict";
 
 var _index = require("../src/Instance/index.js");
@@ -613,7 +613,7 @@ var app = new _index2.default({
 });
 // import {p} from "./parcel.js"
 // p.es6fn('like')
-},{"../src/Instance/index.js":3}],20:[function(require,module,exports) {
+},{"../src/Instance/index.js":3}],10:[function(require,module,exports) {
 
 var global = (1, eval)('this');
 var OldModule = module.bundle.Module;
@@ -633,7 +633,7 @@ module.bundle.Module = Module;
 
 if (!module.bundle.parent && typeof WebSocket !== 'undefined') {
   var hostname = '' || location.hostname;
-  var ws = new WebSocket('ws://' + hostname + ':' + '6091' + '/');
+  var ws = new WebSocket('ws://' + hostname + ':' + '12177' + '/');
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);
 
@@ -734,5 +734,5 @@ function hmrAccept(bundle, id) {
     return hmrAccept(global.require, id);
   });
 }
-},{}]},{},[20,2])
+},{}]},{},[10,2])
 //# sourceMappingURL=/dist/04468d115c3dda3732e4a9f82d5127ea.map

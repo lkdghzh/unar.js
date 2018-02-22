@@ -41,11 +41,12 @@ export default class Detictive {
 			}, false)
 		}
 		cb(node, vm[key])
+		// ----------------------------------------------------???
 		//检测hubs 是否具备此key，有的添加cb回调，没有创建便hub
 		if (hubs[key]) {
-			hubs[key].listeners.push(cb)
+			hubs[key].listeners.push(cb.bind(undefined, node))
 		} else {
-			hubs[key] = new Hub(key, cb)
+			hubs[key] = new Hub(key, cb.bind(undefined, node))
 		}
 	}
 }

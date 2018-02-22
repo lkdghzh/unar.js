@@ -36,15 +36,14 @@ module.exports = {
      */
     rules: {
         // 警告用console
-        "no-console": "off",
+        'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0,
         // 警告用debugger
-        "no-debugger": "off",
+        'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0,
         // 警告定义但未使用
         "no-unused-vars": "off",
         // 关闭要求箭头函数的参数使用圆括号(可以不带括号)
         "arrow-parens": "off",
-        // 警告常亮表达式  1==1?2:3  if(true){} 
-        "no-constant-condition": "warn",
+        // "semi": ["error", "always"]
     },
     // 指定想启用的环境
     env: {
