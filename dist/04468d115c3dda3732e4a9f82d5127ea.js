@@ -204,6 +204,9 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 /**
  * one vm prop <---> one Hub
  */
+
+// a:{id: 1, prop: "a", listeners: [cb1,cb2]
+// b:{id: 2, prop: "b", listeners: [cb1,cb2]
 var hubs = {};
 window.hubs = hubs;
 var id = 0;
@@ -610,7 +613,7 @@ var app = new _index2.default({
 });
 // import {p} from "./parcel.js"
 // p.es6fn('like')
-},{"../src/Instance/index.js":3}],19:[function(require,module,exports) {
+},{"../src/Instance/index.js":3}],20:[function(require,module,exports) {
 
 var global = (1, eval)('this');
 var OldModule = module.bundle.Module;
@@ -731,5 +734,5 @@ function hmrAccept(bundle, id) {
     return hmrAccept(global.require, id);
   });
 }
-},{}]},{},[19,2])
+},{}]},{},[20,2])
 //# sourceMappingURL=/dist/04468d115c3dda3732e4a9f82d5127ea.map

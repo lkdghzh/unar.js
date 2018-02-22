@@ -1,6 +1,9 @@
 /**
  * one vm prop <---> one Hub
  */
+
+// a:{id: 1, prop: "a", listeners: [cb1,cb2]
+// b:{id: 2, prop: "b", listeners: [cb1,cb2]
 var hubs = {}
 window.hubs=hubs
 var id = 0
