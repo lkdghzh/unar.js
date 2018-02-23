@@ -1,7 +1,8 @@
 //config-> build unar.js
 
 const path = require('path')
-const node = require('rollup-plugin-node-resolve')//resolve suffix eg.. index.js  
+const node = require('rollup-plugin-node-resolve') //resolve suffix eg.. index.js  
+const babel = require('rollup-plugin-babel') //resolve suffix eg.. index.js  
 
 const name = 'Unar'
 const env = process.env.TARGET
@@ -17,28 +18,30 @@ const banner = `
 */ 
 `
 const opts = {
-    'development': {
-        input,
-        output: {
-            file: resolve('dist/unar.js'),
-            name
-        },
-        banner,
-        env: 'development',
-        format: 'es',
-        plugins: [node()]
-    },
-    'product': {
-        input,
-        output: {
-            file: resolve('dist/unar.min.js'),
-            name
-        },
-        banner,
-        env: 'production',
-        format: 'umd',
-        plugins: [node()]
-    }
+	'development': {
+		input,
+		output: {
+			file: resolve('dist/unar.js'),
+			name
+		},
+		banner,
+		env: 'development',
+		format: 'es',
+		plugins: [node(), babel({
+			exclude: 'node_modules/**'
+		})]
+	},
+	'product': {
+		input,
+		output: {
+			file: resolve('dist/unar.min.js'),
+			name
+		},
+		banner,
+		env: 'production',
+		format: 'umd',
+		plugins: [node()]
+	}
 }
 const generatorConfig = name => opts[name]
 
