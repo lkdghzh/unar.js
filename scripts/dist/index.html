@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Todo</title>
+	<meta charset="utf-8">
+</head>
+
+<body>
+	<div id="root">
+		<input u-model="a" :id="id" />123 {{a}}
+		<input u-model="a" />
+		<input u-model="b" />
+		<input u-model="b" />
+		<button @click="fn">点击</button>
+	</div>
+</body>
+<script src="./unar.min.js"></script>
+<script>
+const app = new Unar({
+	el: "#root",
+	data: {
+		a: 1,
+		b: 2,
+		id: 'input1'
+	},
+	methods: {
+		fn() {
+			console.log(this.a)
+		}
+	}
+})
+
+</script>
+</html>

@@ -2,7 +2,7 @@
 
 const path = require('path')
 const node = require('rollup-plugin-node-resolve') //resolve suffix eg.. index.js  
-const babel = require('rollup-plugin-babel') //resolve suffix eg.. index.js  
+const babel = require('rollup-plugin-babel') 
 
 const name = 'Unar'
 const env = process.env.TARGET
@@ -27,9 +27,10 @@ const opts = {
 		banner,
 		env: 'development',
 		format: 'es',
-		plugins: [node(), babel({
-			exclude: 'node_modules/**'
-		})]
+        plugins: [node()]
+        // , babel({
+		// 	exclude: 'node_modules/**'
+		// })
 	},
 	'product': {
 		input,
@@ -40,7 +41,9 @@ const opts = {
 		banner,
 		env: 'production',
 		format: 'umd',
-		plugins: [node()]
+		plugins: [node()   , babel({
+			exclude: 'node_modules/**'
+		})]
 	}
 }
 const generatorConfig = name => opts[name]
