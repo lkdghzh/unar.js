@@ -33,13 +33,13 @@ class Unar {
 			Object.defineProperty(this, key, {
 				configurable: false,
 				enumerable: true,
-				get: function () {
+				get() {
 					//data[key]、this._data[key]、this.$options.data 、o.data都可以
 					//实现代理对象（读写都要通过这个代理），然后访问this._data[key]、this.$options.data的存取器属性
 					//此getter会调用下面getter
 					return data[key]
 				},
-				set: function (newVal) {
+				set(newVal) {
 					data[key] = newVal
 				}
 			})
@@ -51,17 +51,16 @@ class Unar {
 			Object.defineProperty(data, key, {
 				configurable: false,
 				enumerable: true,
-				get: function () {
+				get() {
 					//可以尝试这个
 					//this._data[key]，this.$options.data[key]和data[key]都会爆栈
 					return valCache
 				},
-				set: function (newVal) {
-					
+				set(newVal) {
 					console.log(key)
-					debugger
-					hubs[key].notify()
 					valCache = newVal
+					//set value first ，then notify dom update with newVal
+					hubs[key].notify()
 				}
 			})
 		})

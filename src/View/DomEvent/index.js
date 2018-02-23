@@ -2,7 +2,7 @@
  * DomEvent
  */
 export default class DomEvent {
-	static model(node, val) {
+	static model(node, val,oldValue) {
 		// return function () {
 			node.value = val
 		// }()

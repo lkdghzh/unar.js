@@ -6,25 +6,26 @@
 // b:{id: 2, prop: "b", listeners: [cb3,cb4]
 var hubs = {}
 
-window.hubs=hubs
+window.hubs = hubs
 var id = 0
 class Hub {
-	constructor(prop, cb) {
+	constructor(prop, cb, vm) {
 		this.id = ++id
 		this.prop = prop
+		this.val = vm[prop]
+		this.vm = vm
 		this.listeners = []
 		this.addListener(cb)
 	}
 	addListener(cb) {
 		this.listeners.push(cb)
 	}
-	deleteListener() {
-	}
+	deleteListener() {}
 	notify(newVal) {
 		this.listeners.forEach((fn) => {
-			debugger
-			console.log(fn.length)
-			fn()
+			//oldVal->this.val
+			//val->this.vm[this.prop]
+			fn(this.vm[this.prop], this.val)
 		})
 	}
 }

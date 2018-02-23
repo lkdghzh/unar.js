@@ -13,6 +13,9 @@ export default class Detictive {
 	static[config.actionPrefix + "-model"](node, key, vm) {
 		// debugger
 		this._update("model", node, key, vm)
+		node.addEventListener('input', e => {
+			vm[key] = e.target.value
+		}, false)
 	}
 	static[config.actionPrefix + "-text"](node, text, vm) {
 		this._update("text", node, text)
@@ -31,22 +34,11 @@ export default class Detictive {
 		DomFn.addEvt(node, evtName, fn)
 	}
 	static _update(detictive, node, key, vm) {
-		var cb = DomFn[detictive]
-		// debugger
-		if (detictive === 'model') {
-			console.log(`model`)
-			node.addEventListener('input', e => {
-				debugger
-				vm[key] = e.target.value
-			}, false)
+		var cb = (val, oldVal)=> {
+			DomFn[detictive](node, val, oldVal)
 		}
-		cb(node, vm[key])
-		// ----------------------------------------------------???
+		cb(vm[key])
 		//检测hubs 是否具备此key，有的添加cb回调，没有创建便hub
-		if (hubs[key]) {
-			hubs[key].listeners.push(cb.bind(undefined, node))
-		} else {
-			hubs[key] = new Hub(key, cb.bind(undefined, node))
-		}
+		hubs[key] ? hubs[key].listeners.push(cb) :( hubs[key] = new Hub(key, cb,vm) )
 	}
 }
