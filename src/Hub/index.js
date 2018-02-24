@@ -21,7 +21,7 @@ class Hub {
 		this.listeners.push(cb)
 	}
 	deleteListener() {}
-	notify(newVal) {
+	notify() {
 		this.listeners.forEach((fn) => {
 			//oldVal->this.val
 			//val->this.vm[this.prop]

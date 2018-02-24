@@ -1,6 +1,6 @@
 import Unar from "../src/Instance"
 window.Unar=Unar
-const app = new Unar({
+window.app = new Unar({
 	el: "#root",
 	data: {
 		a: 1,

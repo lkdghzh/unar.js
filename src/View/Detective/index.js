@@ -17,10 +17,12 @@ export default class Detictive {
 			vm[key] = e.target.value
 		}, false)
 	}
-	static[config.actionPrefix + "-text"](node, text, vm) {
+	// , vm
+	static[config.actionPrefix + "-text"](node, text) {
 		this._update("text", node, text)
 	}
-	static[config.actionPrefix + "-html"](node, html, vm) {
+	// , vm
+	static[config.actionPrefix + "-html"](node, html) {
 		this._update("html", node, html)
 	}
 	//:

@@ -2,10 +2,10 @@
  * DomEvent
  */
 export default class DomEvent {
-	static model(node, val,oldValue) {
-		// return function () {
+	static model(node, val, oldValue) {
+		if (val!==oldValue) {
 			node.value = val
-		// }()
+		}
 	}
 	static text(node, text) {
 		node.textContent = text
