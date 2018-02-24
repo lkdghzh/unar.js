@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>two-ways-input</title>
+</head>
+
+<body>
+	<div id="root">
+		<input u-model="a" :id="id" />123 {{a}}
+		<input u-model="a" />
+		<input u-model="b" />
+		<input u-model="b" />
+		<button @click="fn">点击</button>
+	</div>
+	<script src="https://unpkg.com/unar@0.0.1/scripts/dist/unar.min.js"></script>
+	<script>
+		const instance = new Unar({
+			el: "#root",
+			data: {
+				a: 1,
+				b: 2,
+			},
+			methods: {
+				fn() {
+					console.log(this.a)
+				}
+			}
+		})
+	</script>
+</body>
+
+</html>
