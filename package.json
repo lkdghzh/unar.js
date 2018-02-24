@@ -7,7 +7,7 @@
     "dev:parcel": "parcel ./examples/index.html",
     "dev": "node ./build/dev-server.js",
     "dev:testpkg": "webpack --config ./build/webpack.config.dev.js",
-    "publish": "webpack --config ./build/webpack.config.publish.js",
+    "prod:w": "webpack --config ./build/webpack.config.publish.js",
     "publish:concat": "webpack --config ./build/webpack.config.concat.js",
     "test:vdom": "webpack ./knowledge/virtual-dom/virtual-dom.js ./knowledge/virtual-dom/vdom.js",
     "test:unarvdom": "webpack ./knowledge/unar-virtual-dom/script.js ./knowledge/unar-virtual-dom/index.js",
