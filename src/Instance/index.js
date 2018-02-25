@@ -64,9 +64,11 @@ class Unar {
 				}
 			})
 		})
+		this.watchs = o.watchs
+		
 		new Templater(o.el, this)
 	}
-	
+	// $watch() {}
 	// static use() {}
 	// static extend() {}
 	// static $nextTick() {}
@@ -78,7 +80,7 @@ class Unar {
 	// }
 	// $created() {}
 	// $mounted() {}
-	// $watch() {}
+	
 	// $computed() {}
 	// $remove() {}
 	// $destroy() {}

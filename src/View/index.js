@@ -50,16 +50,16 @@ export default class Templater {
                     Detective[detec](node, key, this.vm)
                     continue
                 }
-                //:id
-                if (Attr.isProp(detec)) {
-                    Detective.bind(node, detec, key, this.vm)
-                    continue
-                }
-                //@click
-                if (Attr.isEvt(detec)) {
-                    Detective.addEvt.call(this.vm, node, detec, key)
-                    continue
-                }
+                // //:id
+                // if (Attr.isProp(detec)) {
+                //     Detective.bind(node, detec, key, this.vm)
+                //     continue
+                // }
+                // //@click
+                // if (Attr.isEvt(detec)) {
+                //     Detective.addEvt.call(this.vm, node, detec, key)
+                //     continue
+                // }
             }
             node.childNodes.forEach((childNode) => {
                 this.initAttrEvt(childNode)
