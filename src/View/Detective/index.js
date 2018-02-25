@@ -17,9 +17,9 @@ export default class Detictive {
 			vm[key] = e.target.value
 		}, false)
 	}
-	// , vm
-	static[config.actionPrefix + "-text"](node, text) {
-		this._update("text", node, text)
+	// {{}}&&text
+	static["text"](node, key, vm) {
+		this._update("text", node, key, vm)
 	}
 	// , vm
 	static[config.actionPrefix + "-html"](node, html) {
@@ -40,7 +40,6 @@ export default class Detictive {
 			DomFn[detictive](node, val, oldVal)
 		}
 		cb(vm[key])
-		//检测hubs 是否具备此key，有的添加cb回调，没有创建便hub
 		hubs[key] ? hubs[key].listeners.push(cb) :( hubs[key] = new Hub(key, cb,vm) )
 	}
 }

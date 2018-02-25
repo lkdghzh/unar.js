@@ -3,6 +3,9 @@ export default class Attr {
     static isExpression(txt) {
         return /\{\{.*\}\}/.test(txt);
     }
+    static expressionKey(txt) {
+        return txt.match(/(.*)\{\{(.*)\}\}(.*)/);
+    }
     static isAction(attr) {
         //u
         return attr.indexOf(config.actionPrefix) === 0;

@@ -3,12 +3,14 @@
  */
 export default class DomEvent {
 	static model(node, val, oldValue) {
-		if (val!==oldValue) {
+		if (val !== oldValue) {
 			node.value = val
 		}
 	}
-	static text(node, text) {
-		node.textContent = text
+	static text(node, text, oldTxt) {
+		if (text !== oldTxt) {
+			node.textContent = text
+		}
 	}
 	static html(node, html) {
 		node.innerHTML = html

@@ -47,23 +47,33 @@ export default class Templater {
                 const key = attr.nodeValue;
                 //u-html u-model
                 if (Attr.isAction(detec)) {
-                    Detective[detec](node, key,this.vm)
+                    Detective[detec](node, key, this.vm)
+                    continue
                 }
                 //:id
                 if (Attr.isProp(detec)) {
-                    Detective.bind(node, detec, key,this.vm)
+                    Detective.bind(node, detec, key, this.vm)
+                    continue
                 }
                 //@click
                 if (Attr.isEvt(detec)) {
                     Detective.addEvt.call(this.vm, node, detec, key)
+                    continue
                 }
             }
             node.childNodes.forEach((childNode) => {
                 this.initAttrEvt(childNode)
             })
         }
-        //text {{}}
-        if (node.nodeType === 3 && Attr.isExpression(node.data)) {
+        //text with {{}}
+        if (node.nodeType === 3) {
+            if (Attr.isExpression(node.data)) {
+                // preText,nextText
+                var [, , keyText,] = Attr.expressionKey(node.data)
+                debugger
+                Detective['text'](node, keyText, this.vm)
+                //continue
+            }
         }
 
     }
