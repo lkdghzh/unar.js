@@ -3,22 +3,23 @@
  * 静态方法包含this关键字，这个this指的是类
  */
 import config from "../../Config"
-import Register from "./register"
+import Register from "../../Bll/register"
 
 export default class Detictive {
 	static [config.actionPrefix + "-model"](node, key, vm) {
-		Register.registListener("model", node, key, vm)
+		Register.registDomListener4Hubs("model", node, key, vm)
 		node.addEventListener('input', e => {
 			vm[key] = e.target.value
 		}, false)
 	}
 	// {{}}&&text
 	static ["text"](node, key, vm) {
-		Register.registListener("text", node, key, vm)
+		debugger
+		Register.registDomListener4Hubs("text", node, key, vm)
 	}
 	// , vm
 	static [config.actionPrefix + "-html"](node, html) {
-		Register.registListener("html", node, html)
+		Register.registDomListener4Hubs("html", node, html)
 	}
 	//:
 	// static bind(node, attrName, attrVal) {

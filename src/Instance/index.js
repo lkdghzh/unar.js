@@ -3,10 +3,14 @@
  */
 
 
-// import util from "../Util"
+// import Util from "../Util"
 // import detective from "./Detective"
 // import model from "./Model"
-import {hubs} from "../Hub"
+import {
+	hubs
+} from "../Hub"
+import Register from "../Bll/register"
+
 import Templater from "../View/index.js"
 class Unar {
 	/*options
@@ -22,11 +26,16 @@ class Unar {
 	fn2
 	*/
 	// static hubs = []
-	constructor(o) {
-		this.methods = o.methods
+	constructor({
+		el = '',
+		data = {},
+		methods = {},
+		watchers = {}
+	}) {
+		this.methods = methods
 		this.$options = {}
 		//在vm新建_data、$options属性
-		var data = this._data = this.$options.data = o.data
+		var data = this._data = this.$options.data = data
 
 		//创建代理（存取）属性，代理_data、$options对象下的存取属性
 		Object.keys(data).forEach(key => {
@@ -64,9 +73,14 @@ class Unar {
 				}
 			})
 		})
-		this.watchs = o.watchs
-		
-		new Templater(o.el, this)
+		this.watchers = watchers
+		//Object.entries({a:1})-->[["a", 1]]
+		for (let [key, cb] of Object.entries(watchers)) {
+			Register.registListener4Hubs(key, cb, this)
+		}
+
+		// Util.initWatcher(this.watchs)
+		new Templater(el, this)
 	}
 	// $watch() {}
 	// static use() {}
@@ -80,7 +94,7 @@ class Unar {
 	// }
 	// $created() {}
 	// $mounted() {}
-	
+
 	// $computed() {}
 	// $remove() {}
 	// $destroy() {}

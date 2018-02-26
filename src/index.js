@@ -1,5 +1,5 @@
 import Unar from "../src/Instance"
-window.Unar=Unar
+window.Unar = Unar
 window.app = new Unar({
 	el: "#root",
 	data: {
@@ -10,6 +10,12 @@ window.app = new Unar({
 	methods: {
 		fn() {
 			console.log(this.a)
+		}
+	},
+	watchers: {
+		a: function (val, old) {
+			debugger
+			console.log(`a->haschanged,${old}-->${val}`)
 		}
 	}
 })

@@ -1,26 +1,27 @@
-import config from "../config"
+// import 
 export default class Util {
-    constructor() {
+	constructor() {
 
-    }
-    static set(obj, key, val) {
+	}
+	static set(obj, key, val) {
 
-    }
-    static extend() {
+	}
+	static extend() {
 
-    }
-    // var o = { a: { b: { c: 1 } } }
-    // getPathVal(o, 'a.b.c')
-    static getPathVal(obj, path) {
-        var pathArr = path.split('.')
-        var t;
-        for (let [inx, key] of pathArr.entries()) {
-            if (!inx) {
-                t = obj[key]
-            } else {
-                t = t[key]
-            }
-        }
-        return t
-    }
+	}
+	// var o = { a: { b: { c: 1 } } }
+	// getPathVal(o, 'a.b.c')
+	static getPathVal(obj, path) {
+		var pathArr = path.split('.')
+		var t;
+		for (let [inx, key] of pathArr.entries()) {
+			if (!inx) {
+				t = obj[key]
+			} else {
+				t = t[key]
+			}
+		}
+		return t
+	}
+	
 }
