@@ -29,7 +29,7 @@ export const proxy = (data,vm) => {
 				return valCache
 			},
 			set(newVal) {
-				console.log(key);
+				console.log(key)
 				valCache = newVal
 				//set value first ，then notify dom update with newVal
 				hubs[key].notify()

@@ -2,7 +2,7 @@
  * Unar
  */
 
-import {proxy,watch} from "./config";
+import {proxy,watch} from "./config"
 import Templater from "../View/index.js"
 class Unar {
 	// static hubs = []

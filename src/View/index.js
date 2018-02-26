@@ -6,14 +6,14 @@ import Detective from "./Detective"
 
 export default class Templater {
 	constructor(selector, vm) {
-		this.vm = vm;
-		this.el = document.querySelector(selector);
+		this.vm = vm
+		this.el = document.querySelector(selector)
 		if (this.el) {
-			this.el.appendChild(this.init());
+			this.el.appendChild(this.init())
 		}
 	}
 	init() {
-		const fragment = document.createDocumentFragment();
+		const fragment = document.createDocumentFragment()
 		this.filterNode2fragment(fragment)
 		//初始化view
 		fragment.childNodes.forEach((node) => {
@@ -27,13 +27,13 @@ export default class Templater {
 	}
 	filterNode2fragment(fragment) {
 		//所有节点node
-		for (let i = 0; i < this.el.childNodes.length; i++) {
-			const node = this.el.childNodes[i];
-			const nodeType = node.nodeType;
+		for (let i = 0; i < this.el.childNodes.length ;i++) {
+			const node = this.el.childNodes[i]
+			const nodeType = node.nodeType
 			//for reduce the loop count ,filter nodes to Element Comment Text(not contain pure whitespace)
 			if (nodeType === 1 || nodeType === 8 || (nodeType === 3) && !this._isPureBlankNode(node)) {
-				fragment.appendChild(node);
-				--i;
+				fragment.appendChild(node)
+				--i
 			}
 		}
 	}
@@ -43,8 +43,8 @@ export default class Templater {
 			//node.attributes
 			for (let attr of node.attributes) {
 				//过滤掉非unar的动作、属性、事件
-				const detec = attr.nodeName;
-				const key = attr.nodeValue;
+				const detec = attr.nodeName
+				const key = attr.nodeValue
 				//u-html u-model
 				if (Attr.isAction(detec)) {
 					Detective[detec](node, key, this.vm)
@@ -95,6 +95,6 @@ export default class Templater {
 	 */
 	_isPureBlankNode(node) {
 		// Use ECMA-262 Edition 3 String and RegExp features
-		return !(/[^\t\n\r ]/.test(node.data));
+		return !(/[^\t\n\r ]/.test(node.data))
 	}
 }
