@@ -19,6 +19,7 @@ class Unar {
 		var data = this._data = this.$options.data = data
 
 		//hijack properties
+		//change data properties to accessor properties
 		proxy(data,this)
 
 		//add watchers
