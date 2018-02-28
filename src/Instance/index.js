@@ -2,13 +2,14 @@
  * Unar
  */
 
-import {proxy,watch} from "./config"
+import {proxy,watch,compute} from "./config"
 import Templater from "../View/index.js"
 class Unar {
 	// static hubs = []
 	constructor({
 		el = '',
 		data = {},
+		computeds={},
 		methods = {},
 		watchers = {}
 	}) {
@@ -22,7 +23,13 @@ class Unar {
 		//change data properties to accessor properties
 		proxy(data,this)
 
-		//add watchers
+		//add computed properties to this
+		this.computeds=computeds
+		compute(this.computeds,this)
+		
+		console.log(this)
+		debugger
+		//add watchers properties to this
 		this.watchers = watchers
 		watch(this.watchers,this)
 

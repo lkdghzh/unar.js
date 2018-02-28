@@ -12,6 +12,11 @@ window.app = new Unar({
 			console.log(this.a)
 		}
 	},
+	computeds:{
+		c(){
+			return this.a+this.b
+		}
+	},
 	watchers: {
 		a: function (val, old) {
 			debugger

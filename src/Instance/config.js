@@ -40,3 +40,12 @@ export const watch = (watchers, vm) => {
 		Register.registListener4Hubs(key, cb, vm)
 	}
 }
+
+export const compute = (computeds, vm) => {
+	for (let [key, fn] of Object.entries(computeds)) {
+		Object.defineProperty(vm, key, {
+			get: fn,
+			set: function () { }
+		})
+	}
+}
