@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>数据劫持</title>
+    <!-- 李可 -->
+</head>
+
+<body>
+    <script>
+        /*
+            author:李可
+            email:416960428@qq.com
+            数据劫持的示例
+        */
+       
+        var o = {
+            data: {
+                a: 1,
+                b: 2
+            }
+        };
+
+        //换成class
+        function vm(o) {
+            this.$options = {};
+            //在vm新建_data、$options属性
+            var data = this._data = this.$options.data = o.data;
+            
+            //创建代理（存取）属性，代理_data、$options对象下的存取属性
+            Object.keys(data).forEach(key => {
+         
+                //使用闭包，存储这个值。（data[key],运行到此还是数据属性）
+                //data[key]、this._data[key]、this.$options.data 、o.data都可以
+                var valCache = data[key];
+
+                //data相当于同时，把this_data和this.$options.data,o.data三个都变成了存取器属性
+                Object.defineProperty(data, key, {
+                    configurable: false,
+                    enumerable: true,
+                    get: function () {
+                        debugger
+                        //可以尝试这个
+                        //this._data[key]，this.$options.data[key]和data[key]都会爆栈
+                        return valCache;
+                    },
+                    set: function (newVal) {
+                        debugger
+                        valCache = newVal;
+                    }
+                });
+                
+                Object.defineProperty(this, key, {
+                    configurable: false,
+                    enumerable: true,
+                    get: function () {
+                        debugger
+                        //data[key]、this._data[key]、this.$options.data 、o.data都可以
+                        //实现代理对象（读写都要通过这个代理），然后访问this._data[key]、this.$options.data的存取器属性
+                        //此getter会调用下面getter
+                        //不能用 valCache
+                        return data[key];
+                    },
+                    set: function (newVal) {
+                        debugger
+                        data[key] = newVal;
+                    }
+                });
+            })
+        }
+        var instance;
+        console.log(instance=new vm(o), o);
+        //这样会将o.data内的属性也转化成存取器属性（怎么将o.data不转化呢）
+    </script>
+</body>
+
+</html>
