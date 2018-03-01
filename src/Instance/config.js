@@ -1,4 +1,5 @@
 import Register from "../Bll/register"
+import {hubs} from "../Hub"
 export const proxy = (data, vm) => {
 	Object.keys(data).forEach(key => {
 		Object.defineProperty(vm, key, {
@@ -42,6 +43,15 @@ export const watch = (watchers, vm) => {
 }
 
 export const compute = (computeds, vm) => {
+	/**
+	 * 	var o={}
+		Object.defineProperty(o, 'a', {
+			get: function () {return 1 },
+			set: function () { }
+		})
+		Object.getOwnPropertyDescriptor(o,'a')
+		{get: ƒ, set: ƒ, enumerable: false, configurable: false}
+	 */
 	for (let [key, fn] of Object.entries(computeds)) {
 		Object.defineProperty(vm, key, {
 			get: fn,
