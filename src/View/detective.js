@@ -2,8 +2,8 @@
  * Detictive
  * 静态方法包含this关键字，这个this指的是类
  */
-import config from "../../Config"
-import Register from "../../Bll/register"
+import config from "../Config"
+import Register from "../Bll/register"
 
 export default class Detictive {
 	static [config.actionPrefix + "-model"](node, key, vm) {

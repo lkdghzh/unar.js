@@ -1,4 +1,4 @@
-import config from "../../Config"
+import config from "../Config"
 export default class Attr {
     static isExpression(txt) {
         return /\{\{.*\}\}/.test(txt)

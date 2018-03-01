@@ -1,4 +1,4 @@
-import DomFn from "../View/DomEvent"
+import DomFn from "../View/domEvent"
 import {
 	hubs,
 	Hub
