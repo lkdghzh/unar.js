@@ -14,10 +14,10 @@ class Unar {
 		watchers = {}
 	}) {
 		this.methods = methods
-		this.$options = {}
+		//this.$options = {}
 
 		//this add keys(_data、$options )
-		var data = this._data = this.$options.data = data
+		//var data = this._data = this.$options.data = data
 
 		//hijack properties
 		//change data properties to accessor properties
