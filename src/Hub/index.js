@@ -27,6 +27,7 @@ class Hub {
 			//val->this.vm[this.prop]
 			fn(this.vm[this.prop], this.val)
 		})
+		this.val=this.vm[this.prop]
 	}
 }
 //使用Object 比array在取值赋值时候，节省代码遍历。
