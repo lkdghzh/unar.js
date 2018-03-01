@@ -2,16 +2,7 @@ import Register from "../Bll/register"
 import {hubs} from "../Hub"
 export const proxy = (data, vm) => {
 	Object.keys(data).forEach(key => {
-		Object.defineProperty(vm, key, {
-			configurable: false,
-			enumerable: true,
-			get() {
-				return data[key]
-			},
-			set(newVal) {
-				data[key] = newVal
-			}
-		})
+	
 		//Data properties->data[key]
 		//it's cached,data[key] can replaced by vm._data[key],vm.$options.data,o.data 
 		var valCache = data[key]
@@ -31,6 +22,20 @@ export const proxy = (data, vm) => {
 				valCache = newVal
 				//set value first,then notify dom update with newVal
 				hubs[key].notify()
+			}
+		})
+
+		Object.defineProperty(vm, key, {
+			configurable: false,
+			enumerable: true,
+			get() {
+				//it can replaced by this._data[key],this.$options.data[key] ,o.data[key]
+				//not allow valCache
+				//this will call get above
+				return data[key]
+			},
+			set(newVal) {
+				data[key] = newVal
 			}
 		})
 	})
