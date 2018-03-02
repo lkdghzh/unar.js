@@ -16,7 +16,16 @@ export const proxy = (data, vm) => {
 				//vm._data[key],vm.$options.data[key],data[key]
 				//maximum call stack size exceeded
 				// debugger
-				// Register.registListener4Hubs(key, cb, vm)
+				
+				// for( let cKey  in vm.computeds){
+				// 	Register.registListener4Hubs(key, vm.computeds[cKey], vm)
+				// 	debugger
+				// }
+
+				//是computeds属性对应函数调用的时候
+
+				
+
 				// debugger
 				return valCache
 			},

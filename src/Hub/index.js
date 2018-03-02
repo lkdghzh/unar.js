@@ -15,6 +15,10 @@ class Hub {
 		this.val = vm[prop]
 		this.vm = vm
 		this.listeners = []
+		// debugger
+		// for(let [,c] of Object.entries(vm.computeds)){
+		// 	this.addListener(c.bind(vm))
+		// }
 		this.addListener(cb)
 	}
 	addListener(cb) {
@@ -27,6 +31,7 @@ class Hub {
 			//val->this.vm[this.prop]
 			fn(this.vm[this.prop], this.val)
 		})
+		//update val to oldVal
 		this.val=this.vm[this.prop]
 	}
 }
