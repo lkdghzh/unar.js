@@ -15,6 +15,9 @@ export const proxy = (data, vm) => {
 			get() {
 				//vm._data[key],vm.$options.data[key],data[key]
 				//maximum call stack size exceeded
+				// debugger
+				// Register.registListener4Hubs(key, cb, vm)
+				// debugger
 				return valCache
 			},
 			set(newVal) {
