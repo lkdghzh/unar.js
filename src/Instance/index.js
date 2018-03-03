@@ -33,6 +33,7 @@ class Unar {
 		this.watchers = watchers
 		watch(this.watchers,this)
 
+		// if the template does not define the properties of the data, it will not subscribe to the hubs inside the event
 		//compile fragment
 		new Templater(el, this)
 	}
