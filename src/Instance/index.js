@@ -27,13 +27,14 @@ class Unar {
 		this.computeds=computeds
 		compute(this.computeds,this)
 		
-		console.log(this)
-		debugger
+		//console.log(this)
 		//add watchers properties to this
 		this.watchers = watchers
 		watch(this.watchers,this)
 
-		// if the template does not define the properties of the data, it will not subscribe to the hubs inside the event
+		// if the template does not define the properties of the data,
+		// it will not subscribe to the hubs inside the event
+
 		//compile fragment
 		new Templater(el, this)
 	}

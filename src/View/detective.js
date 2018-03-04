@@ -1,7 +1,8 @@
 /**
  * Detictive
- * 静态方法包含this关键字，这个this指的是类
  */
+//The static method contains the `this` keyword, which refers to the class, 
+//not an instance of the class.
 import config from "../Config"
 import Register from "../Bll/register"
 
@@ -14,7 +15,7 @@ export default class Detictive {
 	}
 	// {{}}&&text
 	static ["text"](node, key, vm) {
-		debugger
+		
 		Register.registDomListener4Hubs("text", node, key, vm)
 	}
 	// , vm

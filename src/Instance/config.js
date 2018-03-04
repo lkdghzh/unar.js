@@ -4,7 +4,6 @@ import propType from "../Bll/propType"
 import { hubs } from "../Hub"
 export const proxy = (data, vm) => {
 	Object.keys(data).forEach(key => {
-
 		//Data properties->data[key]
 		//it's cached,data[key] can replaced by vm._data[key],vm.$options.data,o.data 
 		var valCache = data[key]
@@ -17,19 +16,19 @@ export const proxy = (data, vm) => {
 			get() {
 				//vm._data[key],vm.$options.data[key],data[key]
 				//maximum call stack size exceeded
-				// debugger
 
-				// for( let cKey  in vm.computeds){
-				// 	Register.registListener4Hubs(key, vm.computeds[cKey], vm)
-				// 	debugger
-				// }
-
-				//是computeds属性对应函数调用的时候
-				console.log(propType.current ?propType.current+',key:'+key:key)
-				return propType.current ? Register.registListener4Hubs(key, vm.computeds[propType.current], vm) : valCache
+				//computeds
+				var currentComputedType=propType.switch
+				if(currentComputedType){
+					var cfn=function(){
+						propType[currentComputedType]()
+						vm.computeds[currentComputedType]()
+					}
+					Register.registListener4Hubs(key, cfn, vm)
+				}
+				return valCache
 			},
 			set(newVal) {
-				//console.log(key)
 				valCache = newVal
 				//set value first,then notify dom update with newVal
 				hubs[key].notify()

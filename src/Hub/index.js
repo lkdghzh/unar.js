@@ -25,13 +25,13 @@ class Hub {
 		this.listeners.forEach((fn) => {
 			//oldVal->this.val
 			//val->this.vm[this.prop]
-			fn(this.vm[this.prop], this.val)
+			fn.call(this.vm,this.vm[this.prop], this.val)
 		})
 		//update val to oldVal
 		this.val=this.vm[this.prop]
 	}
 }
-//使用Object 比array在取值赋值时候，节省代码遍历。
+//Object is more convenient than array when retrievalling and assigning value。
 export {
 	hubs,
 	Hub

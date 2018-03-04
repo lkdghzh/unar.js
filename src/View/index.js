@@ -70,7 +70,7 @@ export default class Templater {
 			if (Attr.isExpression(node.data)) {
 				// preText,nextText
 				const [, , keyText, ] = Attr.expressionKey(node.data)
-				debugger
+				
 				Detective['text'](node, keyText, this.vm)
 				//continue
 			}

@@ -7,19 +7,37 @@ import {
 } from "../Hub"
 export default class Register {
 	static registDomListener4Hubs(detictive, node, key, vm) {
-		const cb = (val, oldVal) => {
-			DomFn[detictive](node, val, oldVal)
-		}
 		if (vm.computeds[key]) {
-			propType.current = key
-			cb(vm[key])
-			propType.current = undefined
+			propType.switch = key
+			var cpd = ()=>{
+				DomFn[detictive](node, vm[key])
+			}
+			propType[key]=cpd
+			cpd()
+			propType.switch = undefined
 		} else {
+			var cb = (val, oldVal) => {
+				DomFn[detictive](node, val, oldVal)
+			}
 			cb(vm[key])
 			this.registListener4Hubs(key, cb, vm)
 		}
 	}
 	static registListener4Hubs(key, cb, vm) {
-		hubs[key] ? hubs[key].listeners.push(cb) : (hubs[key] = new Hub(key, cb, vm))
+		if (hubs[key]) {
+			//computed
+			if (propType.switch) {
+				var containComputed = hubs[key].listeners.some(fn =>  fn.name === 'cfn')
+				if (!containComputed) {
+					hubs[key].listeners.push(cb)
+				}
+			}
+			//data
+			else if (!propType.switch) {
+				hubs[key].listeners.push(cb)
+			}
+		} else {
+			hubs[key] = new Hub(key, cb, vm)
+		}
 	}
 }
