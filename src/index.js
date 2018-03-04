@@ -18,6 +18,9 @@ window.app = new Unar({
 		},
 		d(){
 			return this.a+this.b
+		},
+		e(){
+			return this.b
 		}
 	},
 	watchers: {
