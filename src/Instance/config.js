@@ -22,7 +22,7 @@ export const proxy = (data, vm) => {
 				if(currentComputedType){
 					var cfn=function(){
 						propType[currentComputedType]()
-						vm.computeds[currentComputedType]()
+						vm.computeds[currentComputedType.substring(0,currentComputedType.length-1)]()
 					}
 					Register.registListener4Hubs(key, cfn, vm)
 				}

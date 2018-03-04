@@ -15,6 +15,9 @@ window.app = new Unar({
 	computeds:{
 		c(){
 			return this.a+this.b
+		},
+		d(){
+			return this.a+this.b
 		}
 	},
 	watchers: {

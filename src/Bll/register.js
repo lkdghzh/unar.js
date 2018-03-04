@@ -5,16 +5,17 @@ import {
 	hubs,
 	Hub
 } from "../Hub"
+var count = 0
 export default class Register {
 	static registDomListener4Hubs(detictive, node, key, vm) {
 		if (vm.computeds[key]) {
-			propType.switch = key
-			var cpd = ()=>{
+			//count several nodes ->samecomputed prop
+			propType.switch = key + ++count
+			var cpd = () => {
 				DomFn[detictive](node, vm[key])
 			}
-			propType[key]=cpd
+			propType[key + count] = cpd
 			cpd()
-			propType.switch = undefined
 		} else {
 			var cb = (val, oldVal) => {
 				DomFn[detictive](node, val, oldVal)
@@ -24,20 +25,6 @@ export default class Register {
 		}
 	}
 	static registListener4Hubs(key, cb, vm) {
-		if (hubs[key]) {
-			//computed
-			if (propType.switch) {
-				var containComputed = hubs[key].listeners.some(fn =>  fn.name === 'cfn')
-				if (!containComputed) {
-					hubs[key].listeners.push(cb)
-				}
-			}
-			//data
-			else if (!propType.switch) {
-				hubs[key].listeners.push(cb)
-			}
-		} else {
-			hubs[key] = new Hub(key, cb, vm)
-		}
+		hubs[key] ? hubs[key].listeners.push(cb) : (hubs[key] = new Hub(key, cb, vm))
 	}
 }
