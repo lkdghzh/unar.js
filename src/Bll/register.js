@@ -11,11 +11,11 @@ export default class Register {
 		if (vm.computeds[key]) {
 			//count several nodes ->samecomputed prop
 			propType.switch = key + ++count
-			var cpd = () => {
+			var ccb = () => {
 				DomFn[detictive](node, vm[key])
 			}
-			propType[key + count] = cpd
-			cpd()
+			propType[key + count] = ccb
+			ccb()
 		} else {
 			var cb = (val, oldVal) => {
 				DomFn[detictive](node, val, oldVal)
