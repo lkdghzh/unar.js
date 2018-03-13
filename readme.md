@@ -7,7 +7,7 @@
 + 2018/04/16之前，for if 杂项绑定
 + 2018/04/23之前，监测对象
 + 2018/04/30之前，监测对象检测数组
-+ 45天,中间可能牵涉大变革 vdom life 尽量不要插入
++ 45天,中间可能牵涉大变革 vdom ,life, ts 尽量不要插入
 
 
 babel "preset-stage-2" only transform static prop
