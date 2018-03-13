@@ -1,5 +1,15 @@
  
  
+# PLAN
++ 2018/03/26之前，实现指令可配置参数
++ 2018/04/02之前，computeds 增加 set-hook
++ 2018/04/09之前，html css show杂项绑定
++ 2018/04/16之前，for if 杂项绑定
++ 2018/04/23之前，监测对象
++ 2018/04/30之前，监测对象检测数组
++ 45天,中间可能牵涉大变革 vdom life 尽量不要插入
+
+
 babel "preset-stage-2" only transform static prop
 # 1,virtual dom
 - fragment
