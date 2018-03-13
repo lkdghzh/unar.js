@@ -1,11 +1,12 @@
-import C from './index.js'
-console.log(C)
+// import C from './index.js'
+// console.log(C)
 
 export var a = "1"
 
-class b {
+class C {
+	static staticProp=[]
 	constructor() {
 		this.props = '2'
 	}
 }
-export default b
+export default C
