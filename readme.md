@@ -1,13 +1,26 @@
  
  
 # PLAN
-+ 2018/03/26之前，实现指令可配置参数
-+ 2018/04/02之前，computeds 增加 set-hook
-+ 2018/04/09之前，html css show杂项绑定
-+ 2018/04/16之前，for if 杂项绑定
-+ 2018/04/23之前，监测对象
-+ 2018/04/30之前，检测数组
-+ 45天,中间可能牵涉大变革 vdom ,life, ts 尽量不要插入
+> :heavy_exclamation_mark: 45天,中间可能牵涉大变革 vdom ,life, ts 尽量不要插入
+
+order | task | status
+----  |----  | ---- 
+2018/03/26  |实现指令可配置参数 | :heavy_check_mark:
+2018/04/02  | computeds 增加 set-hook  | :hearts: 
+2018/04/09  | html css show杂项绑定  | :hearts: 
+2018/04/16  | for if 杂项绑定  | :hearts: 
+2018/04/23  | 监测对象  | :hearts: 
+2018/04/30 | 检测数组  | :hearts: 
+
+
+
++ 之前，
++ 之前，
++ 之前，
++ 之前，
++ 之前，
++ 之前，
+
 
 
 babel "preset-stage-2" only transform static prop
