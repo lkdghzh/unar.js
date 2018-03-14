@@ -1,7 +1,12 @@
 import Register from "../Bll/register"
 import propType from "../Bll/propType"
-
-import { hubs } from "../Hub"
+import defaultConfigs from "../Config"
+import {
+	hubs
+} from "../Hub"
+export const config = (configs, vm) => {
+	vm.configs = Object.assign(defaultConfigs, configs)
+}
 export const proxy = (data, vm) => {
 	Object.keys(data).forEach(key => {
 		//Data properties->data[key]
@@ -18,11 +23,11 @@ export const proxy = (data, vm) => {
 				//maximum call stack size exceeded
 
 				//computeds
-				var currentComputedType=propType.switch
-				if(currentComputedType){
-					var cfn=function(){
+				var currentComputedType = propType.switch
+				if (currentComputedType) {
+					var cfn = function () {
 						propType[currentComputedType]()
-						vm.computeds[currentComputedType.substring(0,currentComputedType.length-1)]()
+						vm.computeds[currentComputedType.substring(0, currentComputedType.length - 1)]()
 					}
 					Register.registListener4Hubs(key, cfn, vm)
 				}
@@ -72,7 +77,7 @@ export const compute = (computeds, vm) => {
 			configurable: false,
 			enumerable: true,
 			get: fn,
-			set: function () { }
+			set: function () {}
 		})
 	}
 }

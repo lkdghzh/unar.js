@@ -2,35 +2,44 @@
  * Unar
  */
 
-import {proxy,watch,compute} from "./config"
+import {
+	config,
+	proxy,
+	watch,
+	compute
+} from "./config"
 import Templater from "../View/index.js"
 class Unar {
 	// static hubs = []
 	constructor({
 		el = '',
 		data = {},
-		computeds={},
+		computeds = {},
 		methods = {},
-		watchers = {}
+		watchers = {},
+		configs
 	}) {
 		this.methods = methods
-		//this.$options = {}
 
+		//we can config the dom detective about actions props event
+		config(configs,this)
+
+		//this.$options = {}
 		//this add keys(_data、$options )
 		//var data = this._data = this.$options.data = data
 
 		//hijack properties
 		//change data properties to accessor properties
-		proxy(data,this)
+		proxy(data, this)
 
 		//add computed properties to this
-		this.computeds=computeds
-		compute(this.computeds,this)
-		
+		this.computeds = computeds
+		compute(this.computeds, this)
+
 		//console.log(this)
 		//add watchers properties to this
 		this.watchers = watchers
-		watch(this.watchers,this)
+		watch(this.watchers, this)
 
 		// if the template does not define the properties of the data,
 		// it will not subscribe to the hubs inside the event

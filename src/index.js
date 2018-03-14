@@ -25,8 +25,12 @@ window.app = new Unar({
 	},
 	watchers: {
 		a: function (val, old) {
-			debugger
 			console.log(`a->haschanged,${old}-->${val}`)
 		}
+	},
+	configs:{
+		actionPrefix: "u-",
+		attrPrefix: ":",
+		evtPrefix: "@"
 	}
 })

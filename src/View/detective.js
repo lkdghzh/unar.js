@@ -1,13 +1,9 @@
 /**
  * Detictive
  */
-//The static method contains the `this` keyword, which refers to the class, 
-//not an instance of the class.
-import config from "../Config"
 import Register from "../Bll/register"
-
 export default class Detictive {
-	static [config.actionPrefix + "-model"](node, key, vm) {
+	static ["model"](node, key, vm) {
 		Register.registDomListener4Hubs("model", node, key, vm)
 		node.addEventListener('input', e => {
 			vm[key] = e.target.value
@@ -19,7 +15,7 @@ export default class Detictive {
 		Register.registDomListener4Hubs("text", node, key, vm)
 	}
 	// , vm
-	static [config.actionPrefix + "-html"](node, html) {
+	static ["html"](node, html) {
 		Register.registDomListener4Hubs("html", node, html)
 	}
 	//:
