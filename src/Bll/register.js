@@ -10,16 +10,18 @@ export default class Register {
 	static registDomListener4Hubs(detictive, node, key, vm) {
 		if (vm.computeds[key]) {
 			//count several nodes ->samecomputed prop
-			propType.switch = key + ++count
+			propType.switch = key + '_-_' + ++count
 			var ccb = () => {
 				DomFn[detictive](node, vm[key])
 			}
-			propType[key + count] = ccb
+			propType[key + '_-_' + count] = ccb
 			ccb()
+			propType.switch = undefined
 		} else {
 			var cb = (val, oldVal) => {
 				DomFn[detictive](node, val, oldVal)
 			}
+			console.log(`初始化页面，${key}`)
 			cb(vm[key])
 			this.registListener4Hubs(key, cb, vm)
 		}

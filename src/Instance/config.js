@@ -2,6 +2,10 @@ import Register from "../Bll/register"
 import propType from "../Bll/propType"
 import defaultConfigs from "../Config"
 import {
+	typeOf
+} from "../Utils"
+
+import {
 	hubs
 } from "../Hub"
 export const config = (configs, vm) => {
@@ -23,11 +27,20 @@ export const proxy = (data, vm) => {
 				//maximum call stack size exceeded
 
 				//computeds
-				var currentComputedType = propType.switch
-				if (currentComputedType) {
+				console.log(key)
+
+				if (propType.switch) {
+					var currentComputedType = propType.switch
+					console.log(`↑  computed->ccb run,${propType.switch}用到了${key}，向${key}注册${propType.switch}函数`)
 					var cfn = function () {
+						//node fn
 						propType[currentComputedType]()
-						vm.computeds[currentComputedType.substring(0, currentComputedType.length - 1)]()
+						var ckey = currentComputedType.split('_-_')[0]
+						console.log(`----------${currentComputedType},${ckey}-----------`)
+						//pure computed fn
+						typeOf(vm.computeds[ckey]) === "function" ?
+							vm.computeds[ckey].call(vm) : typeOf(vm.computeds[ckey]) === "object" ?
+							vm.computeds[ckey].get.call(vm) : ""
 					}
 					Register.registListener4Hubs(key, cfn, vm)
 				}
@@ -72,12 +85,12 @@ export const compute = (computeds, vm) => {
 		Object.getOwnPropertyDescriptor(o,'a')
 		{get: ƒ, set: ƒ, enumerable: false, configurable: false}
 	 */
-	for (let [key, fn] of Object.entries(computeds)) {
+	for (let [key, target] of Object.entries(computeds)) {
 		Object.defineProperty(vm, key, {
 			configurable: false,
 			enumerable: true,
-			get: fn,
-			set: function () {}
+			get: typeOf(target) === "function" ? target : typeOf(target) === "object" ? target.get : function () {},
+			set: typeOf(target) === "object" ? target.set : function () {}
 		})
 	}
 }

@@ -12,6 +12,7 @@ class Hub {
 	constructor(prop, cb, vm) {
 		this.id = ++id
 		this.prop = prop
+		console.log(`↓  get -->${prop},new hub`)
 		this.val = vm[prop]
 		this.vm = vm
 		this.listeners = []

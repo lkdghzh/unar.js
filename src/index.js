@@ -12,15 +12,26 @@ window.app = new Unar({
 			console.log(this.a)
 		}
 	},
-	computeds:{
-		c(){
-			return this.a+this.b
+	computeds: {
+		c() {
+			debugger
+			return this.a + this.b
 		},
-		d(){
-			return this.a+this.b
+		d() {
+			debugger
+			return this.a + this.b
 		},
-		e(){
+		e() {
+			debugger
 			return this.b
+		},
+		f: {
+			get() {
+				return this.a + this.b
+			},
+			set() {
+				console.log('f')
+			}
 		}
 	},
 	watchers: {
@@ -28,7 +39,7 @@ window.app = new Unar({
 			console.log(`a->haschanged,${old}-->${val}`)
 		}
 	},
-	configs:{
+	configs: {
 		actionPrefix: "u-",
 		attrPrefix: ":",
 		evtPrefix: "@"
