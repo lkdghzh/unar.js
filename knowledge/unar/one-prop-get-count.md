@@ -11,12 +11,13 @@ new Unar({
     }
 })
 ```
-## three get ways 
+## four get ways 
 
 ``` 
      |--- watch -->new Hub 
-     |--- cb(vm[a])  init view()
-     |--- register
+     |--- cb(vm[a])  init view()  
+     |--- register -->new Hub
+     |--- ccb push Hub
 ```
 
 
