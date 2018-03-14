@@ -5,43 +5,38 @@
 
 order | task | status
 ----  |----  | ---- 
-2018/03/26  |实现指令可配置参数 | :heavy_check_mark:
-2018/04/02  | computeds 增加 set-hook  | :hearts: 
-2018/04/09  | html css show杂项绑定  | :hearts: 
-2018/04/16  | for if 杂项绑定  | :hearts: 
-2018/04/23  | 监测对象  | :hearts: 
-2018/04/30 | 检测数组  | :hearts: 
-
-
-
-+ 之前，
-+ 之前，
-+ 之前，
-+ 之前，
-+ 之前，
-+ 之前，
-
-
-
-babel "preset-stage-2" only transform static prop
-# 1,virtual dom
+2017-2018-03 | mvvm<->two-ways | :heavy_check_mark:
+2017-2018-03 | watchs | :heavy_check_mark:
+2017-2018-03 | computeds | :heavy_check_mark:
+2018/03/26  | configs | :heavy_check_mark:
+2018/04/02  | computeds ->set-hook  | :hearts: 
+2018/04/09  | html css show  | :hearts: 
+2018/04/16  | for if ..  | :hearts: 
+2018/04/23  | observe Object  | :hearts: 
+2018/04/30 | observe Array  | :hearts: 
+# Knowledge
++ babel "preset-stage-2" only transform static prop
+# virtual dom
 - fragment
 - create-virtual-dom
 - dom-diff
 - real-dom-patch
 - life-cycle
-# 2,your own configuration(config)
-    Unar.global={
-        actionPrefix:"u",
-        attrPrefix:":",
-        evtPrefix:"@",
-    }
+# your own configuration(config)
+    new Unar({
+        ...
+        config:{
+            actionPrefix: "u-",
+            attrPrefix: ":",
+            evtPrefix: "@"
+        }
+    })
     file-suffix:'uar'
 
-# 3,parcel
+# parcel
 + npm install -g parcel-bundler
 + npm run dev:parcel
-# 4,webpack
+# webpack
 ## 1,run dev example
 + npm i
 + npm run dev
@@ -60,4 +55,4 @@ babel "preset-stage-2" only transform static prop
 # 5,ts
 # 6,rollup打包
     1,scripts--config.js
-# 7,数据代理、层级代理
+
