@@ -6,7 +6,7 @@
 order | task | status
 ----  |----  | ---- 
 2017-2018-03 | mvvm<->two-ways | :heavy_check_mark:
-2017-2018-03 | watchs | :heavy_check_mark:
+2017-2018-03 | watchers | :heavy_check_mark:
 2017-2018-03 | computeds | :heavy_check_mark:
 2018/03/26  | configs | :heavy_check_mark:
 2018/04/02  | computeds ->set-hook  | :hearts: 
