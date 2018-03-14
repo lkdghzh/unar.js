@@ -17,7 +17,7 @@ new Unar({
      |--- watch -->new Hub 
      |--- cb(vm[a])  init view()  
      |--- register -->new Hub
-     |--- ccb push Hub
+     |--- ccb init view() push Hub
 ```
 
 
