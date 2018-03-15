@@ -35,7 +35,6 @@ export default class Templater {
 	}
 	initAttrEvt(node) {
 		if (node.nodeType === 1) {
-			
 			//node.attributes
 			for (let attr of node.attributes) {
 				const preProp = attr.nodeName
