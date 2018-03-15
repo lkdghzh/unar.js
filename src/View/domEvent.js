@@ -2,21 +2,10 @@
  * DomEvent
  */
 export default class DomEvent {
-	static model(node, val, oldValue) {
+	static bind(node, prop, val, oldValue) {
 		if (val !== oldValue) {
-			node.value = val
+			node[prop] = val
 		}
-	}
-	static text(node, text, oldTxt) {
-		if (text !== oldTxt) {
-			node.textContent = text
-		}
-	}
-	static html(node, html) {
-		node.innerHTML = html
-	}
-	static bind(node, attrName, attrVal) {
-		node[attrName.substr(config.attrPrefix.length, attrName.length)] = attrVal
 	}
 	static addEvt(node, name, fn) {
 		node.addEventListener(name, fn, false)

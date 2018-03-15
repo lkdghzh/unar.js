@@ -7,19 +7,19 @@ import {
 } from "../Hub"
 var count = 0
 export default class Register {
-	static registDomListener4Hubs(detictive, node, key, vm) {
+	static registDomListener4Hubs(node, prop,key, vm) {
 		if (vm.computeds[key]) {
 			//count several nodes ->samecomputed prop
 			propType.switch = key + '_-_' + ++count
 			var ccb = () => {
-				DomFn[detictive](node, vm[key])
+				DomFn.bind(node,prop, vm[key])
 			}
 			propType[key + '_-_' + count] = ccb
 			ccb()
 			propType.switch = undefined
 		} else {
 			var cb = (val, oldVal) => {
-				DomFn[detictive](node, val, oldVal)
+				DomFn.bind(node,prop, val, oldVal)
 			}
 			console.log(`初始化页面，${key}`)
 			cb(vm[key])

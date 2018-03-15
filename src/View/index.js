@@ -37,23 +37,24 @@ export default class Templater {
 		if (node.nodeType === 1) {
 			//node.attributes
 			for (let attr of node.attributes) {
-				const name = attr.nodeName
+				const preProp = attr.nodeName
 				const key = attr.nodeValue
 				//u-html u-model
-				if (Attr.isdetec(name, this.vm.configs.actionPrefix)) {
-					const detec = name.substring(this.vm.configs.actionPrefix.length)
-					Detective[detec](node, key, this.vm)
+				if (Attr.isdetec(preProp, this.vm.configs.actionPrefix)) {
+					const prop = preProp.substring(this.vm.configs.actionPrefix.length)
+					Detective[prop](node, key, this.vm)
 					continue
 				}
 				//:id
-				// if (Attr.isProp(detecAll)) {
-				//     Detective.bind(node, detec, key, this.vm)
-				//     continue
-				// }
+				if (Attr.isdetec(preProp,this.vm.configs.attrPrefix)) {
+					const prop = preProp.substring(this.vm.configs.attrPrefix.length)
+				    Detective.bind(node, prop, key, this.vm)
+				    continue
+				}
 				//@click
-				if (Attr.isdetec(name,this.vm.configs.evtPrefix)) {
-					const detec = name.substring(this.vm.configs.evtPrefix.length)
-				    Detective.addEvt(node, detec, key,this.vm)
+				if (Attr.isdetec(preProp,this.vm.configs.evtPrefix)) {
+					const prop = preProp.substring(this.vm.configs.evtPrefix.length)
+				    Detective.addEvt(node, prop, key,this.vm)
 				    continue
 				}
 			}
