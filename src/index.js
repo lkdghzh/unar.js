@@ -10,19 +10,25 @@ window.app = new Unar({
 	methods: {
 		fn() {
 			console.log(this.a)
+		},
+		fn2: function () {
+			console.log(this.b)
+		},
+		over() {
+			console.log('enter')
+		},
+		out() {
+			console.log('out')
 		}
 	},
 	computeds: {
 		c() {
-			debugger
 			return this.a + this.b
 		},
 		d() {
-			debugger
 			return this.a + this.b
 		},
 		e() {
-			debugger
 			return this.b
 		},
 		f: {
