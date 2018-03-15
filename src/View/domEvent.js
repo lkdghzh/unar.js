@@ -18,7 +18,7 @@ export default class DomEvent {
 	static bind(node, attrName, attrVal) {
 		node[attrName.substr(config.attrPrefix.length, attrName.length)] = attrVal
 	}
-	static addEvt(node, evtName, fn) {
-		node.addEventListener(evtName, fn, false)
+	static addEvt(node, name, fn) {
+		node.addEventListener(name, fn, false)
 	}
 }

@@ -51,10 +51,11 @@ export default class Templater {
 				//     continue
 				// }
 				//@click
-				// if (Attr.isEvt(detecAll)) {
-				//     Detective.addEvt.call(this.vm, node, detec, key)
-				//     continue
-				// }
+				if (Attr.isdetec(name,this.vm.configs.evtPrefix)) {
+					const detec = name.substring(this.vm.configs.evtPrefix.length)
+				    Detective.addEvt(node, detec, key,this.vm)
+				    continue
+				}
 			}
 			node.childNodes.forEach((childNode) => {
 				this.initAttrEvt(childNode)
