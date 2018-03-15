@@ -8,8 +8,8 @@ order | task | status
 2017-2018-03 | mvvm<->two-ways | :heavy_check_mark:
 2017-2018-03 | watchers | :heavy_check_mark:
 2017-2018-03 | computeds | :heavy_check_mark:
-2018/03/13  | configs | :heavy_check_mark:
-2018/03/14  | computeds ->set-hook  | :heavy_check_mark:
+2018-03-13  | configs | :heavy_check_mark:
+2018-03-14  | computeds ->set-hook  | :heavy_check_mark:
 2018/04/09  | html css show  | :hearts: 
 2018/04/16  | for if ..  | :hearts: 
 2018/04/23  | observe Object  | :hearts: 
