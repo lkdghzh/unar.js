@@ -12,8 +12,6 @@ export default class Attr {
 		var detec
 		for (let prefix in configs) {
 			if (preDetec.startsWith(configs[prefix])) {
-                console.log(preDetec.substring(0, configs[prefix].length),preDetec.substring(configs[prefix].length))
-                debugger
 				detec = {
 					detectype: preDetec.substring(0, configs[prefix].length),
 					detec: preDetec.substring(configs[prefix].length)
