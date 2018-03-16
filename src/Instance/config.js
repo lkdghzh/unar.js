@@ -35,7 +35,7 @@ export const proxy = (data, vm) => {
 					var cfn = function () {
 						//node fn
 						propType[currentComputedType]()
-						var ckey = currentComputedType.split('_-_')[0]
+						var ckey = currentComputedType.split('$')[0]
 						console.log(`----------${currentComputedType},${ckey}-----------`)
 						//pure computed fn
 						typeOf(vm.computeds[ckey]) === "function" ?

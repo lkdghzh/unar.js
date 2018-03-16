@@ -5,21 +5,21 @@ import {
 	hubs,
 	Hub
 } from "../Hub"
-var count = 0
+let count = 0
 export default class Register {
-	static registDomListener4Hubs(node, prop,key, vm) {
+	static registDomListener4Hubs(node, prop, key, vm, preTxt, nxtTxt) {
 		if (vm.computeds[key]) {
-			//count several nodes ->samecomputed prop
-			propType.switch = key + '_-_' + ++count
-			var ccb = () => {
-				DomFn.bind(node,prop, vm[key])
+			//count several nodes ->same computed prop
+			propType.switch = key + '$' + ++count
+			const ccb = () => {
+				DomFn.bind(node, prop, preTxt + vm[key] + nxtTxt)
 			}
-			propType[key + '_-_' + count] = ccb
+			propType[key + '$' + count] = ccb
 			ccb()
 			propType.switch = undefined
 		} else {
-			var cb = (val, oldVal) => {
-				DomFn.bind(node,prop, val, oldVal)
+			const cb = (val, oldVal) => {
+				DomFn.bind(node, prop, preTxt + val + nxtTxt, preTxt + oldVal + nxtTxt)
 			}
 			console.log(`初始化页面，${key}`)
 			cb(vm[key])

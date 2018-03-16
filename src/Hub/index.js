@@ -21,15 +21,17 @@ class Hub {
 	addListener(cb) {
 		this.listeners.push(cb)
 	}
-	deleteListener() {}
+	deleteListener(inx) {
+		this.listeners.splice(inx, 1)
+	}
 	notify() {
 		this.listeners.forEach((fn) => {
 			//oldVal->this.val
 			//val->this.vm[this.prop]
-			fn.call(this.vm,this.vm[this.prop], this.val)
+			fn.call(this.vm, this.vm[this.prop], this.val)
 		})
 		//update val to oldVal
-		this.val=this.vm[this.prop]
+		this.val = this.vm[this.prop]
 	}
 }
 //Object is more convenient than array when retrievalling and assigning value。

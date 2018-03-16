@@ -7,7 +7,7 @@ export default class DomEvent {
 			node[prop] = val
 		}
 	}
-	static addEvt(node, name, fn) {
-		node.addEventListener(name, fn, false)
+	static addEvt(node, evt, fn) {
+		node.addEventListener(evt, fn, false)
 	}
 }

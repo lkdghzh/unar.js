@@ -59,7 +59,6 @@ export default class Templater {
 						Detective.addEvt(node, prop, key, this.vm)
 					} else {
 						//u-html u-model
-						//{{}} text
 						//:id
 						Detective.bind(node, prop, key, this.vm)
 					}
@@ -70,13 +69,13 @@ export default class Templater {
 			node.childNodes.forEach((childNode) => {
 				this.initAttrEvt(childNode)
 			})
+			return
 		}
-		//text with {{}}
 		if (node.nodeType === 3) {
 			if (Attr.isExpression(node.data)) {
-				// preText,nextText
-				const [, , keyText, ] = Attr.expressionKey(node.data)
-				Detective['text'](node, keyText, this.vm)
+				//text with {{}}
+				const [, preTxt, key, nxtTxt] = Attr.expressionKey(node.data)
+				Detective.bind(node, props.text, key, this.vm, preTxt, nxtTxt)
 			}
 		}
 

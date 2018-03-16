@@ -5,9 +5,6 @@ export default class Attr {
 	static expressionKey(txt) {
 		return txt.match(/(.*)\{\{(.*)\}\}(.*)/)
 	}
-	static isdetec(name, prefix) {
-		return name.startsWith(prefix)
-	}
 	static isRightDetec(preDetec, configs) {
 		var detec
 		for (let prefix in configs) {
