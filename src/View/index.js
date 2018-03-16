@@ -34,29 +34,38 @@ export default class Templater {
 		}
 	}
 	initAttrEvt(node) {
+		const props = {
+			model: 'value',
+			text: 'textContent',
+			html: 'innerHTML'
+		}
 		if (node.nodeType === 1) {
 			//node.attributes
 			for (let attr of node.attributes) {
 				const preProp = attr.nodeName
 				const key = attr.nodeValue
-				//u-html u-model
-				if (Attr.isdetec(preProp, this.vm.configs.actionPrefix)) {
-					const prop = preProp.substring(this.vm.configs.actionPrefix.length)
-					Detective[prop](node, key, this.vm)
+				const result = Attr.isRightDetec(preProp, this.vm.configs)
+				const {
+					detectype,
+					detec
+				} = result ? result : {
+					detectype: undefined,
+					detec: undefined
+				}
+				if (detec) {
+					const prop = props[detec] ? props[detec] : detec
+					if (detectype === this.vm.configs.evtPrefix) {
+						//@click
+						Detective.addEvt(node, prop, key, this.vm)
+					} else {
+						//u-html u-model
+						//{{}} text
+						//:id
+						Detective.bind(node, prop, key, this.vm)
+					}
 					continue
 				}
-				//:id
-				if (Attr.isdetec(preProp,this.vm.configs.attrPrefix)) {
-					const prop = preProp.substring(this.vm.configs.attrPrefix.length)
-				    Detective.bind(node, prop, key, this.vm)
-				    continue
-				}
-				//@click
-				if (Attr.isdetec(preProp,this.vm.configs.evtPrefix)) {
-					const prop = preProp.substring(this.vm.configs.evtPrefix.length)
-				    Detective.addEvt(node, prop, key,this.vm)
-				    continue
-				}
+				//node.removeAttribute(preProp)
 			}
 			node.childNodes.forEach((childNode) => {
 				this.initAttrEvt(childNode)
@@ -68,7 +77,6 @@ export default class Templater {
 				// preText,nextText
 				const [, , keyText, ] = Attr.expressionKey(node.data)
 				Detective['text'](node, keyText, this.vm)
-				//continue
 			}
 		}
 
