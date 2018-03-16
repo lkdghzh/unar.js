@@ -42,17 +42,19 @@ export default class Templater {
 		if (node.nodeType === 1) {
 			//node.attributes
 			for (let attr of node.attributes) {
-				const preProp = attr.nodeName
+				const detective = attr.nodeName
 				const key = attr.nodeValue
-				const result = Attr.isRightDetec(preProp, this.vm.configs)
+				const detecInfo = Attr.isRightDetec(detective, this.vm.configs)
 				const {
 					detectype,
 					detec
-				} = result ? result : {
+				} = detecInfo ? detecInfo : {
 					detectype: undefined,
 					detec: undefined
 				}
 				if (detec) {
+					console.log(`移除了${detective}----------------------------`)
+					//node.removeAttribute(detective)
 					const prop = props[detec] ? props[detec] : detec
 					if (detectype === this.vm.configs.evtPrefix) {
 						//@click
@@ -62,9 +64,9 @@ export default class Templater {
 						//:id
 						Detective.bind(node, prop, key, this.vm)
 					}
+					
 					continue
 				}
-				//node.removeAttribute(preProp)
 			}
 			node.childNodes.forEach((childNode) => {
 				this.initAttrEvt(childNode)

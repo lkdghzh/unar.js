@@ -5,13 +5,13 @@ export default class Attr {
 	static expressionKey(txt) {
 		return txt.match(/(.*)\{\{(.*)\}\}(.*)/)
 	}
-	static isRightDetec(preDetec, configs) {
+	static isRightDetec(detective, configs) {
 		var detec
 		for (let prefix in configs) {
-			if (preDetec.startsWith(configs[prefix])) {
+			if (detective.startsWith(configs[prefix])) {
 				detec = {
-					detectype: preDetec.substring(0, configs[prefix].length),
-					detec: preDetec.substring(configs[prefix].length)
+					detectype: detective.substring(0, configs[prefix].length),
+					detec: detective.substring(configs[prefix].length)
 				}
 				break
 			}
