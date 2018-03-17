@@ -10,9 +10,9 @@ order | task | status
 2017-2018-03 | computeds | :heavy_check_mark:
 2018-03-13  | configs | :heavy_check_mark:
 2018-03-14  | computeds ->set-hook  | :heavy_check_mark:
-2018-03-17  | model, : ,html {{}}, @  | :heavy_check_mark: 
-2018-03-25  | style class show  | :hearts: 
-2018/04/16  | for of ,if else  | :hearts: 
+2018-03-17  | model, :(style class selfattr) ,html {{}}, @  | :heavy_check_mark: 
+2018-03-25  | show  | :hearts: 
+2018/04/16  | for of ,if else elseif | :hearts: 
 2018/04/23  | observe Object  | :hearts: 
 2018/04/30 | observe Array  | :hearts: 
 # Knowledge
