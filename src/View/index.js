@@ -35,9 +35,10 @@ export default class Templater {
 	}
 	initAttrEvt(node) {
 		const props = {
-			model: 'value',
-			text: 'textContent',
-			html: 'innerHTML'
+			model: 'value',//v-model
+			html: 'innerHTML',//v-html
+			text: 'textContent',//{{}}
+			class:'className'//:class
 		}
 		if (node.nodeType === 1) {
 			//node.attributes

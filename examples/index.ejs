@@ -4,6 +4,14 @@
 <head>
 	<title>Todo</title>
 	<meta charset="utf-8">
+	<style>
+	.r{
+		color:red;
+	}
+	.g{
+		color:green;
+	}
+	</style>
 </head>
 
 <body>
@@ -21,7 +29,11 @@
 		<button @click="fn2">click2</button>
 		<br/>
 		<div @mouseover="over" @mouseout="out" style="height:100px;width:200px;background:#444;"> Mouse Over Me </div>
+		<h2>html</h2>
 		<span u-html="a"></span>
+		<br>
+		<h2>class：</h2>
+		<span u-html="a" :class='g'></span>
 		</div>
 </body>
 

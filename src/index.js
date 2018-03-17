@@ -5,7 +5,8 @@ window.app = new Unar({
 	data: {
 		a: 1,
 		b: 2,
-		id: 'input1'
+		id: 'input1',
+		g:'r'
 	},
 	methods: {
 		fn() {
@@ -16,9 +17,11 @@ window.app = new Unar({
 		},
 		over() {
 			console.log('enter')
+			this.g='g'
 		},
 		out() {
 			console.log('out')
+			this.g='r'
 		}
 	},
 	computeds: {
