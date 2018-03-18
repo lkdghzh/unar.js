@@ -6,7 +6,8 @@ window.app = new Unar({
 		a: 1,
 		b: 2,
 		id: 'input1',
-		g:'r'
+		g:'r',
+		s:"color:red; border: 1px solid blue;"
 	},
 	methods: {
 		fn() {
