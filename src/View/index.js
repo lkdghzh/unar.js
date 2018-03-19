@@ -2,7 +2,7 @@
  * Templater
  */
 import Attr from "./attr"
-import Detective from "./detective"
+import Directive from "./directive"
 
 export default class Templater {
 	constructor(selector, vm) {
@@ -13,8 +13,8 @@ export default class Templater {
 	init() {
 		const docFrag = document.createDocumentFragment()
 		//translat dom to fragment
-		//init view
 		this.translate(docFrag).childNodes.forEach((node) => {
+			//init view
 			this.initAttr(node)
 		})
 		return docFrag
@@ -54,11 +54,11 @@ export default class Templater {
 					const prop = props[detec] ? props[detec] : detec
 					if (detectype === this.vm.configs.evtPrefix) {
 						//@click
-						Detective.addEvt(node, prop, key, this.vm)
+						Directive.addEvt(node, prop, key, this.vm)
 					} else {
 						//u-html u-model
 						//:id
-						Detective.bind(node, prop, key, this.vm)
+						Directive.bind(node, prop, key, this.vm)
 					}
 				}
 			})
@@ -71,7 +71,7 @@ export default class Templater {
 			if (Attr.isExpression(node.data)) {
 				//text with {{}}
 				const [, preTxt, key, nxtTxt] = Attr.expressionKey(node.data)
-				Detective.bind(node, props.text, key, this.vm, preTxt, nxtTxt)
+				Directive.bind(node, props.text, key, this.vm, preTxt, nxtTxt)
 			}
 		}
 	}
