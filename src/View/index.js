@@ -8,42 +8,37 @@ export default class Templater {
 	constructor(selector, vm) {
 		this.vm = vm
 		this.el = document.querySelector(selector)
-		if (this.el) {
-			this.el.appendChild(this.init())
-		}
+		this.el.appendChild(this.init())
 	}
 	init() {
-		const fragment = document.createDocumentFragment()
-		this.filterNode2fragment(fragment)
+		const docFrag = document.createDocumentFragment()
+		//translat dom to fragment
 		//init view
-		fragment.childNodes.forEach((node) => {
-			this.initAttrEvt(node)
+		this.translate(docFrag).childNodes.forEach((node) => {
+			this.initAttr(node)
 		})
-		return fragment
+		return docFrag
 	}
-	filterNode2fragment(fragment) {
-		//all nodes
+	translate(docFrag) {
 		for (let i = 0; i < this.el.childNodes.length; i++) {
 			const node = this.el.childNodes[i]
-			const nodeType = node.nodeType
-			//for reduce the loop count ,filter nodes to Element Comment Text(not contain pure whitespace)
-			if (nodeType === 1 || nodeType === 8 || (nodeType === 3) && !this._isPureBlankNode(node)) {
-				fragment.appendChild(node)
+			if (this.isValidType(node)) {
+				docFrag.appendChild(node)
 					--i
 			}
 		}
+		return docFrag
 	}
-	initAttrEvt(node) {
+	initAttr(node) {
 		const props = {
-			model: 'value',//v-model
-			html: 'innerHTML',//v-html
-			text: 'textContent',//{{}}
-			class:'className'//:class
+			model: 'value', //v-model
+			html: 'innerHTML', //v-html
+			text: 'textContent', //{{}}
+			class: 'className' //:class
 		}
 		if (node.nodeType === 1) {
-			//node.attributes
 			//for (let attr of node.attributes) {
-			new Array().slice.call(node.attributes).forEach(attr => {	
+			new Array().slice.call(node.attributes).forEach(attr => {
 				const detective = attr.nodeName
 				const key = attr.nodeValue
 				const detecInfo = Attr.isRightDetec(detective, this.vm.configs)
@@ -55,7 +50,6 @@ export default class Templater {
 					detec: undefined
 				}
 				if (detec) {
-					console.log(`移除了${detective}----------------------------`)
 					node.removeAttribute(detective)
 					const prop = props[detec] ? props[detec] : detec
 					if (detectype === this.vm.configs.evtPrefix) {
@@ -66,12 +60,10 @@ export default class Templater {
 						//:id
 						Detective.bind(node, prop, key, this.vm)
 					}
-					
-					//continue
 				}
 			})
 			node.childNodes.forEach((childNode) => {
-				this.initAttrEvt(childNode)
+				this.initAttr(childNode)
 			})
 			return
 		}
@@ -82,10 +74,13 @@ export default class Templater {
 				Detective.bind(node, props.text, key, this.vm, preTxt, nxtTxt)
 			}
 		}
-
+	}
+	isValidType(node) {
+		//for reduce the loop count ,filter nodes to Element Comment Text(not contain pure whitespace)
+		return node.nodeType === 1 || node.nodeType === 8 || (node.nodeType === 3) && !this.isPureBlankNode(node)
 	}
 	//https://developer.mozilla.org/zh-CN/docs/Web/Guide/API/DOM/Whitespace_in_the_DOM
-	_isPureBlankNode(node) {
+	isPureBlankNode(node) {
 		// Use ECMA-262 Edition 3 String and RegExp features
 		return !(/[^\t\n\r ]/.test(node.data))
 	}
