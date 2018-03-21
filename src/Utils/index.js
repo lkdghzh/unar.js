@@ -70,7 +70,7 @@ export const typeOf = (o) => {
 }
 
 
-// export const excute = (exp, scope) => {
+// export const run = (exp, scope) => {
 // 	try {
 // 		with(scope) {
 // 			return eval(exp)
@@ -82,16 +82,20 @@ export const typeOf = (o) => {
 
 // a +"b" === ? "sth" :b
 // scope.a +"b" === ? "sth" :scope.b
-const scopeExp = (exp, vm) =>
-	exp.replace(/[\"]?(\w+)[\"]?/g, (e) =>
-		e.startsWith('"') && e.endsWith('"') ||
-		e.startsWith("'") && e.endsWith("'") ? e : (vm + '.' + e)
-	)
+//"a +'b' === ? 'sth' :b".replace(/[\"\']?(\w+)[\"\']?/g,(e)=>{console.log(e);return e.startsWith('"')&&e.endsWith('"')||e.startsWith("'")&&e.endsWith("'")?e:'scope.'+e})
+//'a +"b" === ? "sth" :b'.replace(/[\"\']?(\w+)[\"\']?/g,(e)=>{console.log(e);return e.startsWith('"')&&e.endsWith('"')||e.startsWith("'")&&e.endsWith("'")?e:'scope.'+e})
+// const scopeExp = (exp, vm) =>
+// 	exp.replace(/[\"\']?(\w+)[\"\']?/g, (e) =>
+// 		e.startsWith('"') && e.endsWith('"') ||
+// 		e.startsWith("'") && e.endsWith("'") ? e : (vm + '.' + e)
+// 	)
 
 export const run = (exp, scope) => {
-	var body = scopeExp(exp, 'vm')
-	debugger
-	console.log(body, '------??')
-	var fn = new Function('vm', 'return ' + body)
-	return fn(scope)
+	try {
+		var fn
+		fn = new Function('vm', 'with(vm){return ' + exp + '}')
+		return fn(scope)
+	} catch (e) {
+		console.error('')
+	}
 }

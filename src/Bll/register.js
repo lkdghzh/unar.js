@@ -24,7 +24,6 @@ export default class Register {
 			const cb = (val, oldVal) => {
 				DomFn.bind(node, prop, preTxt + val + nxtTxt, preTxt + oldVal + nxtTxt)
 			}
-			//'a +"b" === ? "sth" :b'.replace(/[\"]?(\w+)[\"]?/g,(e)=>{console.log(e);return e.startsWith('"')&&e.endsWith('"')||e.startsWith("'")&&e.endsWith("'")?e:'scope.'+e})
 			console.log(`初始化页面，${key}?????${run(key,vm)}`)
 			cb(run(key,vm))
 			this.registListener4Hubs(key, cb, vm)
