@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>vue</title>
+</head>
+
+<body>
+	<div id="box"><input type="text" v-model="a"><input type="text" v-model="b"></div>
+	<script src="https://cdn.bootcss.com/vue/1.0.0-alpha.1/vue.js"></script>
+	<script>
+		new Vue({
+			el: "#box",
+			data() {
+				return {
+					msg:'abc',
+                    a:'A',
+                    b:'B'
+				}
+            },
+            computed:{
+                b:function(){
+                    return this.a='A'?this.a:this.b
+                }
+            }
+		})
+	</script>
+</body>
+
+</html>
