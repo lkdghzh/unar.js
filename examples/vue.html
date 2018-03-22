@@ -7,14 +7,14 @@
 </head>
 
 <body>
-	<div id="box">
-		<h2>show</h2>
+	<div id="box"><input type="text" v-model="msg==='abc'?'1':a"></div>
+	<!-- <h2>show</h2>
 		<span v-show="msg>0">1111</span>
-        <h2>model</h2>
-		<input type="text" v-model="msg">
+		<h2>model</h2>
 		<input type="text" v-model="b">
-		<input type="text" v-model="msg=='abc'?'1'+new Date():b">
-	</div>
+		<input type="text" v-model="this.b=='d'">
+		
+		<input type="text" v-model="msg=='abc'?'1'+new Date():b"> -->
 	<!-- <script src="https://unpkg.com/vue@2.5.16/dist/vue.js"></script> -->
 	<!-- <script src="https://cdn.bootcss.com/vue/1.0.0/vue.js"></script> -->
 	<!-- <script src="https://cdn.bootcss.com/vue/0.6.0/vue.js"></script> -->
@@ -28,13 +28,13 @@
 			data() {
 				return {
 					msg:'abc',
-					a: 's',
-					b: 'd',
-					show: true
+					a:'A'
 				}
 			}
 		})
-
+		// a: 's',
+		// 			b: 'd',
+		// 			show: true
 	</script>
 </body>
 
