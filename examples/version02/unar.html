@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>two-ways-input</title>
+</head>
+
+<body>
+	<div id="root">
+		<input u-model="a" :id="a" /> 前{{a}}后
+		<input u-model="b" />
+		<input u-model="c" />
+		<input u-model="d" />
+		<input u-model="e" />
+		<hr>
+		<input u-model="f" />
+		<br/>
+		<button @click="fn">click</button>
+		<button @click="fn2">click2</button>
+		<br/>
+		<div @mouseover="over" @mouseout="out" style="height:100px;width:200px;background:#444;"> Mouse Over Me </div>
+		<h2>html</h2>
+		<span u-html="a"></span>
+		<br>
+		<h2>class：</h2>
+		<span u-html="a" :class='g'></span>
+		<h2>style：</h2>
+		<span u-html="a" :style='s'></span>
+	</div>
+	<script src="https://unpkg.com/unar@0.0.2/scripts/dist/unar.min.js"></script>
+	<script>
+		const instance = new Unar({
+			el: "#root",
+			data: {
+				a: 1,
+				b: 2,
+				id: 'input1',
+				g: 'r',
+				s: "color:red; border: 1px solid blue;"
+			},
+			methods: {
+				fn() {
+					console.log(this.a)
+				},
+				fn2: function () {
+					console.log(this.b)
+				},
+				over() {
+					console.log('enter')
+					this.g = 'g'
+				},
+				out() {
+					console.log('out')
+					this.g = 'r'
+				}
+			},
+			computeds: {
+				c() {
+					return this.a + this.b
+				},
+				d() {
+					return this.a + this.b
+				},
+				e() {
+					return this.b
+				},
+				f: {
+					get() {
+						return this.a + this.b
+					},
+					set() {
+						console.log('f')
+					}
+				}
+			},
+			watchers: {
+				a: function (val, old) {
+					console.log(`a->haschanged,${old}-->${val}`)
+				}
+			},
+			configs: {
+				actionPrefix: "u-",
+				attrPrefix: ":",
+				evtPrefix: "@"
+			}
+		})
+
+	</script>
+</body>
+
+</html>
