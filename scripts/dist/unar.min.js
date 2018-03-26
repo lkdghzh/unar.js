@@ -1,6 +1,6 @@
 
 /**
-*   Unar.js v0.0.1
+*   Unar.js v0.0.3
 *   (c) 2017-2018 author:like
 *   Released under the MIT License.
 */ 
