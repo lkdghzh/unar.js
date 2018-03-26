@@ -38,12 +38,12 @@ const accessor = (data, key, vm) => {
 			//computeds
 			if (propType.switch) {
 				var currentComputedType = propType.switch
-				console.log(`↑  computed->ccb run,${propType.switch}用到了${key}，向${key}注册${propType.switch}函数`)
+				//console.log(`↑  computed->ccb run,${propType.switch}用到了${key}，向${key}注册${propType.switch}函数`)
 				var cfn = function () {
 					//node fn
 					propType[currentComputedType]()
 					var ckey = currentComputedType.split('$')[0]
-					console.log(`----------${currentComputedType},${ckey}-----------`)
+					//console.log(`----------${currentComputedType},${ckey}-----------`)
 					//pure computed fn
 					typeOf(vm.computeds[ckey]) === "function" ? vm.computeds[ckey].call(vm) :
 						typeOf(vm.computeds[ckey]) === "object" ? vm.computeds[ckey].get.call(vm) :
@@ -55,11 +55,13 @@ const accessor = (data, key, vm) => {
 		},
 		set(newVal) {
 			valCache = newVal
-			//object 
-			// if (typeOf(newVal) === 'object') {
-			// 	proxy(newVal, vm)
-			// }
-			//array
+			// object 
+			if (typeOf(newVal) === 'object') {
+				Object.keys(newVal).forEach(ckey => {
+					accessor(newVal, ckey, vm)
+				})
+			}
+			// array
 			// if (typeOf(newVal) === 'array') {
 			// 	// TODO observe array
 			// }
@@ -67,6 +69,7 @@ const accessor = (data, key, vm) => {
 			hubs[key].notify()
 		}
 	})
+
 }
 export const proxy = (data, vm) => {
 	Object.keys(data).forEach(key => {
