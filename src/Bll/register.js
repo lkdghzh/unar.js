@@ -15,7 +15,7 @@ export default class Register {
 			//count several nodes ->same computed prop
 			propType.switch = key + '$' + ++count
 			const ccb = () => {
-				DomFn.bind(node, prop, preTxt + run(key,vm) + nxtTxt)
+				DomFn.bind(node, prop, preTxt + run(key, vm) + nxtTxt)
 			}
 			propType[key + '$' + count] = ccb
 			ccb()
@@ -24,12 +24,36 @@ export default class Register {
 			const cb = (val, oldVal) => {
 				DomFn.bind(node, prop, preTxt + val + nxtTxt, preTxt + oldVal + nxtTxt)
 			}
-			console.log(`初始化页面，${key}?????${run(key,vm)}`)
-			cb(run(key,vm))
+			// console.log(`初始化页面，${key}?????${run(key,vm)}`)
+			cb(run(key, vm))
 			this.registListener4Hubs(key, cb, vm)
 		}
 	}
 	static registListener4Hubs(key, cb, vm) {
-		hubs[key] ? hubs[key].listeners.push(cb) : (hubs[key] = new Hub(key, cb, vm))
+		//a.b.c
+		//a['b']['c']
+		//a["b"]["c"]
+		//a[`b`][`c`]
+		var pathReg = /\./g
+		// key.match(pathReg).length
+		var levels = key.split(pathReg)
+		for (var i = 0, len = levels.length; i < len; i++) {
+			var name = levels[i]
+			var t
+			//检测这个层级是否有这个键的hub
+			//没有的话，依次为中间的path对应key的注册hub。
+			//最后，new这个键的hub，赋值给这个hub
+			//有的话往这个键的hub的listeners，push对应的cb
+			if (!i) {
+				name in hubs ? hubs[name].listeners.push(cb) :
+					(hubs[name] = new Hub(name, cb, vm))
+				t = len > 1 && hubs[name]
+			} else {
+				name in t.children ? t.children.listeners.push(cb) :
+					(t.children[name] = new Hub(name, cb, vm))
+				t = t.children[name]
+			}
+		}
+		//key in hubs ? hubs[key].listeners.push(cb) : (hubs[key] = new Hub(key, cb, vm))
 	}
 }

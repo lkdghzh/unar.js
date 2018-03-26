@@ -15,6 +15,7 @@ class Hub {
 		console.log(`↓  get -->${prop},new hub`)
 		this.val = vm[prop]
 		this.vm = vm
+		this.children={}
 		this.listeners = []
 		this.addListener(cb)
 	}

@@ -11,71 +11,70 @@ import {
 export const config = (configs, vm) => {
 	vm.configs = Object.assign(defaultConfigs, configs)
 }
-const hijack = (data, key, vm) => {
-	Object.defineProperty(vm, key, {
-		get() {
-			//it can replaced by this._data[key],this.$options.data[key] ,o.data[key]
-			//not allow valCache
-			//this will call `accessor get fn` 
-			return data[key]
-		},
-		set(newVal) {
-			data[key] = newVal
-		}
+const hijack = (data, vm) => {
+	Object.keys(data).forEach(key => {
+		Object.defineProperty(vm, key, {
+			get() {
+				//it can replaced by this._data[key],this.$options.data[key] ,o.data[key]
+				//not allow valCache
+				//this will call `accessor get fn` 
+				return data[key]
+			},
+			set(newVal) {
+				data[key] = newVal
+			}
+		})
 	})
 }
-const accessor = (data, key, vm) => {
-	//Data properties->data[key]
-	//it's cached,data[key] can replaced by vm._data[key],vm.$options.data,o.data 
-	var valCache = data[key]
-	//Accessor properties
-	//data reference->At the same time, vm._data ,vm.$options.data, o.data become three accessor properties
-	Object.defineProperty(data, key, {
-		get() {
-			//vm._data[key],vm.$options.data[key],data[key]
-			//maximum call stack size exceeded
+const accessor = (data, vm) => {
+	Object.keys(data).forEach(key => {
+		//Data properties->data[key]
+		//it's cached,data[key] can replaced by vm._data[key],vm.$options.data,o.data 
+		var valCache = data[key]
+		//Accessor properties
+		//data reference->At the same time, vm._data ,vm.$options.data, o.data become three accessor properties
+		Object.defineProperty(data, key, {
+			get() {
+				//vm._data[key],vm.$options.data[key],data[key]
+				//maximum call stack size exceeded
 
-			//computeds
-			if (propType.switch) {
-				var currentComputedType = propType.switch
-				//console.log(`↑  computed->ccb run,${propType.switch}用到了${key}，向${key}注册${propType.switch}函数`)
-				var cfn = function () {
-					//node fn
-					propType[currentComputedType]()
-					var ckey = currentComputedType.split('$')[0]
-					//console.log(`----------${currentComputedType},${ckey}-----------`)
-					//pure computed fn
-					typeOf(vm.computeds[ckey]) === "function" ? vm.computeds[ckey].call(vm) :
-						typeOf(vm.computeds[ckey]) === "object" ? vm.computeds[ckey].get.call(vm) :
-						""
+				//computeds
+				if (propType.switch) {
+					var currentComputedType = propType.switch
+					//console.log(`↑  computed->ccb run,${propType.switch}用到了${key}，向${key}注册${propType.switch}函数`)
+					var cfn = function () {
+						//node fn
+						propType[currentComputedType]()
+						var ckey = currentComputedType.split('$')[0]
+						//console.log(`----------${currentComputedType},${ckey}-----------`)
+						//pure computed fn
+						typeOf(vm.computeds[ckey]) === "function" ? vm.computeds[ckey].call(vm) :
+							typeOf(vm.computeds[ckey]) === "object" ? vm.computeds[ckey].get.call(vm) :
+							""
+					}
+					Register.registListener4Hubs(key, cfn, vm)
 				}
-				Register.registListener4Hubs(key, cfn, vm)
+				return valCache
+			},
+			set(newVal) {
+				valCache = newVal
+				// object 
+				typeOf(newVal) === 'object'?accessor(newVal, vm):void
+				
+				// array
+				// if () {
+				// 	// TODO observe array
+				// }
+				//set value first,then notify dom update with newVal
+				hubs[key].notify()
 			}
-			return valCache
-		},
-		set(newVal) {
-			valCache = newVal
-			// object 
-			if (typeOf(newVal) === 'object') {
-				Object.keys(newVal).forEach(ckey => {
-					accessor(newVal, ckey, vm)
-				})
-			}
-			// array
-			// if (typeOf(newVal) === 'array') {
-			// 	// TODO observe array
-			// }
-			//set value first,then notify dom update with newVal
-			hubs[key].notify()
-		}
+		})
 	})
 
 }
 export const proxy = (data, vm) => {
-	Object.keys(data).forEach(key => {
-		accessor(data, key, vm)
-		hijack(data, key, vm)
-	})
+	accessor(data, vm)
+	hijack(data, vm)
 }
 export const watch = (watchers, vm) => {
 	//Object.entries({a:1})-->[["a", 1]]

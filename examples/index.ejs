@@ -4,39 +4,10 @@
 <head>
 	<title>Todo</title>
 	<meta charset="utf-8">
-	<style>
-	.r{
-		color:red;
-	}
-	.g{
-		color:green;
-	}
-	</style>
 </head>
 
 <body>
-	<div id="root">
-		<input u-model="a" :id="a" />
-		前{{a}}后
-		<input u-model="b" />
-		<input u-model="c" />
-		<input u-model="d" />
-		<input u-model="e" />
-		<hr>
-		<input u-model="f" />
-		<br/>
-		<button @click="fn">click</button>
-		<button @click="fn2">click2</button>
-		<br/>
-		<div @mouseover="over" @mouseout="out" style="height:100px;width:200px;background:#444;"> Mouse Over Me </div>
-		<h2>html</h2>
-		<span u-html="a"></span>
-		<br>
-		<h2>class：</h2>
-		<span u-html="a" :class='g'></span>
-		<h2>style：</h2>
-		<span u-html="a" :style='s'></span>
-		</div>
+	<div id="root"><input u-model="a.b.c.d" /><button @click="fn">click</button></div>
 </body>
 
 </html>

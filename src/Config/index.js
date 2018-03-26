@@ -1,5 +1,5 @@
 let defaultConfigs = {
-    actionPrefix: "u",
+    actionPrefix: "u-",
     attrPrefix: ":",
     evtPrefix: "@",
 }
