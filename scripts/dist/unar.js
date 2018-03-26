@@ -6,6 +6,26 @@
 */ 
 
 /**
+ * DomEvent
+ */
+class DomEvent {
+	static bind(node, prop, val, oldValue) {
+		if (val !== oldValue) {
+			node[prop] = val;
+		}
+	}
+	static addEvt(node, evt, fn) {
+		node.addEventListener(evt, fn, false);
+	}
+}
+
+var  propType={
+    switch:undefined
+};
+//console 
+window.propType=propType;
+
+/**
  * one vm prop <---> one Hub
  */
 
@@ -19,6 +39,7 @@ class Hub {
 	constructor(prop, cb, vm) {
 		this.id = ++id;
 		this.prop = prop;
+		console.log(`↓  get -->${prop},new hub`);
 		this.val = vm[prop];
 		this.vm = vm;
 		this.listeners = [];
@@ -27,106 +48,224 @@ class Hub {
 	addListener(cb) {
 		this.listeners.push(cb);
 	}
-	deleteListener() {}
-	notify(newVal) {
+	deleteListener(inx) {
+		this.listeners.splice(inx, 1);
+	}
+	notify() {
 		this.listeners.forEach((fn) => {
 			//oldVal->this.val
 			//val->this.vm[this.prop]
-			fn(this.vm[this.prop], this.val);
+			fn.call(this.vm, this.vm[this.prop], this.val);
 		});
+		//update val to oldVal
+		this.val = this.vm[this.prop];
 	}
 }
 
-//Unar.global={
-//     actionPrefix:"u",
-//     attrPrefix:":",
-//     evtPrefix:"@",
+// import 
+const typeOf = (o) => {
+	var _target;
+	return ((_target = typeof (o)) == "object" ? Object.prototype.toString.call(o).slice(8, -1) : _target).toLowerCase()
+};
+
+
+// export const run = (exp, scope) => {
+// 	try {
+// 		with(scope) {
+// 			return eval(exp)
+// 		}
+// 	} catch (e) {
+// 		console.error('translate exp abnormal')
+// 	}
 // }
 
-//merge
-var config$1 = {
+// a +"b" === ? "sth" :b
+// scope.a +"b" === ? "sth" :scope.b
+//"a +'b' === ? 'sth' :b".replace(/[\"\']?(\w+)[\"\']?/g,(e)=>{console.log(e);return e.startsWith('"')&&e.endsWith('"')||e.startsWith("'")&&e.endsWith("'")?e:'scope.'+e})
+//'a +"b" === ? "sth" :b'.replace(/[\"\']?(\w+)[\"\']?/g,(e)=>{console.log(e);return e.startsWith('"')&&e.endsWith('"')||e.startsWith("'")&&e.endsWith("'")?e:'scope.'+e})
+// const scopeExp = (exp, vm) =>
+// 	exp.replace(/[\"\']?(\w+)[\"\']?/g, (e) =>
+// 		e.startsWith('"') && e.endsWith('"') ||
+// 		e.startsWith("'") && e.endsWith("'") ? e : (vm + '.' + e)
+// 	)
+
+const run = (exp, scope) => {
+	try {
+		var fn;
+		fn = new Function('vm', 'with(vm){return ' + exp + '}');
+		return fn(scope)
+	} catch (e) {
+		console.error('');
+	}
+};
+
+let count = 0;
+class Register {
+	static registDomListener4Hubs(node, prop, key, vm, preTxt, nxtTxt) {
+		if (vm.computeds[key]) {
+			//count several nodes ->same computed prop
+			propType.switch = key + '$' + ++count;
+			const ccb = () => {
+				DomEvent.bind(node, prop, preTxt + run(key,vm) + nxtTxt);
+			};
+			propType[key + '$' + count] = ccb;
+			ccb();
+			propType.switch = undefined;
+		} else {
+			const cb = (val, oldVal) => {
+				DomEvent.bind(node, prop, preTxt + val + nxtTxt, preTxt + oldVal + nxtTxt);
+			};
+			console.log(`初始化页面，${key}?????${run(key,vm)}`);
+			cb(run(key,vm));
+			this.registListener4Hubs(key, cb, vm);
+		}
+	}
+	static registListener4Hubs(key, cb, vm) {
+		hubs[key] ? hubs[key].listeners.push(cb) : (hubs[key] = new Hub(key, cb, vm));
+	}
+}
+
+let defaultConfigs = {
     actionPrefix: "u",
     attrPrefix: ":",
     evtPrefix: "@",
 };
 
-class Attr {
-    static isExpression(txt) {
-        return /\{\{.*\}\}/.test(txt);
-    }
-    static isAction(attr) {
-        //u
-        return attr.indexOf(config$1.actionPrefix) === 0;
-    }
-    static isProp(attr) {
-        //: v-bind:a="a"
-        return attr.indexOf(config$1.PropPrefix) === 0;
-    }
-    static isEvt(attr) {
-        //: v-bind:a="a"
-        return attr.indexOf(config$1.evtPrefix) === 0;
-    }
-}
+const config = (configs, vm) => {
+	vm.configs = Object.assign(defaultConfigs, configs);
+};
+const hijack = (data, key, vm) => {
+	Object.defineProperty(vm, key, {
+		get() {
+			//it can replaced by this._data[key],this.$options.data[key] ,o.data[key]
+			//not allow valCache
+			//this will call `accessor get fn` 
+			return data[key]
+		},
+		set(newVal) {
+			data[key] = newVal;
+		}
+	});
+};
+const accessor = (data, key, vm) => {
+	//Data properties->data[key]
+	//it's cached,data[key] can replaced by vm._data[key],vm.$options.data,o.data 
+	var valCache = data[key];
+	//Accessor properties
+	//data reference->At the same time, vm._data ,vm.$options.data, o.data become three accessor properties
+	Object.defineProperty(data, key, {
+		get() {
+			//vm._data[key],vm.$options.data[key],data[key]
+			//maximum call stack size exceeded
 
-/**
- * DomEvent
- */
-class DomEvent {
-	static model(node, val,oldValue) {
-		// return function () {
-			node.value = val;
-		// }()
+			//computeds
+			if (propType.switch) {
+				var currentComputedType = propType.switch;
+				console.log(`↑  computed->ccb run,${propType.switch}用到了${key}，向${key}注册${propType.switch}函数`);
+				var cfn = function () {
+					//node fn
+					propType[currentComputedType]();
+					var ckey = currentComputedType.split('$')[0];
+					console.log(`----------${currentComputedType},${ckey}-----------`);
+					//pure computed fn
+					typeOf(vm.computeds[ckey]) === "function" ? vm.computeds[ckey].call(vm) :
+						typeOf(vm.computeds[ckey]) === "object" ? vm.computeds[ckey].get.call(vm) :
+						"";
+				};
+				Register.registListener4Hubs(key, cfn, vm);
+			}
+			return valCache
+		},
+		set(newVal) {
+			valCache = newVal;
+			//object 
+			// if (typeOf(newVal) === 'object') {
+			// 	proxy(newVal, vm)
+			// }
+			//array
+			// if (typeOf(newVal) === 'array') {
+			// 	// TODO observe array
+			// }
+			//set value first,then notify dom update with newVal
+			hubs[key].notify();
+		}
+	});
+};
+const proxy = (data, vm) => {
+	Object.keys(data).forEach(key => {
+		accessor(data, key, vm);
+		hijack(data, key, vm);
+	});
+};
+const watch = (watchers, vm) => {
+	//Object.entries({a:1})-->[["a", 1]]
+	for (let [key, cb] of Object.entries(watchers)) {
+		Register.registListener4Hubs(key, cb, vm);
 	}
-	static text(node, text) {
-		node.textContent = text;
+};
+
+const compute = (computeds, vm) => {
+	/**
+	 * 	var o={}
+		Object.defineProperty(o, 'a', {
+			get: function () {return 1 },
+			set: function () { }
+		})
+		Object.getOwnPropertyDescriptor(o,'a')
+		{get: ƒ, set: ƒ, enumerable: false, configurable: false}
+	 */
+	for (let [key, target] of Object.entries(computeds)) {
+		Object.defineProperty(vm, key, {
+			configurable: false,
+			enumerable: true,
+			get: typeOf(target) === "function" ? target : typeOf(target) === "object" ? target.get : function () {},
+			set: typeOf(target) === "object" ? target.set : function () {}
+		});
 	}
-	static html(node, html) {
-		node.innerHTML = html;
+};
+
+class Attr {
+	static isExpression(txt) {
+		return /\{\{.*\}\}/.test(txt)
 	}
-	static bind(node, attrName, attrVal) {
-		node[attrName.substr(config.attrPrefix.length, attrName.length)] = attrVal;
+	static expressionKey(txt) {
+		return txt.match(/(.*)\{\{(.*)\}\}(.*)/)
 	}
-	static addEvt(node, evtName, fn) {
-		node.addEventListener(evtName, fn, false);
+	static isRightDetec(detective, configs) {
+		var detec;
+		for (let prefix in configs) {
+			if (detective.startsWith(configs[prefix])) {
+				detec = {
+					detectype: detective.substring(0, configs[prefix].length),
+					detec: detective.substring(configs[prefix].length)
+				};
+				break
+			}
+		}
+		return detec
 	}
 }
 
 /**
  * Detictive
- * 静态方法包含this关键字，这个this指的是类
  */
-// debugger
 class Detictive {
-	static[config$1.actionPrefix + "-model"](node, key, vm) {
-		// debugger
-		this._update("model", node, key, vm);
-		node.addEventListener('input', e => {
-			vm[key] = e.target.value;
-		}, false);
+	static bind(node, prop, key, vm, preTxt = '', nxtTxt = '') {
+		// model  html
+		// {{}}
+		// :id
+		Register.registDomListener4Hubs(node, prop, key, vm, preTxt, nxtTxt);
+		if (prop === 'value') {
+			const fn = e => vm[key] = e.target.value;
+			this.addEvt(node, 'input', fn, vm);
+		}
 	}
-	static[config$1.actionPrefix + "-text"](node, text, vm) {
-		this._update("text", node, text);
-	}
-	static[config$1.actionPrefix + "-html"](node, html, vm) {
-		this._update("html", node, html);
-	}
-	//:
-	static bind(node, attrName, attrVal) {
-		DomEvent.bind(node, attrName, attrVal);
-	}
-	//@
-	static addEvt(node, attrName, fn) {
-		var evtName = attrName.substr(config$1.evtPrefix.length, attrName.length);
-		var fn = this.methods[fn].bind(this);
-		DomEvent.addEvt(node, evtName, fn);
-	}
-	static _update(detictive, node, key, vm) {
-		var cb = (val, oldVal)=> {
-			DomEvent[detictive](node, val, oldVal);
-		};
-		cb(vm[key]);
-		//检测hubs 是否具备此key，有的添加cb回调，没有创建便hub
-		hubs[key] ? hubs[key].listeners.push(cb) :( hubs[key] = new Hub(key, cb,vm) );
+
+	static addEvt(node, evt, key, vm) {
+		//dom ,user input event ,default implement
+		//@
+		var fn = typeof (key) === "function" ? key : vm.methods[key].bind(vm);
+		DomEvent.addEvt(node, evt, fn);
 	}
 }
 
@@ -135,152 +274,129 @@ class Detictive {
  */
 
 class Templater {
-    constructor(selector, vm) {
-        this.vm = vm;
-        this.el = document.querySelector(selector);
-        if (this.el) {
-            this.el.appendChild(this.init());
-        }
-    }
-    init() {
-        const fragment = document.createDocumentFragment();
-        this.filterNode2fragment(fragment);
-        //初始化view
-        fragment.childNodes.forEach((node) => {
-            this.initAttrEvt(node);
-        });
-        console.log(fragment);
-        // for (let node of fragment.childNodes) {
-        //     this.initAttrEvt(node)
-        // }
-        return fragment
-    }
-    filterNode2fragment(fragment) {
-        //所有节点node
-        for (let i = 0; i < this.el.childNodes.length; i++) {
-            const node = this.el.childNodes[i];
-            const nodeType = node.nodeType;
-            //for reduce the loop count ,filter nodes to Element Comment Text(not contain pure whitespace)
-            if (nodeType === 1 || nodeType === 8 || (nodeType === 3) && !this._isPureBlankNode(node)) {
-                fragment.appendChild(node);
-                --i;
-            }
-        }
-    }
-    initAttrEvt(node) {
-        //排除元素、文本以外的节点
-        if (node.nodeType === 1) {
-            //node.attributes
-            for (let attr of node.attributes) {
-                //过滤掉非unar的动作、属性、事件
-                const detec = attr.nodeName;
-                const key = attr.nodeValue;
-                //u-html u-model
-                if (Attr.isAction(detec)) {
-                    Detictive[detec](node, key,this.vm);
-                }
-                //:id
-                if (Attr.isProp(detec)) {
-                    Detictive.bind(node, detec, key,this.vm);
-                }
-                //@click
-                if (Attr.isEvt(detec)) {
-                    Detictive.addEvt.call(this.vm, node, detec, key);
-                }
-            }
-            node.childNodes.forEach((childNode) => {
-                this.initAttrEvt(childNode);
-            });
-        }
-        //text {{}}
-        if (node.nodeType === 3 && Attr.isExpression(node.data)) {
-        }
-
-    }
-    /**
-     * https://developer.mozilla.org/zh-CN/docs/Web/Guide/API/DOM/Whitespace_in_the_DOM
-     * 以下所谓的“空白符”代表：
-     *  "\t" TAB \u0009 （制表符）
-     *  "\n" LF  \u000A （换行符）
-     *  "\r" CR  \u000D （回车符）
-     *  " "  SPC \u0020 （真正的空格符）
-     *
-     * 不包括 JavaScript 的“\s”，因为那代表如不断行字符等其他字符。
-     */
-    /**
-     * 测知某节点的文字内容是否全为空白。
-     *
-     * @参数   nod  |CharacterData| 类的节点（如  |Text|、|Comment| 或 |CDATASection|）。
-     * @传回值      若 |nod| 的文字内容全为空白则传回 true，否则传回 false。
-     */
-    _isPureBlankNode(node) {
-        // Use ECMA-262 Edition 3 String and RegExp features
-        return !(/[^\t\n\r ]/.test(node.data));
-    }
+	constructor(selector, vm) {
+		this.vm = vm;
+		this.el = document.querySelector(selector);
+		this.el.appendChild(this.init());
+	}
+	init() {
+		const docFrag = document.createDocumentFragment();
+		//translat dom to fragment
+		this.translate(docFrag).childNodes.forEach((node) => {
+			//init view
+			this.initAttr(node);
+		});
+		return docFrag
+	}
+	translate(docFrag) {
+		for (let i = 0; i < this.el.childNodes.length; i++) {
+			const node = this.el.childNodes[i];
+			if (this.isValidType(node)) {
+				docFrag.appendChild(node);
+					--i;
+			}
+		}
+		return docFrag
+	}
+	initAttr(node) {
+		const props = {
+			model: 'value', //v-model
+			html: 'innerHTML', //v-html
+			text: 'textContent', //{{}}
+			class: 'className' //:class
+		};
+		if (node.nodeType === 1) {
+			//for (let attr of node.attributes) {
+			new Array().slice.call(node.attributes).forEach(attr => {
+				const detective = attr.nodeName;
+				const key = attr.nodeValue;
+				const detecInfo = Attr.isRightDetec(detective, this.vm.configs);
+				const {
+					detectype,
+					detec
+				} = detecInfo ? detecInfo : {
+					detectype: undefined,
+					detec: undefined
+				};
+				if (detec) {
+					node.removeAttribute(detective);
+					const prop = props[detec] ? props[detec] : detec;
+					if (detectype === this.vm.configs.evtPrefix) {
+						//@click
+						Detictive.addEvt(node, prop, key, this.vm);
+					} else {
+						//u-html u-model
+						//:id
+						Detictive.bind(node, prop, key, this.vm);
+					}
+				}
+			});
+			node.childNodes.forEach((childNode) => {
+				this.initAttr(childNode);
+			});
+			return
+		}
+		if (node.nodeType === 3) {
+			if (Attr.isExpression(node.data)) {
+				//text with {{}}
+				const [, preTxt, key, nxtTxt] = Attr.expressionKey(node.data);
+				Detictive.bind(node, props.text, key, this.vm, preTxt, nxtTxt);
+			}
+		}
+	}
+	isValidType(node) {
+		//for reduce the loop count ,filter nodes to Element Comment Text(not contain pure whitespace)
+		return node.nodeType === 1 || node.nodeType === 8 || (node.nodeType === 3) && !this.isPureBlankNode(node)
+	}
+	//https://developer.mozilla.org/zh-CN/docs/Web/Guide/API/DOM/Whitespace_in_the_DOM
+	isPureBlankNode(node) {
+		// Use ECMA-262 Edition 3 String and RegExp features
+		return !(/[^\t\n\r ]/.test(node.data))
+	}
 }
 
 /**
  * Unar
  */
 class Unar {
-	/*options
-	methods{
-	    fn1,
-	    fn2
-	}
-	data{a:1,b:2}
-
-	a:1
-	b:2
-	fn1,
-	fn2
-	*/
 	// static hubs = []
-	constructor(o) {
-		this.methods = o.methods;
-		this.$options = {};
-		//在vm新建_data、$options属性
-		var data = this._data = this.$options.data = o.data;
+	constructor({
+		el = '',
+		data = {},
+		computeds = {},
+		methods = {},
+		watchers = {},
+		configs
+	}) {
+		this.methods = methods;
 
-		//创建代理（存取）属性，代理_data、$options对象下的存取属性
-		Object.keys(data).forEach(key => {
-			Object.defineProperty(this, key, {
-				configurable: false,
-				enumerable: true,
-				get() {
-					//data[key]、this._data[key]、this.$options.data 、o.data都可以
-					//实现代理对象（读写都要通过这个代理），然后访问this._data[key]、this.$options.data的存取器属性
-					//此getter会调用下面getter
-					return data[key]
-				},
-				set(newVal) {
-					data[key] = newVal;
-				}
-			});
-			//使用闭包，存储这个值。（data[key],运行到此还是数据属性）
-			//data[key]、this._data[key]、this.$options.data 、o.data都可以
-			var valCache = data[key];
+		//we can config the dom detective about actions props event
+		config(configs,this);
 
-			//data相当于同时，把this_data和this.$options.data,o.data三个都变成了存取器属性
-			Object.defineProperty(data, key, {
-				configurable: false,
-				enumerable: true,
-				get() {
-					//可以尝试这个
-					//this._data[key]，this.$options.data[key]和data[key]都会爆栈
-					return valCache
-				},
-				set(newVal) {
-					console.log(key);
-					valCache = newVal;
-					//set value first ，then notify dom update with newVal
-					hubs[key].notify();
-				}
-			});
-		});
-		new Templater(o.el, this);
+		//this.$options = {}
+		//this add keys(_data、$options )
+		//var data = this._data = this.$options.data = data
+
+		//hijack properties
+		//change data properties to accessor properties
+		proxy(data, this);
+
+		//add computed properties to this
+		this.computeds = computeds;
+		compute(this.computeds, this);
+
+		//console.log(this)
+		//add watchers properties to this
+		this.watchers = watchers;
+		watch(this.watchers, this);
+
+		// if the template does not define the properties of the data,
+		// it will not subscribe to the hubs inside the event
+
+		//compile fragment
+		new Templater(el, this);
 	}
-	
+	// $watch() {}
 	// static use() {}
 	// static extend() {}
 	// static $nextTick() {}
@@ -292,7 +408,6 @@ class Unar {
 	// }
 	// $created() {}
 	// $mounted() {}
-	// $watch() {}
 	// $computed() {}
 	// $remove() {}
 	// $destroy() {}
