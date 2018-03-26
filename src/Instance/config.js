@@ -16,7 +16,7 @@ const hijack = (data, key, vm) => {
 		get() {
 			//it can replaced by this._data[key],this.$options.data[key] ,o.data[key]
 			//not allow valCache
-			//this will call get above
+			//this will call `accessor get fn` 
 			return data[key]
 		},
 		set(newVal) {
