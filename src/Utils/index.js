@@ -50,9 +50,11 @@
 // 	var fn = new Function('scope', 'return ' + exp);
 // 	return fn(scope);
 // }
-export const getPathVal = (obj, path) => {
+
+export const pathVal = (obj, path) => {
 	// var o = { a: { b: { c: 1 } } }
-	// getPathVal(o, 'a.b.c')
+	// PathVal(o, 'a.b.c')
+	// PathVal(o, 'a.b.c',2)
 	var pathArr = path.split('.')
 	var t
 	for (let [inx, key] of pathArr.entries()) {
@@ -63,6 +65,17 @@ export const getPathVal = (obj, path) => {
 		}
 	}
 	return t
+}
+/**
+ * 
+ * @param {Object} obj literal
+ * @param {String} path '.',then resolve [''][``][""] or  rewrite [''][``][""] this to '.'
+ * @param {any} val 
+ */
+export const setPathVal=(obj, path,val)=>{
+	// var o = { a: { b: { c: 1 } } }
+	// setPathVal(o, 'a.b.c',2)
+	
 }
 export const typeOf = (o) => {
 	var _target

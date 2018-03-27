@@ -40,10 +40,15 @@ export default class Register {
 		for (var i = 0, len = levels.length; i < len; i++) {
 			var name = levels[i]
 			var t
-			//检测这个层级是否有这个键的hub
-			//没有的话，依次为中间的path对应key的注册hub。
+			//检测这个path是否有这个path的hub
+			//没有的话，依次为中间的path对应key的注册hub
+			//hubs.a=new Hub
+			//hubs.a.children.b=new Hub
+			//hubs.a.children.b.children.c=new Hub
+
 			//最后，new这个键的hub，赋值给这个hub
-			//有的话往这个键的hub的listeners，push对应的cb
+			//有对应a.b.c，hubs.a.children.b.children.c对应hub
+			//往这个path对应的hub的listeners，push对应的cb
 			if (!i) {
 				name in hubs ? hubs[name].listeners.push(cb) :
 					(hubs[name] = new Hub(name, cb, vm))
