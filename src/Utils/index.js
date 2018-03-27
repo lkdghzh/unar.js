@@ -72,11 +72,11 @@ export const pathVal = (obj, path) => {
  * @param {String} path '.',then resolve [''][``][""] or  rewrite [''][``][""] this to '.'
  * @param {any} val 
  */
-export const setPathVal=(obj, path,val)=>{
-	// var o = { a: { b: { c: 1 } } }
-	// setPathVal(o, 'a.b.c',2)
+// export const setPathVal=(obj, path,val)=>{
+// 	// var o = { a: { b: { c: 1 } } }
+// 	// setPathVal(o, 'a.b.c',2)
 	
-}
+// }
 export const typeOf = (o) => {
 	var _target
 	return ((_target = typeof (o)) == "object" ? Object.prototype.toString.call(o).slice(8, -1) : _target).toLowerCase()
