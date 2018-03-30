@@ -53,17 +53,27 @@
 
 export const pathVal = (obj, path) => {
 	// var o = { a: { b: { c: 1 } } }
-	// PathVal(o, 'a.b.c')
-	// PathVal(o, 'a.b.c',2)
-	var pathArr = path.split('.')
+	// pathVal(o, 'a.b.c')
+	// pathVal(o, 'a.b.c',2)
+	var pathArray = path.split('.')
 	var t
-	for (let [inx, key] of pathArr.entries()) {
-		if (!inx) {
+	var count=0
+	for(var inx in pathArray){
+		var key=pathArray[inx]
+		if (!count) {
 			t = obj[key]
 		} else {
 			t = t[key]
 		}
+		count++
 	}
+	// for (let [inx, key] of pathArray.entries()) {
+	// 	if (!inx) {
+	// 		t = obj[key]
+	// 	} else {
+	// 		t = t[key]
+	// 	}
+	// }
 	return t
 }
 /**

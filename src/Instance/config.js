@@ -2,7 +2,8 @@ import Register from "../Bll/register"
 import propType from "../Bll/propType"
 import defaultConfigs from "../Config"
 import {
-	typeOf
+	typeOf,
+	pathVal
 } from "../Utils"
 
 import {
@@ -18,6 +19,7 @@ const hijack = (data, vm) => {
 				//it can replaced by this._data[key],this.$options.data[key] ,o.data[key]
 				//not allow valCache
 				//this will call `accessor get fn` 
+				console.log(`hijack->get:${key}`)
 				return data[key]
 			},
 			set(newVal) {
@@ -26,18 +28,22 @@ const hijack = (data, vm) => {
 		})
 	})
 }
-const accessor = (data, vm) => {
+
+const accessor = (data, vm, parentKey = '') => {
 	Object.keys(data).forEach(key => {
+		var path = parentKey ? parentKey + '.' + key : key
+		var hubsPath = path.replace(/(\.)/g, it => it + 'children.')
+		//console.log(`currentPath->${path},${hubsPath}`)
+		
 		//Data properties->data[key]
 		//it's cached,data[key] can replaced by vm._data[key],vm.$options.data,o.data 
-		var valCache = data[key]
+		var valCache = pathVal(data, key)
 		//Accessor properties
 		//data reference->At the same time, vm._data ,vm.$options.data, o.data become three accessor properties
 		Object.defineProperty(data, key, {
 			get() {
 				//vm._data[key],vm.$options.data[key],data[key]
 				//maximum call stack size exceeded
-
 				//computeds
 				if (propType.switch) {
 					var currentComputedType = propType.switch
@@ -54,21 +60,29 @@ const accessor = (data, vm) => {
 					}
 					Register.registListener4Hubs(key, cfn, vm)
 				}
+				console.log(`accessor->get:${key}`)
 				return valCache
 			},
 			set(newVal) {
 				valCache = newVal
 				// object 
-				typeOf(newVal) === 'object'?accessor(newVal, vm):void
-				
+				if (typeOf(newVal) === 'object') {
+					accessor(newVal, vm, path)
+				}
 				// array
 				// if () {
 				// 	// TODO observe array
 				// }
 				//set value first,then notify dom update with newVal
-				hubs[key].notify()
+				var currentHub = pathVal(hubs, hubsPath)
+				console.log(`setCurrentPath->${path},${hubsPath},${currentHub}`)
+				currentHub.notify()
+				//hubs[key].notify()
 			}
 		})
+		if (typeOf(valCache) === 'object') {
+			accessor(valCache, vm, path)
+		}
 	})
 
 }
@@ -78,8 +92,8 @@ export const proxy = (data, vm) => {
 }
 export const watch = (watchers, vm) => {
 	//Object.entries({a:1})-->[["a", 1]]
-	for (let [key, cb] of Object.entries(watchers)) {
-		Register.registListener4Hubs(key, cb, vm)
+	for (let [exp, cb] of Object.entries(watchers)) {
+		Register.registListener4Hubs(exp, cb, vm)
 	}
 }
 
