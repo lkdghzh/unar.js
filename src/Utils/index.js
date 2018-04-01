@@ -51,29 +51,32 @@
 // 	return fn(scope);
 // }
 
-export const pathVal = (obj, path) => {
+export const pathVal = (obj, path, val) => {
 	// var o = { a: { b: { c: 1 } } }
 	// pathVal(o, 'a.b.c')
 	// pathVal(o, 'a.b.c',2)
 	var pathArray = path.split('.')
+	var length = pathArray.length
 	var t
-	var count=0
-	for(var inx in pathArray){
-		var key=pathArray[inx]
+	var count = 0
+	for (var inx in pathArray) {
+		var key = pathArray[inx]
 		if (!count) {
 			t = obj[key]
 		} else {
-			t = t[key]
+			if (typeof val === 'undefined') {
+				t = t[key]
+			} else {
+				if (count < length - 1) {
+					t = t[key]
+				} else if (count === length - 1) {
+					t[key] = val
+					t = val
+				}
+			}
 		}
 		count++
 	}
-	// for (let [inx, key] of pathArray.entries()) {
-	// 	if (!inx) {
-	// 		t = obj[key]
-	// 	} else {
-	// 		t = t[key]
-	// 	}
-	// }
 	return t
 }
 /**
@@ -85,7 +88,7 @@ export const pathVal = (obj, path) => {
 // export const setPathVal=(obj, path,val)=>{
 // 	// var o = { a: { b: { c: 1 } } }
 // 	// setPathVal(o, 'a.b.c',2)
-	
+
 // }
 export const typeOf = (o) => {
 	var _target

@@ -1,14 +1,13 @@
 import Unar from "../src/Instance"
 window.Unar = Unar
-window.app = new Unar({
+window.instance = new Unar({
 	el: "#root",
 	data: {
 		a: {
 			b:{
-				c:{
-					d:1
-				}
-			}
+				c:1
+			},
+			m:1
 		}
 	},
 	methods: {

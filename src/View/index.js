@@ -40,7 +40,7 @@ export default class Templater {
 			//for (let attr of node.attributes) {
 			new Array().slice.call(node.attributes).forEach(attr => {
 				const detective = attr.nodeName
-				const key = attr.nodeValue
+				const exp = attr.nodeValue
 				const detecInfo = Attr.isRightDetec(detective, this.vm.configs)
 				const {
 					detectype,
@@ -54,11 +54,11 @@ export default class Templater {
 					const prop = props[detec] ? props[detec] : detec
 					if (detectype === this.vm.configs.evtPrefix) {
 						//@click
-						Directive.addEvt(node, prop, key, this.vm)
+						Directive.addEvt(node, prop, exp, this.vm)
 					} else {
 						//u-html u-model
 						//:id
-						Directive.bind(node, prop, key, this.vm)
+						Directive.bind(node, prop, exp, this.vm)
 					}
 				}
 			})
@@ -67,13 +67,13 @@ export default class Templater {
 			})
 			return
 		}
-		if (node.nodeType === 3) {
-			if (Attr.isExpression(node.data)) {
-				//text with {{}}
-				const [, preTxt, key, nxtTxt] = Attr.expressionKey(node.data)
-				Directive.bind(node, props.text, key, this.vm, preTxt, nxtTxt)
-			}
-		}
+		// if (node.nodeType === 3) {
+		// 	if (Attr.isExpression(node.data)) {
+		// 		//text with {{}}
+		// 		const [, preTxt, key, nxtTxt] = Attr.expressionKey(node.data)
+		// 		Directive.bind(node, props.text, key, this.vm, preTxt, nxtTxt)
+		// 	}
+		// }
 	}
 	isValidType(node) {
 		//for reduce the loop count ,filter nodes to Element Comment Text(not contain pure whitespace)
