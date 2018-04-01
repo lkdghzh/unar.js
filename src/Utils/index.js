@@ -62,7 +62,12 @@ export const pathVal = (obj, path, val) => {
 	for (var inx in pathArray) {
 		var key = pathArray[inx]
 		if (!count) {
-			t = obj[key]
+			if (typeof val === 'undefined') {
+				t = obj[key]
+			}else{
+				obj[key]=val
+				t=val
+			}
 		} else {
 			if (typeof val === 'undefined') {
 				t = t[key]

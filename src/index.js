@@ -3,17 +3,8 @@ window.Unar = Unar
 window.instance = new Unar({
 	el: "#root",
 	data: {
-		a: {
-			b:{
-				c:1
-			},
-			m:1
-		}
-	},
-	methods: {
-		fn() {
-			console.log(this.a)
-		}
+		a: 1,
+		b: 2
 	},
 	computeds: {
 		c() {
