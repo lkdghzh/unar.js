@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+</head>
+
+<body>
+	<script>
+		// var pathVal = (obj, path, val) => {
+		// 	// var o = { a: { b: { c: 1 } } }
+		// 	// pathVal(o, 'a.b.c')
+		// 	// pathVal(o, 'a.b.c',2)
+		// 	var pathArray = path.split('.')
+		// 	var t
+		// 	if (typeof val === 'undefined') {
+		// 		for (let [inx, key] of pathArray.entries()) {
+		// 			if (!inx) {
+		// 				t = obj[key]
+		// 			} else {
+		// 				t = t[key]
+		// 			}
+		// 		}
+		// 		return t
+		// 	} else {
+		// 		length = pathArray.length
+		// 		for (let [inx, key] of pathArray.entries()) {
+		// 			if (!inx) {
+		// 				t = obj[key]
+		// 			} else if (inx < length - 1) {
+		// 				t = t[key]
+		// 			} else if (inx === length - 1) {
+		// 				t[key] = val
+		// 				t = val
+		// 			}
+		//         }
+		//         return t
+		// 	}
+		// }
+		// var o = {
+		// 	a: {
+		// 		b: {
+		// 			c: 1
+		// 		}
+		// 	}
+		// }
+		// console.log(pathVal(o, 'a.b.c'))
+		// console.log(pathVal(o, 'a.b.c', 2), o)
+		const pathVal = (obj, path, val) => {
+			// var o = { a: { b: { c: 1 } } }
+			// pathVal(o, 'a.b.c')
+			// pathVal(o, 'a.b.c',2)
+			var pathArray = path.split('.')
+			var length = pathArray.length
+			var t
+			var count = 0
+			for (var inx in pathArray) {
+				var key = pathArray[inx]
+				if (!count) {
+					t = obj[key]
+				} else {
+					if (typeof val === 'undefined') {
+						t = t[key]
+					} else {
+						debugger
+						if (count < length - 1) {
+							t = t[key]
+						} else if (count === length - 1) {
+							t[key] = val
+							t = val
+						}
+					}
+				}
+				count++
+			}
+			return t
+		}
+		var o = {
+			a: {
+				b: {
+					c: 1
+				}
+			}
+		}
+		console.log(pathVal(o, 'a.b.c'))
+		console.log(pathVal(o, 'a.b.c', 2), o)
+
+	</script>
+</body>
+
+</html>
