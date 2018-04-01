@@ -12,20 +12,20 @@ let count = 0
 export default class Register {
 	static registDomListener4Hubs(node, prop, exp, vm, preTxt, nxtTxt) {
 		if (vm.computeds[exp]) {
+			const ccb = (val = run(exp, vm)) => {
+				DomFn.bind(node, prop, preTxt + val + nxtTxt)
+			}
 			//count several nodes ->same computed prop
 			propType.switch = exp + '$' + ++count
-			const ccb = () => {
-				DomFn.bind(node, prop, preTxt + run(exp, vm) + nxtTxt)
-			}
 			propType[exp + '$' + count] = ccb
 			ccb()
 			propType.switch = undefined
 		} else {
-			const cb = (val, oldVal) => {
+			const cb = (val = run(exp, vm), oldVal) => {
 				DomFn.bind(node, prop, preTxt + val + nxtTxt, preTxt + oldVal + nxtTxt)
 			}
 			console.log(`初始化页面get：${exp}`)
-			cb(run(exp, vm))
+			cb()
 			this.registListener4Hubs(exp, cb, vm)
 		}
 	}

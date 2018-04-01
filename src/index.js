@@ -12,8 +12,8 @@ window.instance = new Unar({
 		}
 	},
 	watchers: {
-		// a: function (val, old) {
-		// 	console.log(`a->haschanged,${old}-->${val}`)
-		// }
+		a: function (val, old) {
+			console.log(`a->haschanged,${old}-->${val}`)
+		}
 	}
 })
