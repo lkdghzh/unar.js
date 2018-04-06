@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>vue</title>
+</head>
+
+<body>
+	<div id="box"><input type="text" v-model="msg+a"></div>
+	<!-- "0"msg==="1"?"2":a -->
+	<!-- <input type="text" v-model="msg"><input type="text" v-model="a"> <input type="text" v-model="msg==='abc'?'1':a"> -->
+	<!-- msg==='abc'?'1':a -->
+	<!-- <h2>show</h2>
+		<span v-show="msg>0">1111</span>
+		<h2>model</h2>
+		<input type="text" v-model="b">
+		<input type="text" v-model="this.b=='d'">-->
+		
+		 
+	<!-- <script src="https://unpkg.com/vue@2.5.16/dist/vue.js"></script> -->
+	<!-- <script src="https://cdn.bootcss.com/vue/1.0.0/vue.js"></script> -->
+	<!-- <script src="https://cdn.bootcss.com/vue/0.6.0/vue.js"></script> -->
+	<!-- <script src="https://cdn.bootcss.com/vue/0.8.1/vue.js"></script> -->
+	<!-- <script src="https://cdn.bootcss.com/vue/0.10.2/vue.js"></script> -->
+	<!-- <script src="https://cdn.bootcss.com/vue/1.0.0-beta.3/vue.js"></script>可以 -->
+	<!-- <script src="https://cdn.bootcss.com/vue/1.0.0-alpha.1/vue.js"></script> -->
+	<script src="https://cdn.bootcss.com/vue/1.0.28/vue.js"></script>
+	
+	<script>
+		new Vue({
+			el: "#box",
+			data() {
+				return {
+					msg:'abc',
+					a:'A'
+				}
+			},
+			created(){
+				console.log(1)
+			}
+		})
+		// a: 's',
+		// 			b: 'd',
+		// 			show: true
+	</script>
+</body>
+
+</html>

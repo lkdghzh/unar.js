@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>vue</title>
+</head>
+
+<body>
+	<div id="box">
+		<span v-html="a+b"></span>---
+		<span v-html="c+'？'"></span>
+	</div>
+	<script src="https://unpkg.com/vue@2.5.16/dist/vue.js"></script>
+	<!-- <script src="https://cdn.bootcss.com/vue/1.0.28/vue.js"></script> -->
+
+	<script>
+		var instance = new Vue({
+			el: "#box",
+			data() {
+				return {
+					a: 'A',
+					b: 'B'
+				}
+			},
+			computed: {
+				c: {
+					get() {
+						return this.a + this.b
+					},
+					set(newV) {
+						debugger
+					}
+				}
+			}
+		})
+
+	</script>
+</body>
+
+</html>

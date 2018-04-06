@@ -1,12 +1,16 @@
-import Register from "../Bll/register"
+import {
+	run
+} from '../Utils'
 import propType from "../Bll/propType"
 import defaultConfigs from "../Config"
+import Listener from "../Hub/listener"
 import {
 	typeOf,
 	pathVal
 } from "../Utils"
 
 import {
+	Hub,
 	hubs
 } from "../Hub"
 export const config = (configs, vm) => {
@@ -29,12 +33,14 @@ const hijack = (data, vm) => {
 	})
 }
 
-const accessor = (data, vm, parentKey = '') => {
+const accessor = (data, vm) => {
+	// , parentKey = ''
 	Object.keys(data).forEach(key => {
-		var path = parentKey ? parentKey + '.' + key : key
-		var hubsPath = path.replace(/(\.)/g, it => it + 'children.')
+		// var path = parentKey ? parentKey + '.' + key : key
+		// var hubsPath = path.replace(/(\.)/g, it => it + 'children.')
 		//console.log(`currentPath->${path},${hubsPath}`)
-		
+		var hub = new Hub(key)
+		hubs.push(hub)
 		//Data properties->data[key]
 		//it's cached,data[key] can replaced by vm._data[key],vm.$options.data,o.data 
 		var valCache = pathVal(data, key)
@@ -46,19 +52,22 @@ const accessor = (data, vm, parentKey = '') => {
 				//maximum call stack size exceeded
 				//computeds
 				if (propType.switch) {
-					var currentComputedType = propType.switch
+					//var currentComputedType = propType.switch
 					//console.log(`↑  computed->ccb run,${propType.switch}用到了${key}，向${key}注册${propType.switch}函数`)
-					var cfn = function () {
-						//node fn
-						propType[currentComputedType]()
-						var ckey = currentComputedType.split('$')[0]
-						//console.log(`----------${currentComputedType},${ckey}-----------`)
-						//pure computed fn
-						typeOf(vm.computeds[ckey]) === "function" ? vm.computeds[ckey].call(vm) :
-							typeOf(vm.computeds[ckey]) === "object" ? vm.computeds[ckey].get.call(vm) :
-							""
-					}
-					Register.registListener4Hubs(key, cfn, vm)
+					// var cfn = function () {
+					// 	//node fn
+					// 	propType[currentComputedType]()
+
+					// 	var ckey = currentComputedType.split('$')[0]
+					// 	//console.log(`----------${currentComputedType},${ckey}-----------`)
+					// 	//pure computed fn
+					// 	typeOf(vm.computeds[ckey]) === "function" ? vm.computeds[ckey].call(vm) :
+					// 		typeOf(vm.computeds[ckey]) === "object" ? vm.computeds[ckey].get.call(vm) :
+					// 		""
+					// }
+					debugger
+					hub.addListener(propType.switch)
+					//Register.registListener4Hubs(hubs, key, hub)
 				}
 				console.log(`accessor->get:${key}`)
 				return valCache
@@ -74,9 +83,9 @@ const accessor = (data, vm, parentKey = '') => {
 				// 	// TODO observe array
 				// }
 				//set value first,then notify dom update with newVal
-				var currentHub = pathVal(hubs, hubsPath)
-				console.log(`setCurrentPath->${path},${hubsPath},${currentHub}`)
-				currentHub.notify()
+				// var currentHub = pathVal(hubs, hubsPath)
+				// console.log(`setCurrentPath->${path},${hubsPath},${currentHub}`)
+				hub.notify()
 				//hubs[key].notify()
 			}
 		})
@@ -93,7 +102,11 @@ export const proxy = (data, vm) => {
 export const watch = (watchers, vm) => {
 	//Object.entries({a:1})-->[["a", 1]]
 	for (let [exp, cb] of Object.entries(watchers)) {
-		Register.registListener4Hubs(exp, cb, vm)
+		// Register.registListener4Hubs(exp, cb, vm)
+		propType.switch = new Listener(vm, exp, cb)
+		run(exp, vm)
+		propType.switch = undefined
+
 	}
 }
 
