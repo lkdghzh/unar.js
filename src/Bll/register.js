@@ -24,7 +24,7 @@ export default class Register {
 		propType.switch = new Listener(vm, exp, cb)
 		var newVal = run(exp, vm)
 		cb(newVal)
-		propType.switch = undefined
+		propType.switch = null
 	}
 	// static registListener4Hubs(hubs,key,hub) {
 	// 	hubs[key]

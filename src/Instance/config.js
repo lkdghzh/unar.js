@@ -105,7 +105,7 @@ export const watch = (watchers, vm) => {
 		// Register.registListener4Hubs(exp, cb, vm)
 		propType.switch = new Listener(vm, exp, cb)
 		run(exp, vm)
-		propType.switch = undefined
+		propType.switch = null
 
 	}
 }
