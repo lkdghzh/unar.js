@@ -35,22 +35,6 @@
 // 	})
 // }
 
-
-//'{{a+"b"}} c {{d+f}}e'
-// -> scope.a + "b" + " c " + scope.d + scope.f
-// const bind=(exp,scope)=>{
-// 	var result=''
-// 	var parts=exp.split(/\{\{(.+?)\}\}/g)
-// 	return 
-// }
-// a +"b" === ? "sth" :b
-// scope.a +"b" === ? "sth" :scope.b
-// export const computeExp = (exp, scope) => {
-// 	exp = addScope(scope);
-// 	var fn = new Function('scope', 'return ' + exp);
-// 	return fn(scope);
-// }
-
 export const pathVal = (obj, path, val) => {
 	// var o = { a: { b: { c: 1 } } }
 	// pathVal(o, 'a.b.c')
@@ -84,43 +68,10 @@ export const pathVal = (obj, path, val) => {
 	}
 	return t
 }
-/**
- * 
- * @param {Object} obj literal
- * @param {String} path '.',then resolve [''][``][""] or  rewrite [''][``][""] this to '.'
- * @param {any} val 
- */
-// export const setPathVal=(obj, path,val)=>{
-// 	// var o = { a: { b: { c: 1 } } }
-// 	// setPathVal(o, 'a.b.c',2)
-
-// }
 export const typeOf = (o) => {
 	var _target
 	return ((_target = typeof (o)) == "object" ? Object.prototype.toString.call(o).slice(8, -1) : _target).toLowerCase()
 }
-
-
-// export const run = (exp, scope) => {
-// 	try {
-// 		with(scope) {
-// 			return eval(exp)
-// 		}
-// 	} catch (e) {
-// 		console.error('translate exp abnormal')
-// 	}
-// }
-
-// a +"b" === ? "sth" :b
-// scope.a +"b" === ? "sth" :scope.b
-//"a +'b' === ? 'sth' :b".replace(/[\"\']?(\w+)[\"\']?/g,(e)=>{console.log(e);return e.startsWith('"')&&e.endsWith('"')||e.startsWith("'")&&e.endsWith("'")?e:'scope.'+e})
-//'a +"b" === ? "sth" :b'.replace(/[\"\']?(\w+)[\"\']?/g,(e)=>{console.log(e);return e.startsWith('"')&&e.endsWith('"')||e.startsWith("'")&&e.endsWith("'")?e:'scope.'+e})
-// const scopeExp = (exp, vm) =>
-// 	exp.replace(/[\"\']?(\w+)[\"\']?/g, (e) =>
-// 		e.startsWith('"') && e.endsWith('"') ||
-// 		e.startsWith("'") && e.endsWith("'") ? e : (vm + '.' + e)
-// 	)
-
 export const run = (exp, scope) => {
 	try {
 		var fn
