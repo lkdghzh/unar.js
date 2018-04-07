@@ -373,13 +373,13 @@ class Templater {
 			});
 			return
 		}
-		// if (node.nodeType === 3) {
-		// 	if (Attr.isExpression(node.data)) {
-		// 		//text with {{}}
-		// 		const [, preTxt, key, nxtTxt] = Attr.expressionKey(node.data)
-		// 		Directive.bind(node, props.text, key, this.vm, preTxt, nxtTxt)
-		// 	}
-		// }
+		if (node.nodeType === 3) {
+			if (Attr.isExpression(node.data)) {
+				//text with {{}}
+				const [, preTxt, key, nxtTxt] = Attr.expressionKey(node.data);
+				Detictive.bind(node, props.text, key, this.vm, preTxt, nxtTxt);
+			}
+		}
 	}
 	isValidType(node) {
 		//for reduce the loop count ,filter nodes to Element Comment Text(not contain pure whitespace)
