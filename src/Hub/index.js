@@ -1,15 +1,5 @@
-/**
- * one vm prop(path) <--> one Hub <--> one singlylist(only allow append ,delete)
- * multiple singlylist <--> hubs <--> singlylists
- * 
- * no no no! it's a tree
- */
-// a:{id: 1, prop: "a", listeners: [cb1,cb2]
-// b:{id: 2, prop: "b", listeners: [cb3,cb4]
 var hubs = []
-
 window.hubs = hubs
-// var id = 0
 class Hub {
 	constructor(key) {
 		this.key = key

@@ -34,40 +34,17 @@ const hijack = (data, vm) => {
 }
 
 const accessor = (data, vm) => {
-	// , parentKey = ''
 	Object.keys(data).forEach(key => {
-		// var path = parentKey ? parentKey + '.' + key : key
-		// var hubsPath = path.replace(/(\.)/g, it => it + 'children.')
-		//console.log(`currentPath->${path},${hubsPath}`)
 		var hub = new Hub(key)
 		hubs.push(hub)
 		//Data properties->data[key]
 		//it's cached,data[key] can replaced by vm._data[key],vm.$options.data,o.data 
 		var valCache = pathVal(data, key)
 		//Accessor properties
-		//data reference->At the same time, vm._data ,vm.$options.data, o.data become three accessor properties
 		Object.defineProperty(data, key, {
 			get() {
-				//vm._data[key],vm.$options.data[key],data[key]
-				//maximum call stack size exceeded
-				//computeds
 				if (propType.switch) {
-					//var currentComputedType = propType.switch
-					//console.log(`↑  computed->ccb run,${propType.switch}用到了${key}，向${key}注册${propType.switch}函数`)
-					// var cfn = function () {
-					// 	//node fn
-					// 	propType[currentComputedType]()
-
-					// 	var ckey = currentComputedType.split('$')[0]
-					// 	//console.log(`----------${currentComputedType},${ckey}-----------`)
-					// 	//pure computed fn
-					// 	typeOf(vm.computeds[ckey]) === "function" ? vm.computeds[ckey].call(vm) :
-					// 		typeOf(vm.computeds[ckey]) === "object" ? vm.computeds[ckey].get.call(vm) :
-					// 		""
-					// }
-					debugger
 					hub.addListener(propType.switch)
-					//Register.registListener4Hubs(hubs, key, hub)
 				}
 				console.log(`accessor->get:${key}`)
 				return valCache

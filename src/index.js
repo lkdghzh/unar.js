@@ -8,11 +8,13 @@ window.instance = new Unar({
 	},
 	computeds: {
 		c() {
+			debugger
 			return this.a + this.b
 		}
 	},
 	watchers: {
 		a: function (val, old) {
+			debugger
 			console.log(`a->haschanged,${old}-->${val}`)
 		}
 	}

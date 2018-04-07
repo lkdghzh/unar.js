@@ -8,7 +8,7 @@ class Listener {
 		this.exp = exp
         this.vm = vm
 		this.oldVal = run(this.exp, this.vm)
-		this.cb = cb //one detective  --> one cb-->dom action
+		this.cb = cb 
 	}
 	update() {
 		var newVal = run(this.exp, this.vm)
