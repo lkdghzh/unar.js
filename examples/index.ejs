@@ -8,7 +8,11 @@
 
 <body>
 	<div id="root">
-		<input u-model="a" />
+		<input u-model="a" :id="a" />
+		<input u-model="b" />
+		<input u-model="c" />
+		<span u-html='a+b'></span>
+		pre---->{{a}}<----next
 	</div>
 </body>
 
