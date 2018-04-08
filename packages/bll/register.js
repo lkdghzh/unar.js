@@ -1,6 +1,6 @@
-import DomFn from "../View/domEvent"
+import DomFn from "../view/dom-event"
 import temp from "./temp"
-import Listener from "../Hub/listener"
+import Listener from "../hub/listener"
 
 import {
 	run

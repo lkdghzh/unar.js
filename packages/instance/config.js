@@ -1,9 +1,9 @@
 import {
 	run
-} from '../Utils'
-import temp from "../Bll/temp"
-import defaultConfigs from "../Config"
-import Listener from "../Hub/listener"
+} from '../utils'
+import temp from "../bll/temp"
+import defaultConfigs from "../configs"
+import Listener from "../hub/listener"
 import {
 	typeOf
 } from "../Utils"
@@ -11,7 +11,7 @@ import {
 import {
 	Hub,
 	hubs
-} from "../Hub"
+} from "../hub"
 export const config = (configs, vm) => {
 	vm.configs = Object.assign(defaultConfigs, configs)
 }

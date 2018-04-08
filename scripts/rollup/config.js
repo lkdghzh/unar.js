@@ -6,9 +6,9 @@ const babel = require('rollup-plugin-babel')
 
 const name = 'Unar'
 const env = process.env.TARGET
-const version = require('../package.json').version
+const version = require('../../package.json').version
 const resolve = p => path.resolve(__dirname, p)
-const input = resolve('../src/Instance/index.js')
+const input = resolve('../../src/Instance/index.js')
 
 const banner = `
 /**
@@ -21,7 +21,7 @@ const opts = {
 	'development': {
 		input,
 		output: {
-			file: resolve('dist/unar.js'),
+			file: resolve(`../../unar.${version}.js`),
 			name
 		},
 		banner,
@@ -35,7 +35,7 @@ const opts = {
 	'product': {
 		input,
 		output: {
-			file: resolve('dist/unar.min.js'),
+			file: resolve(`../../unar.${version}.min.js`),
 			name
 		},
 		banner,

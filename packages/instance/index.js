@@ -8,7 +8,7 @@ import {
 	watch,
 	compute
 } from "./config"
-import Templater from "../View/index.js"
+import Templater from "../view"
 class Unar {
 	// static hubs = []
 	constructor({

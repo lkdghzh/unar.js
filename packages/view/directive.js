@@ -1,8 +1,8 @@
 /**
  * Detictive
  */
-import Register from "../Bll/register"
-import Dom from "./domEvent"
+import Register from "../bll/register"
+import Dom from "./dom-event"
 export default class Detictive {
 	static bind(node, prop, exp, vm, preTxt = '', nxtTxt = '') {
 		// model  html

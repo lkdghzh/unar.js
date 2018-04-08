@@ -4,11 +4,11 @@
   "description": "unar.js",
   "main": "index.js",
   "scripts": {
-    "dev:parcel": "parcel ./examples/index.html",
+    "dev:parcel": "parcel ./examples/parcel/index.html",
     "test:vdom": "webpack ./knowledge/virtual-dom/virtual-dom.js ./knowledge/virtual-dom/vdom.js",
     "test:unarvdom": "webpack ./knowledge/unar-virtual-dom/script.js ./knowledge/unar-virtual-dom/index.js",
-    "dev:r": "rollup --watch --config scripts/config.js --environment TARGET:development",
-    "prod:r": "rollup --watch --config scripts/config.js --environment TARGET:product"
+    "dev:r": "rollup --watch --config scripts/rollup/config.js --environment TARGET:development",
+    "prod:r": "rollup --watch --config scripts/rollup/config.js --environment TARGET:product"
   },
   "repository": {
     "type": "git",

@@ -11,10 +11,6 @@
 	(global.Unar = factory());
 }(this, (function () { 'use strict';
 
-const typeOf = (o) => {
-	var _target;
-	return ((_target = typeof (o)) == "object" ? Object.prototype.toString.call(o).slice(8, -1) : _target).toLowerCase()
-};
 const run = (exp, scope) => {
 	try {
 		var fn;
@@ -52,6 +48,20 @@ class Listener {
 		this.oldVal = newVal;
 	}
 }
+
+const typeOf$1 = (o) => {
+	var _target;
+	return ((_target = typeof (o)) == "object" ? Object.prototype.toString.call(o).slice(8, -1) : _target).toLowerCase()
+};
+const run$1 = (exp, scope) => {
+	try {
+		var fn;
+		fn = new Function('vm', 'with(vm){return ' + exp + '}');
+		return fn(scope)
+	} catch (e) {
+		console.error(`${exp} has a unresolved error`);
+	}
+};
 
 var hubs = [];
 window.hubs = hubs;
@@ -114,7 +124,7 @@ const accessor = (data, vm) => {
 			set(newVal) {
 				valCache = newVal;
 				// object 
-				if (typeOf(newVal) === 'object') {
+				if (typeOf$1(newVal) === 'object') {
 					accessor(newVal, vm, path);
 				}
 				// array
@@ -125,7 +135,7 @@ const accessor = (data, vm) => {
 				hub.notify();
 			}
 		});
-		if (typeOf(valCache) === 'object') {
+		if (typeOf$1(valCache) === 'object') {
 			accessor(valCache, vm, path);
 		}
 	});
@@ -158,8 +168,8 @@ const compute = (computeds, vm) => {
 		Object.defineProperty(vm, key, {
 			configurable: false,
 			enumerable: true,
-			get: typeOf(target) === "function" ? target : typeOf(target) === "object" ? target.get : function () {},
-			set: typeOf(target) === "object" ? target.set : function () {}
+			get: typeOf$1(target) === "function" ? target : typeOf$1(target) === "object" ? target.get : function () {},
+			set: typeOf$1(target) === "object" ? target.set : function () {}
 		});
 	}
 };
@@ -207,7 +217,7 @@ class Register {
 		};
 		// console.log(`初始化页面get：${exp}`)
 		temp.listener = new Listener(vm, exp, cb);
-		var newVal = run(exp, vm);
+		var newVal = run$1(exp, vm);
 		cb(newVal);
 		temp.listener = null;
 	}

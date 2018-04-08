@@ -53,6 +53,7 @@ get() {
 # parcel
 + npm install -g parcel-bundler
 + npm run dev:parcel
+//,"external-helpers"  will deleted manually
 # webpack
 ## 1,run dev example
 + npm i
