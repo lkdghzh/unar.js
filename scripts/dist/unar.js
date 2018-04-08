@@ -5,76 +5,6 @@
 *   Released under the MIT License.
 */ 
 
-// import 
-// export const set = (o) => {
-
-// }
-// export const extend = (o) => {
-
-// }
-// export const defDataProp = (o, key, val, state) => {
-// 	var states = {
-// 		'': [1, 1, 1],
-// 		'': [1, 1, 0],
-// 		'': [1, 0, 1],
-// 		'': [1, 0, 0],
-// 		'': [0, 1, 1],
-// 		'': [0, 1, 0],
-// 		'': [0, 0, 1],
-// 		'': [0, 0, 0]
-// 	}
-
-// 	var [configurable, enumerable, writable] = states[state]
-// 	Object.defineProperty(o, key, {
-// 		configurable: !!configurable,
-// 		enumerable: !!enumerable,
-// 		writable: !!writable,
-// 		value: val
-// 	})
-// }
-// export const defAccessProp = (o, key, val, state) => {
-// 	var states = ['', '', '', '']
-// 	Object.defineProperty(o, key, {
-// 		configurable: !!writable,
-// 		enumerable: !!enumerable,
-// 		get() {},
-// 		set(newVal) {}
-// 	})
-// }
-
-const pathVal = (obj, path, val) => {
-	// var o = { a: { b: { c: 1 } } }
-	// pathVal(o, 'a.b.c')
-	// pathVal(o, 'a.b.c',2)
-	var pathArray = path.split('.');
-	var length = pathArray.length;
-	var t;
-	var count = 0;
-	for (var inx in pathArray) {
-		var key = pathArray[inx];
-		if (!count) {
-			if (typeof val === 'undefined') {
-				t = obj[key];
-			}else{
-				obj[key]=val;
-				t=val;
-			}
-		} else {
-			if (typeof val === 'undefined') {
-				t = t[key];
-			} else {
-				if (count < length - 1) {
-					t = t[key];
-				} else if (count === length - 1) {
-					t[key] = val;
-					t = val;
-				}
-			}
-		}
-		count++;
-	}
-	return t
-};
 const typeOf = (o) => {
 	var _target;
 	return ((_target = typeof (o)) == "object" ? Object.prototype.toString.call(o).slice(8, -1) : _target).toLowerCase()
@@ -89,10 +19,10 @@ const run = (exp, scope) => {
 	}
 };
 
-var  propType={
-    switch:undefined
+var temp={
+    listener:null
 };
-window.propType=propType;
+window.listener=temp;
 
 let defaultConfigs = {
     actionPrefix: "u-",
@@ -165,13 +95,12 @@ const accessor = (data, vm) => {
 		var hub = new Hub(key);
 		hubs.push(hub);
 		//Data properties->data[key]
-		//it's cached,data[key] can replaced by vm._data[key],vm.$options.data,o.data 
-		var valCache = pathVal(data, key);
+		var valCache = data[key];
 		//Accessor properties
 		Object.defineProperty(data, key, {
 			get() {
-				if (propType.switch) {
-					hub.addListener(propType.switch);
+				if (temp.listener) {
+					hub.addListener(temp.listener);
 				}
 				console.log(`accessor->get:${key}`);
 				return valCache
@@ -187,30 +116,25 @@ const accessor = (data, vm) => {
 				// 	// TODO observe array
 				// }
 				//set value first,then notify dom update with newVal
-				// var currentHub = pathVal(hubs, hubsPath)
-				// console.log(`setCurrentPath->${path},${hubsPath},${currentHub}`)
 				hub.notify();
-				//hubs[key].notify()
 			}
 		});
 		if (typeOf(valCache) === 'object') {
 			accessor(valCache, vm, path);
 		}
 	});
-
 };
 const proxy = (data, vm) => {
 	accessor(data, vm);
 	hijack(data, vm);
 };
 const watch = (watchers, vm) => {
-	//Object.entries({a:1})-->[["a", 1]]
+	//Object.entries({a:1,b:2})-->[["a", 1],["b", 2]]
 	for (let [exp, cb] of Object.entries(watchers)) {
-		// Register.registListener4Hubs(exp, cb, vm)
-		propType.switch = new Listener(vm, exp, cb);
+		// console.log('watching...')
+		temp.listener = new Listener(vm, exp, cb);
 		run(exp, vm);
-		propType.switch = null;
-
+		temp.listener = null;
 	}
 };
 
@@ -276,10 +200,10 @@ class Register {
 			DomEvent.bind(node, prop, preTxt + val + nxtTxt, preTxt + oldVal + nxtTxt);
 		};
 		// console.log(`初始化页面get：${exp}`)
-		propType.switch = new Listener(vm, exp, cb);
+		temp.listener = new Listener(vm, exp, cb);
 		var newVal = run(exp, vm);
 		cb(newVal);
-		propType.switch = null;
+		temp.listener = null;
 	}
 }
 
@@ -293,7 +217,9 @@ class Detictive {
 		// :id
 		Register.registDomListener4Hubs(node, prop, exp, vm, preTxt, nxtTxt);
 		if (prop === 'value') {
-			const fn = e => pathVal(vm, exp, e.target.value);
+			//when set by user,the exp is must be a variable.
+			// not allow expression
+			const fn = e => vm[exp] = e.target.value;
 			this.addEvt(node, 'input', fn, vm);
 		}
 	}
