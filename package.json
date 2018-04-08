@@ -8,7 +8,8 @@
     "test:vdom": "webpack ./knowledge/virtual-dom/virtual-dom.js ./knowledge/virtual-dom/vdom.js",
     "test:unarvdom": "webpack ./knowledge/unar-virtual-dom/script.js ./knowledge/unar-virtual-dom/index.js",
     "dev:r": "rollup --watch --config scripts/rollup/config.js --environment TARGET:development",
-    "prod:r": "rollup --watch --config scripts/rollup/config.js --environment TARGET:product"
+    "prod:r": "rollup --watch --config scripts/rollup/config.js --environment TARGET:product",
+    "release":"bash scripts/release.sh"
   },
   "repository": {
     "type": "git",
