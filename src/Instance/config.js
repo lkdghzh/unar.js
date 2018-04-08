@@ -5,8 +5,7 @@ import propType from "../Bll/propType"
 import defaultConfigs from "../Config"
 import Listener from "../Hub/listener"
 import {
-	typeOf,
-	pathVal
+	typeOf
 } from "../Utils"
 
 import {
@@ -38,8 +37,7 @@ const accessor = (data, vm) => {
 		var hub = new Hub(key)
 		hubs.push(hub)
 		//Data properties->data[key]
-		//it's cached,data[key] can replaced by vm._data[key],vm.$options.data,o.data 
-		var valCache = pathVal(data, key)
+		var valCache = data[key]
 		//Accessor properties
 		Object.defineProperty(data, key, {
 			get() {
@@ -77,13 +75,12 @@ export const proxy = (data, vm) => {
 	hijack(data, vm)
 }
 export const watch = (watchers, vm) => {
-	//Object.entries({a:1})-->[["a", 1]]
+	//Object.entries({a:1,b:2})-->[["a", 1],["b", 2]]
 	for (let [exp, cb] of Object.entries(watchers)) {
-		// Register.registListener4Hubs(exp, cb, vm)
+		// console.log('watching...')
 		propType.switch = new Listener(vm, exp, cb)
 		run(exp, vm)
 		propType.switch = null
-
 	}
 }
 

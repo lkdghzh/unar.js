@@ -16,6 +16,21 @@ order | task | status
 2018/04/16  | for of ,if else elseif | :hearts: 
 2018/04/23  | observe Object  | :hearts: 
 2018/04/30 | observe Array  | :hearts: 
+# options
+## get何时调用？
+```
+<input u-model="a" />
+...
+get() {
+    if (propType.switch) {
+        hub.addListener(propType.switch)
+    }
+    console.log(`accessor->get:${key}`)
+    return valCache
+}
+```
+get初始化时候，通过hijack数据劫持。 只有在new Listener()的时候调用。watchers里的属性也是new Listener()
+notify时候，通过hijack数据劫持。 只有在hub.notify===listeners.notify的时候调用。如果watchers里的属性的注册的cb，也会调用
 # Knowledge
 + babel "preset-stage-2" only transform static prop
 # virtual dom
@@ -45,14 +60,6 @@ order | task | status
 + http://localhost:1234 
 + http://localhost:1234/start
 + http://localhost:1234/dist/index.html
-## 2,run dev test-package
-> there will be has some error information about `webpack-hmr`,it doesn't matter.because this command is just test package  in dev-enviroment,for we can see the packaged files
-+ npm run dev:testpkg
-+ open /dist/index.html in broswer
-
-## 3,run product
-> there will be `Unar.js` library in `/dist` Path .
-+ npm run publish
 
 # 5,ts
 # 6,rollup打包
