@@ -8,6 +8,6 @@ export const run = (exp, scope) => {
 		fn = new Function('vm', 'with(vm){return ' + exp + '}')
 		return fn(scope)
 	} catch (e) {
-		console.error('')
+		console.error(`${exp} has a unresolved error`)
 	}
 }

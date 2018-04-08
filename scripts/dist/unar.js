@@ -5,6 +5,12 @@
 *   Released under the MIT License.
 */ 
 
+(function (global, factory) {
+	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
+	typeof define === 'function' && define.amd ? define(factory) :
+	(global.Unar = factory());
+}(this, (function () { 'use strict';
+
 const typeOf = (o) => {
 	var _target;
 	return ((_target = typeof (o)) == "object" ? Object.prototype.toString.call(o).slice(8, -1) : _target).toLowerCase()
@@ -15,7 +21,7 @@ const run = (exp, scope) => {
 		fn = new Function('vm', 'with(vm){return ' + exp + '}');
 		return fn(scope)
 	} catch (e) {
-		console.error('');
+		console.error(`${exp} has a unresolved error`);
 	}
 };
 
@@ -375,4 +381,6 @@ class Unar {
 	// 'emit', 'on', 'off', 'once'
 }
 
-export default Unar;
+return Unar;
+
+})));

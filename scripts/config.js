@@ -26,7 +26,7 @@ const opts = {
 		},
 		banner,
 		env: 'development',
-		format: 'es',
+		format: 'umd',//es
         plugins: [node()]
         // , babel({
 		// 	exclude: 'node_modules/**'

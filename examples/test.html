@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+</head>
+
+<body>
+	<div id="root">
+		<input u-model="a" :id="a" />
+		<input u-model="b" />
+		<input u-model="c" />
+		<span u-html='a+b'></span>
+		pre>{{a}}next
+	</div>
+	<script src="../scripts/dist/unar.js"></script>
+	<script>
+		window.instance = new Unar({
+			el: "#root",
+			data: {
+				a: 1,
+				b: 2
+			},
+			computeds: {
+				c() {
+					return this.a + this.b
+				}
+			},
+			watchers: {
+				a: function (val, old) {
+					console.log(`a->haschanged,${old}-->${val}`)
+				}
+			}
+		})
+
+	</script>
+</body>
+
+</html>
