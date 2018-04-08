@@ -58,17 +58,13 @@ const accessor = (data, vm) => {
 				// 	// TODO observe array
 				// }
 				//set value first,then notify dom update with newVal
-				// var currentHub = pathVal(hubs, hubsPath)
-				// console.log(`setCurrentPath->${path},${hubsPath},${currentHub}`)
 				hub.notify()
-				//hubs[key].notify()
 			}
 		})
 		if (typeOf(valCache) === 'object') {
 			accessor(valCache, vm, path)
 		}
 	})
-
 }
 export const proxy = (data, vm) => {
 	accessor(data, vm)

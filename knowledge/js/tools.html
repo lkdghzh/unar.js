@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+</head>
+
+<body>
+	<script>
+		export const pathVal = (obj, path, val) => {
+			// var o = { a: { b: { c: 1 } } }
+			// pathVal(o, 'a.b.c')
+			// pathVal(o, 'a.b.c',2)
+			var pathArray = path.split('.')
+			var length = pathArray.length
+			var t
+			var count = 0
+			for (var inx in pathArray) {
+				var key = pathArray[inx]
+				if (!count) {
+					if (typeof val === 'undefined') {
+						t = obj[key]
+					} else {
+						obj[key] = val
+						t = val
+					}
+				} else {
+					if (typeof val === 'undefined') {
+						t = t[key]
+					} else {
+						if (count < length - 1) {
+							t = t[key]
+						} else if (count === length - 1) {
+							t[key] = val
+							t = val
+						}
+					}
+				}
+				count++
+			}
+			return t
+		}
+		// import 
+		// export const set = (o) => {
+
+		// }
+		// export const extend = (o) => {
+
+		// }
+		// export const defDataProp = (o, key, val, state) => {
+		// 	var states = {
+		// 		'': [1, 1, 1],
+		// 		'': [1, 1, 0],
+		// 		'': [1, 0, 1],
+		// 		'': [1, 0, 0],
+		// 		'': [0, 1, 1],
+		// 		'': [0, 1, 0],
+		// 		'': [0, 0, 1],
+		// 		'': [0, 0, 0]
+		// 	}
+
+		// 	var [configurable, enumerable, writable] = states[state]
+		// 	Object.defineProperty(o, key, {
+		// 		configurable: !!configurable,
+		// 		enumerable: !!enumerable,
+		// 		writable: !!writable,
+		// 		value: val
+		// 	})
+		// }
+		// export const defAccessProp = (o, key, val, state) => {
+		// 	var states = ['', '', '', '']
+		// 	Object.defineProperty(o, key, {
+		// 		configurable: !!writable,
+		// 		enumerable: !!enumerable,
+		// 		get() {},
+		// 		set(newVal) {}
+		// 	})
+		// }
+
+	</script>
+</body>
+
+</html>
