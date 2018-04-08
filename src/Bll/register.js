@@ -1,5 +1,5 @@
 import DomFn from "../View/domEvent"
-import propType from "./propType"
+import temp from "./temp"
 import Listener from "../Hub/listener"
 
 import {
@@ -11,9 +11,9 @@ export default class Register {
 			DomFn.bind(node, prop, preTxt + val + nxtTxt, preTxt + oldVal + nxtTxt)
 		}
 		// console.log(`初始化页面get：${exp}`)
-		propType.switch = new Listener(vm, exp, cb)
+		temp.listener = new Listener(vm, exp, cb)
 		var newVal = run(exp, vm)
 		cb(newVal)
-		propType.switch = null
+		temp.listener = null
 	}
 }

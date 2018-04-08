@@ -1,7 +1,7 @@
 import {
 	run
 } from '../Utils'
-import propType from "../Bll/propType"
+import temp from "../Bll/temp"
 import defaultConfigs from "../Config"
 import Listener from "../Hub/listener"
 import {
@@ -41,8 +41,8 @@ const accessor = (data, vm) => {
 		//Accessor properties
 		Object.defineProperty(data, key, {
 			get() {
-				if (propType.switch) {
-					hub.addListener(propType.switch)
+				if (temp.listener) {
+					hub.addListener(temp.listener)
 				}
 				console.log(`accessor->get:${key}`)
 				return valCache
@@ -78,9 +78,9 @@ export const watch = (watchers, vm) => {
 	//Object.entries({a:1,b:2})-->[["a", 1],["b", 2]]
 	for (let [exp, cb] of Object.entries(watchers)) {
 		// console.log('watching...')
-		propType.switch = new Listener(vm, exp, cb)
+		temp.listener = new Listener(vm, exp, cb)
 		run(exp, vm)
-		propType.switch = null
+		temp.listener = null
 	}
 }
 
