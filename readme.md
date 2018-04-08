@@ -29,7 +29,7 @@ get() {
     return valCache
 }
 ```
-+ get初始化时候，通过hijack数据劫持。 只有在new Listener()的时候调用。watchers里的属性也是new Listener()
++ 页面初始化时候，通过hijack数据劫持。 只有在new Listener()的时候调用。watchers里的属性也是new Listener()
 + notify时候，通过hijack数据劫持。 只有在hub.notify===listeners.notify的时候调用。如果watchers里的属性的注册的cb，也会调用
 # Knowledge
 + babel "preset-stage-2" only transform static prop
