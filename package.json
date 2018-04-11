@@ -5,8 +5,9 @@
   "main": "index.js",
   "scripts": {
     "dev:parcel": "parcel ./examples/parcel/index.html",
-    "dev:r": "rollup --watch --config scripts/rollup/config.js --environment TARGET:development",
-    "prod:r": "rollup --watch --config scripts/rollup/config.js --environment TARGET:product",
+    "dev:r": "rollup --watch --config scripts/rollup/config.js --environment TARGET:es6",
+    "stage:r": "rollup --watch --config scripts/rollup/config.js --environment TARGET:es5",
+    "prod:r": "rollup --watch --config scripts/rollup/config.js --environment TARGET:min",
     "release": "bash scripts/release.sh"
   },
   "repository": {
@@ -32,6 +33,7 @@
     "rollup-plugin-babel": "^3.0.3",
     "rollup-plugin-eslint": "^4.0.0",
     "rollup-plugin-node-resolve": "^3.0.2",
+    "rollup-plugin-uglify": "^3.0.0",
     "ts-loader": "^3.3.1"
   }
 }

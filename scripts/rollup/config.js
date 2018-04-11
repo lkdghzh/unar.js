@@ -4,6 +4,7 @@ const path = require('path')
 const node = require('rollup-plugin-node-resolve') //resolve suffix eg.. index.js  
 const babel = require('rollup-plugin-babel')
 const eslint = require('rollup-plugin-eslint')
+import uglify from 'rollup-plugin-uglify';
 
 const name = 'Unar'
 const env = process.env.TARGET
@@ -19,10 +20,10 @@ const banner = `
 */ 
 `
 const opts = {
-	'development': {
+	'es6': {
 		input,
 		output: {
-			file: resolve(`../../unar.${version}.js`),
+			file: resolve(`../../unar.${version}.es6.js`),
 			name
 		},
 		banner,
@@ -30,7 +31,20 @@ const opts = {
 		format: 'umd', //es
 		plugins: [node(), eslint()]
 	},
-	'product': {
+	'es5': {
+		input,
+		output: {
+			file: resolve(`../../unar.${version}.js`),
+			name
+		},
+		banner,
+		env: 'production',
+		format: 'umd',
+		plugins: [node(), eslint(), babel({
+			exclude: 'node_modules/**'
+		})]
+	},
+	'min': {
 		input,
 		output: {
 			file: resolve(`../../unar.${version}.min.js`),
@@ -39,7 +53,7 @@ const opts = {
 		banner,
 		env: 'production',
 		format: 'umd',
-		plugins: [node(), eslint(), babel({
+		plugins: [node(), uglify(), eslint(), babel({
 			exclude: 'node_modules/**'
 		})]
 	}
