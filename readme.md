@@ -17,7 +17,7 @@ order | task | status
 2018/04/23  | observe Object  | :hearts: 
 2018/04/30 | observe Array  | :hearts: 
 # options
-## get何时调用？
+## when unar getter call ？
 ```
 <input u-model="a" />
 ...
@@ -40,7 +40,7 @@ get() {
 - dom-diff
 - real-dom-patch
 - life-cycle
-# your own configuration(config)
+# own configuration
     new Unar({
         ...
         config:{
@@ -51,19 +51,15 @@ get() {
     })
     file-suffix:'uar'
 
-# parcel
+# parcel dev
 + npm install -g parcel-bundler
 + npm run dev:parcel
 //,"external-helpers"  will deleted manually
-# webpack
-## 1,run dev example
-+ npm i
-+ npm run dev
-+ http://localhost:1234 
-+ http://localhost:1234/start
-+ http://localhost:1234/dist/index.html
 
-# 5,ts
-# 6,rollup打包
-    1,scripts--config.js
-
+# package unar
+> scripts -rollup -config.js
+```
+npm run dev:r   --->es6 umd
+npm run stage:r --->es5 umd 
+npm run prod:r  --->es5 umd min
+```
