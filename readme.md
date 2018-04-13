@@ -78,33 +78,22 @@ npm install karma-jasmine karma-chrome-launcher karma-firefox-launcher jasmine-c
 
 # Run Karma:
 ./node_modules/karma/bin/karma start
-# Run Karma if installed global
+# Run Karma if installed global there is no instance
 npm install karma -g
 karma start
 
+#Build instance
 cd scripts/karma/unit/
 karma init
 # enter ... it will touch karma.conf.js
 touch test.js
 vim test.js
 i
-function fn(){
-	return 'first unit test'
-}
+....
 esc
 :wq
-touch firstjasmineTest.js
-vim firstjasmineTest.js
-i
-describe("A suite of basic functions", function () {
-    it("test", function () {
-        expect("first unit test").toEqual(fn());
-    });
-});
-esc
-:wq
+it includes spec.js  test instance and src eg(packages)
 # config karma.conf.js
-
 
 # write scripts in package.json
 "test:unit":"karma start scripts/karma/unit/karma.conf.js"
