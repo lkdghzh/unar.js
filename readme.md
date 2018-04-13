@@ -11,7 +11,7 @@ order | task | status
 2018-03-13  | configs | :heavy_check_mark:
 2018-03-14  | computeds ->set-hook  | :heavy_check_mark:
 2018-03-17  | model, :(style class selfattr) ,html {{}}, @  | :heavy_check_mark: 
-2018-03-22  | 发现漏洞。对key的词法分析。需要转化ast。这块开发周期长，尚不能估计。  | :bangbang:
+2018-03-22  | Finding loopholes. lexical analysis. Need to convert ast. This long development cycle cannot be estimated  | :bangbang:
 2018-03-25  | show  | :hearts: 
 2018/04/16  | for of ,if else elseif | :hearts: 
 2018/04/23  | observe Object  | :hearts: 
