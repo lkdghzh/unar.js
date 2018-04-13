@@ -8,7 +8,8 @@
     "dev:r": "rollup --watch --config scripts/rollup/config.js --environment TARGET:es6",
     "stage:r": "rollup --watch --config scripts/rollup/config.js --environment TARGET:es5",
     "prod:r": "rollup --watch --config scripts/rollup/config.js --environment TARGET:min",
-    "release": "bash scripts/release.sh"
+    "release": "bash scripts/release.sh",
+    "test:unit": "karma start scripts/karma/karma.conf.js"
   },
   "repository": {
     "type": "git",
@@ -26,14 +27,23 @@
   "devDependencies": {
     "babel-core": "^6.26.0",
     "babel-eslint": "^8.2.2",
+    "babel-loader": "^7.1.4",
     "babel-plugin-external-helpers": "^6.22.0",
     "babel-preset-env": "^1.6.1",
     "eslint": "^4.15.0",
     "eslint-plugin-unar": "0.0.2",
+    "jasmine-core": "^3.1.0",
+    "karma": "^2.0.0",
+    "karma-chrome-launcher": "^2.2.0",
+    "karma-firefox-launcher": "^1.1.0",
+    "karma-jasmine": "^1.1.1",
+    "karma-sourcemap-loader": "^0.3.7",
+    "karma-webpack": "^3.0.0",
     "rollup-plugin-babel": "^3.0.3",
     "rollup-plugin-eslint": "^4.0.0",
     "rollup-plugin-node-resolve": "^3.0.2",
     "rollup-plugin-uglify": "^3.0.0",
-    "ts-loader": "^3.3.1"
+    "ts-loader": "^3.3.1",
+    "webpack": "^4.5.0"
   }
 }

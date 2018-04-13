@@ -68,3 +68,45 @@ npm run dev:r   --->es6 umd
 npm run stage:r --->es5 umd 
 npm run prod:r  --->es5 umd min
 ```
+# unit test
+```
+# Install Karma:
+npm install karma --save-dev
+
+# Install plugins that your project needs:
+npm install karma-jasmine karma-chrome-launcher karma-firefox-launcher jasmine-core --save-dev
+
+# Run Karma:
+./node_modules/karma/bin/karma start
+# Run Karma if installed global
+npm install karma -g
+karma start
+
+cd scripts/karma/unit/
+karma init
+# enter ... it will touch karma.conf.js
+touch test.js
+vim test.js
+i
+function fn(){
+	return 'first unit test'
+}
+esc
+:wq
+touch firstjasmineTest.js
+vim firstjasmineTest.js
+i
+describe("A suite of basic functions", function () {
+    it("test", function () {
+        expect("first unit test").toEqual(fn());
+    });
+});
+esc
+:wq
+# config karma.conf.js
+
+
+# write scripts in package.json
+"test:unit":"karma start scripts/karma/unit/karma.conf.js"
+npm run test:unit
+```
