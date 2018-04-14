@@ -1,6 +1,7 @@
 var path = require('path')
 var alias = {
-	test: path.resolve(__dirname, '../../packages/test')
+	test: path.resolve(__dirname, '../../packages/test'),
+	unar: path.resolve(__dirname, '../../packages/instance/index')
 }
 module.exports = {
 	resolve: {
