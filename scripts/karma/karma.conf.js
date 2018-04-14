@@ -1,7 +1,7 @@
 var webpack = require('./webpack.conf')
 module.exports = function (config) {
 	config.set({
-		basePath: '',
+		basePath: '../../',
 		frameworks: ['jasmine'],
 		files: [
 			'test/**/**/*.spec.js'
@@ -20,7 +20,7 @@ module.exports = function (config) {
 		colors: true,
 		logLevel: config.LOG_INFO,
 		autoWatch: true,
-		browsers: ['Chrome', 'Firefox'], //, 'Safari'
+		browsers: ['Chrome', 'Firefox', 'Safari'], //
 		singleRun: false, //true
 		concurrency: Infinity
 	})
