@@ -33,4 +33,7 @@ export default class Detictive {
 		var fn = typeof (fn) === "function" ? fn : this.vm.methods[fn].bind(this.vm)
 		Dom.addEvt(this.node, evt, fn)
 	}
+	control(){
+		
+	}
 }

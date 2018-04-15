@@ -55,9 +55,13 @@ export default class Templater {
 						//@click
 						currentDirective.addEvt()
 					} else {
-						//u-html u-model
-						//:id
-						currentDirective.bind()
+						if (directive != 'if' || directive != 'for') {
+							//u-html u-model
+							//:id
+							currentDirective.bind()
+						} else {
+							currentDirective.control()
+						}
 					}
 				}
 			})
