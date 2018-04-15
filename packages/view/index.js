@@ -24,7 +24,7 @@ export default class Templater {
 			const node = this.el.childNodes[i]
 			if (this.isValidType(node)) {
 				docFrag.appendChild(node)
-					--i
+				--i
 			}
 		}
 		return docFrag
@@ -39,20 +39,17 @@ export default class Templater {
 		if (node.nodeType === 1) {
 			//for (let attr of node.attributes) {
 			new Array().slice.call(node.attributes).forEach(attr => {
-				const detective = attr.nodeName
+				const attrName = attr.nodeName
 				const exp = attr.nodeValue
-				const detecInfo = Attr.isRightDetec(detective, this.vm.configs)
 				const {
-					detectype,
-					detec
-				} = detecInfo ? detecInfo : {
-					detectype: undefined,
-					detec: undefined
-				}
-				if (detec) {
-					node.removeAttribute(detective)
-					const prop = props[detec] ? props[detec] : detec
-					if (detectype === this.vm.configs.evtPrefix) {
+					prefix,
+					directive
+				} = Attr.checkDirective(attrName, this.vm.configs)
+
+				if (directive) {
+					node.removeAttribute(attrName)
+					const prop = props[directive] ? props[directive] : directive
+					if (prefix === this.vm.configs.evtPrefix) {
 						//@click
 						Directive.addEvt(node, prop, exp, this.vm)
 					} else {

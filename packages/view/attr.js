@@ -5,14 +5,16 @@ export default class Attr {
 	static expressionKey(txt) {
 		return txt.match(/(.*)\{\{(.*)\}\}(.*)/)
 	}
-	static isRightDetec(detective, configs) {
-		var detec
-		for (let prefix in configs) {
-			if (detective.startsWith(configs[prefix])) {
-				detec = {
-					detectype: detective.substring(0, configs[prefix].length),
-					detec: detective.substring(configs[prefix].length)
-				}
+	static checkDirective(attrName, configs) {
+		var detec = {
+			prefix: '',
+			directive: ''
+		}
+		for (var key in configs) {
+			var prefix = configs[key]
+			if (attrName.startsWith(prefix)) {
+				detec.prefix = attrName.substring(0, prefix.length)
+				detec.directive = attrName.substring(prefix.length)
 				break
 			}
 		}
