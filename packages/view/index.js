@@ -30,32 +30,34 @@ export default class Templater {
 		return docFrag
 	}
 	initAttr(node) {
-		const props = {
-			model: 'value', //v-model
-			html: 'innerHTML', //v-html
-			text: 'textContent', //{{}}
-			class: 'className' //:class
-		}
 		if (node.nodeType === 1) {
 			//for (let attr of node.attributes) {
 			new Array().slice.call(node.attributes).forEach(attr => {
 				const attrName = attr.nodeName
-				const exp = attr.nodeValue
 				const {
 					prefix,
 					directive
 				} = Attr.checkDirective(attrName, this.vm.configs)
+				const expOrFn = attr.nodeValue
 
 				if (directive) {
 					node.removeAttribute(attrName)
-					const prop = props[directive] ? props[directive] : directive
+					//@click  ->click
+					//u-model ->value
+					var currentDirective = new Directive({
+						name: directive,
+						expOrFn: expOrFn,
+						node: node,
+						vm: this.vm
+					})
+
 					if (prefix === this.vm.configs.evtPrefix) {
 						//@click
-						Directive.addEvt(node, prop, exp, this.vm)
+						currentDirective.addEvt()
 					} else {
 						//u-html u-model
 						//:id
-						Directive.bind(node, prop, exp, this.vm)
+						currentDirective.bind()
 					}
 				}
 			})
@@ -67,8 +69,18 @@ export default class Templater {
 		if (node.nodeType === 3) {
 			if (Attr.isExpression(node.data)) {
 				//text with {{}}
-				const [, preTxt, key, nxtTxt] = Attr.expressionKey(node.data)
-				Directive.bind(node, props.text, key, this.vm, preTxt, nxtTxt)
+				const [, preTxt, expOrFn, nxtTxt] = Attr.expressionKey(node.data)
+
+				var currentDirective = new Directive({
+					name: 'text',
+					expOrFn: expOrFn,
+
+					node: node,
+					preTxt: preTxt,
+					nxtTxt: nxtTxt,
+					vm: this.vm
+				})
+				currentDirective.bind()
 			}
 		}
 	}

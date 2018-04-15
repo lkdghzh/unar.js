@@ -6,7 +6,7 @@ import {
 	run
 } from '../Utils'
 export default class Register {
-	static registDomListener4Hubs(node, prop, exp, vm, preTxt, nxtTxt) {
+	static registDomListener4Hubs(node, prop, exp, vm, preTxt = '', nxtTxt = '') {
 		const cb = (val, oldVal) => {
 			DomFn.bind(node, prop, preTxt + val + nxtTxt, preTxt + oldVal + nxtTxt)
 		}
