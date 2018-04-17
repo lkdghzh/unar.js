@@ -12,80 +12,87 @@ export default class Templater {
 	}
 	init() {
 		const docFrag = document.createDocumentFragment()
-		//translat dom to fragment
-		this.translate(docFrag).childNodes.forEach((node) => {
-			//init view
-			this.initAttr(node)
-		})
+		var filledFrag = this.fillFrag(docFrag)
+		this.compile(filledFrag)
 		return docFrag
 	}
-	translate(docFrag) {
+	fillFrag(docFrag) {
 		for (let i = 0; i < this.el.childNodes.length; i++) {
 			const node = this.el.childNodes[i]
 			if (this.isValidType(node)) {
 				docFrag.appendChild(node)
-				--i
+					--i
 			}
 		}
 		return docFrag
 	}
-	initAttr(node) {
+	compile(node) {
+		//translat dom to fragment
+		node.childNodes.forEach((node) => {
+			//init view
+			this.compileNode(node)
+		})
+	}
+	compileNode(node) {
 		if (node.nodeType === 1) {
 			//for (let attr of node.attributes) {
-			new Array().slice.call(node.attributes).forEach(attr => {
-				const attrName = attr.nodeName
-				const {
-					prefix,
-					directive
-				} = Attr.checkDirective(attrName, this.vm.configs)
-				const expOrFn = attr.nodeValue
-
-				if (directive) {
-					node.removeAttribute(attrName)
-					//@click  ->click
-					//u-model ->value
-					var currentDirective = new Directive({
-						name: directive,
-						expOrFn: expOrFn,
-						node: node,
-						vm: this.vm
-					})
-
-					if (prefix === this.vm.configs.evtPrefix) {
-						//@click
-						currentDirective.addEvt()
-					} else {
-						if (directive != 'if' || directive != 'for') {
-							//u-html u-model
-							//:id
-							currentDirective.bind()
-						} else {
-							currentDirective.control()
-						}
-					}
-				}
-			})
-			node.childNodes.forEach((childNode) => {
-				this.initAttr(childNode)
-			})
-			return
+			this.compileElement(node)
+		} else if (node.nodeType === 3) {
+			this.compileText(node)
 		}
-		if (node.nodeType === 3) {
-			if (Attr.isExpression(node.data)) {
-				//text with {{}}
-				const [, preTxt, expOrFn, nxtTxt] = Attr.expressionKey(node.data)
+	}
+	compileElement(node) {
+		new Array().slice.call(node.attributes).forEach(attr => {
+			const attrName = attr.nodeName
+			const {
+				prefix,
+				directive
+			} = Attr.checkDirective(attrName, this.vm.configs)
+			const expOrFn = attr.nodeValue
 
+			if (directive) {
+				node.removeAttribute(attrName)
+				//@click  ->click
+				//u-model ->value
 				var currentDirective = new Directive({
-					name: 'text',
+					name: directive,
 					expOrFn: expOrFn,
-
 					node: node,
-					preTxt: preTxt,
-					nxtTxt: nxtTxt,
 					vm: this.vm
 				})
-				currentDirective.bind()
+
+				if (prefix === this.vm.configs.evtPrefix) {
+					//@click
+					currentDirective.addEvt()
+				} else {
+					if (directive === 'if' || directive === 'for') {
+						currentDirective.control()
+					} else {
+						//u-html u-model
+						//:id
+						currentDirective.bind()
+					}
+				}
 			}
+		})
+		node.childNodes.forEach((childNode) => {
+			this.compileNode(childNode)
+		})
+	}
+	compileText(node) {
+		if (Attr.isExpression(node.data)) {
+			//text with {{}}
+			const [, preTxt, expOrFn, nxtTxt] = Attr.expressionKey(node.data)
+			var currentDirective = new Directive({
+				name: 'text',
+				expOrFn: expOrFn,
+
+				node: node,
+				preTxt: preTxt,
+				nxtTxt: nxtTxt,
+				vm: this.vm
+			})
+			currentDirective.bind()
 		}
 	}
 	isValidType(node) {

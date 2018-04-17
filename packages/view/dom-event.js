@@ -3,8 +3,12 @@
  */
 export default class DomEvent {
 	static bind(node, prop, val, oldValue) {
-		if (val !== oldValue) {
-			node[prop] = val
+		if (prop === 'if') {
+				
+		} else {
+			if (val !== oldValue) {
+				node[prop] = val
+			}
 		}
 	}
 	static addEvt(node, evt, fn) {
