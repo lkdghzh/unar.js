@@ -1,4 +1,4 @@
-import DomFn from "../view/dom-event"
+import DomFn from "../view/dom"
 import temp from "./temp"
 import Listener from "../hub/listener"
 

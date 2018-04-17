@@ -2,7 +2,7 @@
  * Detictive
  */
 import Register from "../bll/register"
-import Dom from "./dom-event"
+import Dom from "./dom"
 import props from "./props"
 export default class Detictive {
 	constructor(opts) {
