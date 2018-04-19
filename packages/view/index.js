@@ -75,9 +75,7 @@ export default class Templater {
 				}
 			}
 		})
-		node.childNodes.forEach((childNode) => {
-			this.compileNode(childNode)
-		})
+		this.compile(node)
 	}
 	compileText(node) {
 		if (Attr.isExpression(node.data)) {
