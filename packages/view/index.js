@@ -3,7 +3,6 @@
  */
 import Attr from "./attr"
 import Directive from "./directive"
-import Detictive from "./directive";
 
 export default class Templater {
 	constructor(selector, vm) {

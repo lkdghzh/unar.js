@@ -1,5 +1,4 @@
 import { On as uon } from './on'
-import { El as uel } from './el'
 import { If as uif } from './if'
 import { For as ufor } from './for'
 import { Text as utext } from './text'
@@ -17,5 +16,5 @@ export const directives = {
     uhtml,
     ushow,
     ubind,
-    umodel,
+    umodel
 }
