@@ -45,7 +45,6 @@ export default class Detictive {
 		const cb = (val, oldVal) => {
 			Dom.lasyCompile(this.node, this.domPropOrEvt, val, oldVal, holderNode)
 		}
-		debugger
 		Register.registDomListener4Hubs(cb, this.expOrFn, this.vm)
 	}
 }
