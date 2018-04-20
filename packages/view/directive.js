@@ -11,15 +11,19 @@ export default class Detictive {
 
 		this.domPropOrEvt = props[opts.name] ? props[opts.name] : opts.name////u-model ->value //@click  ->click
 		this.vm = opts.vm
+		this.compiler=opts.compiler
 		this.node = opts.node
-		this.preTxt = opts.preTxt
-		this.nxtTxt = opts.nxtTxt
+		this.preTxt = opts.preTxt||''
+		this.nxtTxt = opts.nxtTxt||''
 	}
 	bind() {
 		// model  html
 		// {{}}
 		// :id
-		Register.registDomListener4Hubs(this.node, this.domPropOrEvt, this.expOrFn, this.vm, this.preTxt, this.nxtTxt)
+		const cb = (val, oldVal) => {
+			Dom.bind(this.node, this.domPropOrEvt, this.preTxt + val + this.nxtTxt, this.preTxt + oldVal + this.nxtTxt)
+		}
+		Register.registDomListener4Hubs(cb,this.expOrFn, this.vm)
 		if (this.domPropOrEvt === 'value') {
 			//when set by user,the exp is must be a variable.
 			// not allow expression
@@ -33,7 +37,15 @@ export default class Detictive {
 		var fn = typeof (fn) === "function" ? fn : this.vm.methods[fn].bind(this.vm)
 		Dom.addEvt(this.node, evt, fn)
 	}
-	control(){
+	lasyCompile(node){
+
+		this.compiler.compileChild(node)
+		var holderNode = document.createTextNode('')
+		node.parentNode.insertBefore(holderNode, node)
+		var current = node.parentNode.removeChild(node)
+		const cb = (val, oldVal) => {
+			Dom.bind(this.node, this.domPropOrEvt, this.preTxt + val + this.nxtTxt, this.preTxt + oldVal + this.nxtTxt)
+		}
 		
 	}
 }

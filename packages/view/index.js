@@ -3,6 +3,7 @@
  */
 import Attr from "./attr"
 import Directive from "./directive"
+import Detictive from "./directive";
 
 export default class Templater {
 	constructor(selector, vm) {
@@ -13,7 +14,7 @@ export default class Templater {
 	init() {
 		const docFrag = document.createDocumentFragment()
 		var filledFrag = this.fillFrag(docFrag)
-		this.compile(filledFrag)
+		this.compileChild(filledFrag)
 		return docFrag
 	}
 	fillFrag(docFrag) {
@@ -21,12 +22,12 @@ export default class Templater {
 			const node = this.el.childNodes[i]
 			if (this.isValidType(node)) {
 				docFrag.appendChild(node)
-					--i
+				--i
 			}
 		}
 		return docFrag
 	}
-	compile(node) {
+	compileChild(node) {
 		//translat dom to fragment
 		node.childNodes.forEach((node) => {
 			//init view
@@ -42,6 +43,7 @@ export default class Templater {
 		}
 	}
 	compileElement(node) {
+		let lasy = { isLasy: false, type: '', exp: '' }
 		new Array().slice.call(node.attributes).forEach(attr => {
 			const attrName = attr.nodeName
 			const {
@@ -49,6 +51,7 @@ export default class Templater {
 				directive
 			} = Attr.checkDirective(attrName, this.vm.configs)
 			const expOrFn = attr.nodeValue
+
 
 			if (directive) {
 				node.removeAttribute(attrName)
@@ -60,13 +63,13 @@ export default class Templater {
 					node: node,
 					vm: this.vm
 				})
-
 				if (prefix === this.vm.configs.evtPrefix) {
 					//@click
 					currentDirective.addEvt()
 				} else {
+					//first detect if for directive
 					if (directive === 'if' || directive === 'for') {
-						currentDirective.control()
+						lasy = { isLasy: true, type: detictive, exp: expOrFn }
 					} else {
 						//u-html u-model
 						//:id
@@ -75,7 +78,11 @@ export default class Templater {
 				}
 			}
 		})
-		this.compile(node)
+		if (lasy.isLasy) {
+			currentDirective.lasyCompile(node)
+		} else {
+			this.compileChild(node)
+		}
 	}
 	compileText(node) {
 		if (Attr.isExpression(node.data)) {
