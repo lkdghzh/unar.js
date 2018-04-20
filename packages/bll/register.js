@@ -1,10 +1,7 @@
-
 import temp from "./temp"
 import Listener from "../hub/listener"
+import { run } from '../Utils'
 
-import {
-	run
-} from '../Utils'
 export default class Register {
 	static registDomListener4Hubs(cb, exp, vm) {
 		// console.log(`初始化页面get：${exp}`)

@@ -1,17 +1,10 @@
-import {
-	run
-} from '../utils'
+import { run } from '../utils'
 import temp from "../bll/temp"
 import defaultConfigs from "../configs"
 import Listener from "../hub/listener"
-import {
-	typeOf
-} from "../Utils"
+import { typeOf } from "../Utils"
+import { Hub, hubs } from "../hub"
 
-import {
-	Hub,
-	hubs
-} from "../hub"
 export const config = (configs, vm) => {
 	vm.configs = Object.assign(defaultConfigs, configs)
 }
@@ -94,8 +87,8 @@ export const compute = (computeds, vm) => {
 		Object.defineProperty(vm, key, {
 			configurable: false,
 			enumerable: true,
-			get: typeOf(target) === "function" ? target : typeOf(target) === "object" ? target.get : function () {},
-			set: typeOf(target) === "object" ? target.set : function () {}
+			get: typeOf(target) === "function" ? target : typeOf(target) === "object" ? target.get : function () { },
+			set: typeOf(target) === "object" ? target.set : function () { }
 		})
 	}
 }

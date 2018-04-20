@@ -47,10 +47,7 @@ export default class Templater {
 		var lasyDirective
 		Array.from(node.attributes).forEach(attr => {
 			const attrName = attr.nodeName
-			const {
-				prefix,
-				directive
-			} = Attr.checkDirective(attrName, this.vm.configs)
+			const { prefix, directive } = Attr.checkDirective(attrName, this.vm.configs)
 			const expOrFn = attr.nodeValue
 			if (directive) {
 				node.removeAttribute(attrName)

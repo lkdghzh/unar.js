@@ -1,6 +1,4 @@
-import {
-	run
-} from "../utils"
+import { run } from "../utils"
 var id = 0
 class Listener {
 	constructor(vm, exp, cb) {
