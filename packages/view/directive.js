@@ -11,10 +11,10 @@ export default class Detictive {
 
 		this.domPropOrEvt = props[opts.name] ? props[opts.name] : opts.name////u-model ->value //@click  ->click
 		this.vm = opts.vm
-		this.compiler=opts.compiler
+		this.compiler = opts.compiler
 		this.node = opts.node
-		this.preTxt = opts.preTxt||''
-		this.nxtTxt = opts.nxtTxt||''
+		this.preTxt = opts.preTxt || ''
+		this.nxtTxt = opts.nxtTxt || ''
 	}
 	bind() {
 		// model  html
@@ -23,7 +23,7 @@ export default class Detictive {
 		const cb = (val, oldVal) => {
 			Dom.bind(this.node, this.domPropOrEvt, this.preTxt + val + this.nxtTxt, this.preTxt + oldVal + this.nxtTxt)
 		}
-		Register.registDomListener4Hubs(cb,this.expOrFn, this.vm)
+		Register.registDomListener4Hubs(cb, this.expOrFn, this.vm)
 		if (this.domPropOrEvt === 'value') {
 			//when set by user,the exp is must be a variable.
 			// not allow expression
@@ -37,15 +37,15 @@ export default class Detictive {
 		var fn = typeof (fn) === "function" ? fn : this.vm.methods[fn].bind(this.vm)
 		Dom.addEvt(this.node, evt, fn)
 	}
-	lasyCompile(node){
-
-		this.compiler.compileChild(node)
+	lasyCompile() {
+		this.compiler.compileChild(this.node)
 		var holderNode = document.createTextNode('')
-		node.parentNode.insertBefore(holderNode, node)
-		var current = node.parentNode.removeChild(node)
+		this.node.parentNode.insertBefore(holderNode, this.node)
+		this.node.parentNode.removeChild(this.node)
 		const cb = (val, oldVal) => {
-			Dom.bind(this.node, this.domPropOrEvt, this.preTxt + val + this.nxtTxt, this.preTxt + oldVal + this.nxtTxt)
+			Dom.lasyCompile(this.node, this.domPropOrEvt, val, oldVal, holderNode)
 		}
-		
+		debugger
+		Register.registDomListener4Hubs(cb, this.expOrFn, this.vm)
 	}
 }

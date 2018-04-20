@@ -44,15 +44,14 @@ export default class Templater {
 	}
 	compileElement(node) {
 		let lasy = { isLasy: false, type: '', exp: '' }
-		new Array().slice.call(node.attributes).forEach(attr => {
+		var lasyDirective
+		Array.from(node.attributes).forEach(attr => {
 			const attrName = attr.nodeName
 			const {
 				prefix,
 				directive
 			} = Attr.checkDirective(attrName, this.vm.configs)
 			const expOrFn = attr.nodeValue
-
-
 			if (directive) {
 				node.removeAttribute(attrName)
 				//@click  ->click
@@ -61,7 +60,8 @@ export default class Templater {
 					name: directive,
 					expOrFn: expOrFn,
 					node: node,
-					vm: this.vm
+					vm: this.vm,
+					compiler: this
 				})
 				if (prefix === this.vm.configs.evtPrefix) {
 					//@click
@@ -69,7 +69,8 @@ export default class Templater {
 				} else {
 					//first detect if for directive
 					if (directive === 'if' || directive === 'for') {
-						lasy = { isLasy: true, type: detictive, exp: expOrFn }
+						lasy = { isLasy: true, type: directive, exp: expOrFn }
+						lasyDirective = currentDirective
 					} else {
 						//u-html u-model
 						//:id
@@ -79,7 +80,7 @@ export default class Templater {
 			}
 		})
 		if (lasy.isLasy) {
-			currentDirective.lasyCompile(node)
+			lasyDirective.lasyCompile()
 		} else {
 			this.compileChild(node)
 		}

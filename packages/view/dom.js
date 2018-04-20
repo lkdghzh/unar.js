@@ -3,16 +3,17 @@
  */
 export default class DomEvent {
 	static bind(node, prop, val, oldValue) {
+		node[prop] = val
+	}
+	static lasyCompile(node, prop, val, oldValue, holderNode) {
 		if (prop === 'if') {
 			if (val) {
-				oldValue.parentNode.insertBefore(node, nextNode)
+				holderNode.parentNode.insertBefore(node, holderNode)
 			} else {
-				oldValue.parentNode.removeChild(node)
+				holderNode.parentNode.removeChild(node)
 			}
 		} else {
-			if (val !== oldValue) {
-				node[prop] = val
-			}
+			//for
 		}
 	}
 	static addEvt(node, evt, fn) {
