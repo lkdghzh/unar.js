@@ -15,6 +15,7 @@ order | task | status
 2018-03-25  | show  | :hearts: 
 2018-04-12  | karma jasmine unit test config done  | :heavy_check_mark:
 2018/04/16  | for of ,if else elseif | :hearts: 
+2018/04/21  | if   | :heavy_check_mark: 
 2018/04/23  | observe Object  | :hearts: 
 2018/04/30 | observe Array  | :hearts: 
 # options
