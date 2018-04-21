@@ -53,7 +53,6 @@ export default class Templater {
 				node.removeAttribute(attrName)
 				//@click  ->click
 				//u-model ->value
-				debugger
 				var currentDirective = directivesFactory(directive, {
 					name: directive,
 					expOrFn: expOrFn,
@@ -62,7 +61,6 @@ export default class Templater {
 					vm: this.vm,
 					compiler: this
 				})
-				debugger
 				if (prefix === this.vm.configs.evtPrefix) {
 					//@click
 					currentDirective.addEvt()
@@ -80,7 +78,9 @@ export default class Templater {
 			}
 		})
 		if (lasy.isLasy) {
-			lasyDirective.lasyCompile()
+			debugger
+			lasyDirective.bind()
+			debugger
 		} else {
 			this.compileChild(node)
 		}

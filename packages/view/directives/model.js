@@ -1,38 +1,30 @@
-// import Directive from '../directive'
-import Register from "../../bll/register"
-import Dom from "../dom"
-import props from "../props"
-export default class Model {
+import Base from './base'
+// import Register from "../../bll/register"
+// const nullify = (...args) => {
+//     args.map(arg => null)
+// }
+export default class Model extends Base {
     constructor(opts) {
-        // super(...args)
-        this.name = opts.name//model click
-        //not expOrfn -->exp
-        this.exp = opts.expOrFn//a fn1
-        //not domPropOrEvt -->prop
-        this.prop = 'value'//props[opts.name] ? props[opts.name] : opts.name////u-model ->value //@click  ->click
-
-        this.vm = opts.vm
-        this.compiler = opts.compiler
-        this.node = opts.node
-        //remove pre next
+        super(opts)
+        this.exp = opts.expOrFn
+        this.prop = 'value'
     }
     bind() {
-        // model  html
-        // {{}}
-        // :id
-        const cb = (val, oldVal) => {
-            Dom.bind(this.node, this.prop, val, oldVal)
+        const cb = (val) => {//, oldVal
+            this.node[this.prop] = val
         }
-        Register.registDomListener4Hubs(cb, this.exp, this.vm)
-        
+        super.bind(cb)
+        this.addEvt()
+    }
+    addEvt() {
+        //dom ,user input event ,default implement  duplex-->true
         //when set by user,the exp is must be a variable.
         // not allow expression
         const fn = e => this.vm[this.exp] = e.target.value
-        this.addEvt(fn, 'input')
-       
+        this.node.addEventListener('input', fn, false)
     }
-    addEvt(fn, evt) {
-		//dom ,user input event ,default implement
-		Dom.addEvt(this.node, evt, fn)
-	}
+    // destroy() {
+    //     super.destroy()
+    //     nullify(this.exp, this.prop)
+    // }
 }

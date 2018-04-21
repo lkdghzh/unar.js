@@ -4,7 +4,7 @@
   "description": "unar.js",
   "main": "index.js",
   "scripts": {
-    "dev:parcel": "parcel ./examples/parcel/index.html",
+    "dev:parcel": "parcel ./examples/parcel/index.html --no-cache",
     "dev:r": "rollup --watch --config scripts/rollup/config.js --environment TARGET:es6",
     "stage:r": "rollup --watch --config scripts/rollup/config.js --environment TARGET:es5",
     "prod:r": "rollup --watch --config scripts/rollup/config.js --environment TARGET:min",
@@ -40,6 +40,8 @@
     "karma-safari-launcher": "^1.0.0",
     "karma-sourcemap-loader": "^0.3.7",
     "karma-webpack": "^3.0.0",
+    "parcel-bundler": "^1.7.1",
+    "parcel-plugin-eslint": "^1.0.4",
     "rollup-plugin-babel": "^3.0.3",
     "rollup-plugin-eslint": "^4.0.0",
     "rollup-plugin-node-resolve": "^3.0.2",

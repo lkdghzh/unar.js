@@ -2,7 +2,7 @@
  * DomEvent
  */
 export default class DomEvent {
-	static bind(node, prop, val, oldValue) {
+	static bind(node, prop, val) {//, oldValue
 		node[prop] = val
 	}
 	static lasyCompile(node, prop, val, oldValue, holderNode) {
