@@ -7,7 +7,6 @@ import Text from './text'
 import Html from './html'
 import Show from './show'
 function directiveFactory(directive, opts) {
-    debugger
     var instance
     switch (directive) {
         case ':':

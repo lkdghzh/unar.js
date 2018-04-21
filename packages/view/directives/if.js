@@ -7,22 +7,16 @@ export default class If extends Base {
         this.compiler = opts.compiler
     }
     bind() {
-        this.lasyCompile()
-    }
-    lasyCompile() {
         this.compiler.compileChild(this.node)
         var holderNode = document.createTextNode('')
-        this.node.parentNode.insertBefore(holderNode, this.node)
-        this.node.parentNode.removeChild(this.node)
-        const cb = (val) => {//, oldVal
+        var parentNode = this.node.parentNode
+        parentNode.insertBefore(holderNode, this.node)
+        parentNode.removeChild(this.node)
+        const cb = (val) => {
             if (val) {
-                debugger
-                holderNode.parentNode.insertBefore(this.node, holderNode)
-                debugger
+                parentNode.insertBefore(this.node, holderNode)
             } else {
-                debugger
-                holderNode.parentNode.removeChild(this.node)
-                debugger
+                parentNode.removeChild(this.node)
             }
         }
         super.bind(cb)

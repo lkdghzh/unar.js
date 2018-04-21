@@ -1,11 +1,5 @@
-/**
- * Detictive
- */
 import Register from "../../bll/register"
 
-// const nullify = (...args) => {
-//     args.map(arg => null)
-// }
 export default class Base {
     constructor(opts) {
         this.name = opts.name
