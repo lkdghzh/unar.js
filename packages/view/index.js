@@ -2,7 +2,8 @@
  * Templater
  */
 import Attr from "./attr"
-import Directive from "./directive"
+import directivesFactory from "./directives/index"
+
 
 export default class Templater {
 	constructor(selector, vm) {
@@ -52,13 +53,16 @@ export default class Templater {
 				node.removeAttribute(attrName)
 				//@click  ->click
 				//u-model ->value
-				var currentDirective = new Directive({
+				debugger
+				var currentDirective = directivesFactory(directive, {
 					name: directive,
 					expOrFn: expOrFn,
+
 					node: node,
 					vm: this.vm,
 					compiler: this
 				})
+				debugger
 				if (prefix === this.vm.configs.evtPrefix) {
 					//@click
 					currentDirective.addEvt()

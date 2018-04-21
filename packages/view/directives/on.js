@@ -1,5 +1,5 @@
 import Directive from '../directive'
-export class On extends Directive() {
+export default class On extends Directive{
     constructor() {
         super()
     }

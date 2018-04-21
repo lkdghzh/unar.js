@@ -1,5 +1,5 @@
 import Directive from '../directive'
-export class Show extends Directive() {
+export default class Show extends Directive{
     constructor() {
         super()
     }

@@ -1,5 +1,5 @@
 import Directive from '../directive'
-export class Bind extends Directive() {
+export default class Bind extends Directive {
     constructor() {
         super()
     }

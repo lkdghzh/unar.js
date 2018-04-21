@@ -1,5 +1,5 @@
 import Directive from '../directive'
-export class Html extends Directive() {
+export default class Html extends Directive{
     constructor() {
         super()
     }

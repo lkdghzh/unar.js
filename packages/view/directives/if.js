@@ -1,6 +1,6 @@
 import Directive from '../directive'
-export class If extends Directive() {
-    constructor() {
-        super()
+export default class If extends Directive {
+    constructor(...args) {
+        super(...args)
     }
 }
