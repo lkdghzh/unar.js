@@ -1,6 +1,7 @@
-import Directive from '../directive'
-export default class For extends Directive{
-    constructor() {
-        super()
+import Base from './base'
+
+export default class For extends Base{
+    constructor(opts) {
+        super(opts)
     }
 }

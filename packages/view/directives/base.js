@@ -1,10 +1,10 @@
 import Register from "../../bll/register"
 
 export default class Base {
-    constructor(opts) {
-        this.name = opts.name
-        this.vm = opts.vm
-        this.node = opts.node
+    constructor({ name, node, vm }) {
+        this.name = name
+        this.vm = vm
+        this.node = node
     }
     bind(cb) {
         // model  html
