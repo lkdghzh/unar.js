@@ -21,6 +21,11 @@ window.app = new Unar({
 			}
 		}
 	},
+	watchers:{
+		a(val,oldVal){
+			console.log(`${oldVal}-->${val}`)
+		}
+	},
 	methods: {
 		fn() {
 			console.log(this.a)
