@@ -48,15 +48,15 @@ export default class Templater {
 		Array.from(node.attributes).forEach(attr => {
 			const attrName = attr.nodeName
 			const { prefix, directive } = Attr.checkDirective(attrName, this.vm.configs)
-			const expOrFn = attr.nodeValue
+			const exp = attr.nodeValue//expOrfn
 			if (directive) {
 				node.removeAttribute(attrName)
 				//@click  ->click
 				//u-model ->value
-				var currentDirective = directivesFactory(directive, {
-					name: directive,
-					expOrFn: expOrFn,
-
+				var currentDirective = directivesFactory({
+					prefix,
+					directive: directive,
+					exp: exp,
 					node: node,
 					vm: this.vm
 				})
@@ -66,7 +66,7 @@ export default class Templater {
 				} else {
 					//first detect if for directive
 					if (directive === 'if' || directive === 'for') {
-						lasy = { isLasy: true, type: directive, exp: expOrFn }
+						lasy = { isLasy: true, type: directive, exp: exp }
 						lasyDirective = currentDirective
 					} else {
 						//u-html u-model
@@ -84,10 +84,10 @@ export default class Templater {
 	compileText(node) {
 		if (Attr.isExpression(node.data)) {
 			//text with {{}}
-			const [, preTxt, expOrFn, nxtTxt] = Attr.expressionKey(node.data)
+			const [, preTxt, exp, nxtTxt] = Attr.expressionKey(node.data)
 			var currentDirective = new Directive({
 				name: 'text',
-				expOrFn: expOrFn,
+				exp: exp,
 
 				node: node,
 				preTxt: preTxt,

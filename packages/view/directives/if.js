@@ -3,7 +3,6 @@ import Base from './base'
 export default class If extends Base {
     constructor(opts) {
         super(opts)
-        this.exp = opts.expOrFn
     }
     bind() {
         var holderNode = document.createTextNode('')

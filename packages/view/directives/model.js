@@ -2,7 +2,6 @@ import Base from './base'
 export default class Model extends Base {
     constructor(opts) {
         super(opts)
-        this.exp = opts.expOrFn
         this.prop = 'value'
     }
     bind() {

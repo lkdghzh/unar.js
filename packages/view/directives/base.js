@@ -1,8 +1,10 @@
 import Register from "../../bll/register"
 
 export default class Base {
-    constructor({ name, node, vm }) {
-        this.name = name
+    constructor({ prefix, directive, exp, node, vm }) {
+        this.prefix = prefix
+        this.directive = directive
+        this.exp = exp
         this.vm = vm
         this.node = node
     }
