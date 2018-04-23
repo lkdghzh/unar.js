@@ -4,10 +4,8 @@ export default class If extends Base {
     constructor(opts) {
         super(opts)
         this.exp = opts.expOrFn
-        this.compiler = opts.compiler
     }
     bind() {
-        this.compiler.compileChild(this.node)
         var holderNode = document.createTextNode('')
         var parentNode = this.node.parentNode
         parentNode.insertBefore(holderNode, this.node)

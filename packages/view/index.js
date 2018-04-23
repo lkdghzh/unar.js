@@ -58,8 +58,7 @@ export default class Templater {
 					expOrFn: expOrFn,
 
 					node: node,
-					vm: this.vm,
-					compiler: this
+					vm: this.vm
 				})
 				if (prefix === this.vm.configs.evtPrefix) {
 					//@click
@@ -77,12 +76,9 @@ export default class Templater {
 				}
 			}
 		})
+		this.compileChild(node)
 		if (lasy.isLasy) {
-			debugger
 			lasyDirective.bind()
-			debugger
-		} else {
-			this.compileChild(node)
 		}
 	}
 	compileText(node) {
