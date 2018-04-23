@@ -8,9 +8,9 @@ import Html from './html'
 import Show from './show'
 function directiveFactory(opts) {
     var instance
-    if (opts.prefix == ':') {
+    if (opts.prefix == opts.vm.configs.attrPrefix) {
         instance = new Bind(opts)
-    } else if (opts.prefix == '@') {
+    } else if (opts.prefix == opts.vm.configs.evtPrefix) {
         instance = new On(opts)
     } else {
         switch (opts.directive) {

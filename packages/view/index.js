@@ -62,7 +62,7 @@ export default class Templater {
 				})
 				if (prefix === this.vm.configs.evtPrefix) {
 					//@click
-					currentDirective.addEvt()
+					currentDirective.bind()
 				} else {
 					//first detect if for directive
 					if (directive === 'if' || directive === 'for') {
