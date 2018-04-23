@@ -60,19 +60,15 @@ export default class Templater {
 					node: node,
 					vm: this.vm
 				})
-				if (prefix === this.vm.configs.evtPrefix) {
-					//@click
-					currentDirective.bind()
+				//first detect if for directive
+				if (directive === 'if' || directive === 'for') {
+					lasy = { isLasy: true, type: directive, exp: exp }
+					lasyDirective = currentDirective
 				} else {
-					//first detect if for directive
-					if (directive === 'if' || directive === 'for') {
-						lasy = { isLasy: true, type: directive, exp: exp }
-						lasyDirective = currentDirective
-					} else {
-						//u-html u-model
-						//:id
-						currentDirective.bind()
-					}
+					//@click
+					//u-html u-model
+					//:id
+					currentDirective.bind()
 				}
 			}
 		})
