@@ -211,6 +211,103 @@ class Register {
 	}
 }
 
+class Base {
+    constructor({ prefix, directive, exp, node, vm }) {
+        this.prefix = prefix;
+        this.directive = directive;
+        this.exp = exp;
+        this.vm = vm;
+        this.node = node;
+    }
+    bind(cb) {
+        // model  html
+        // {{}}
+        // :id
+        Register.registDomListener4Hubs(cb, this.exp, this.vm);
+    }
+    // destroy() {
+    //     nullify(this.name, this.vm, this.node)
+    // }
+}
+
+class Bind extends Base {
+    constructor(opts) {
+        super(opts);
+        this.prop = this.directive;
+    }
+    bind() {
+        const cb = (val) => {
+            this.node[this.prop] = val;
+        };
+        super.bind(cb);
+    }
+}
+
+class On extends Base {
+    constructor(opts) {
+        super(opts);
+        this.evtName = this.directive;
+        this.evt = this.exp;
+    }
+    bind() {
+        this.node.addEventListener(this.evtName, this.vm.methods[this.evt].bind(this.vm), false);
+    }
+}
+
+class Model extends Base {
+    constructor(opts) {
+        super(opts);
+        this.prop = 'value';
+    }
+    bind() {
+        const cb = (val) => {
+            this.node[this.prop] = val;
+        };
+        super.bind(cb);
+        this.addEvt();
+    }
+    addEvt() {
+        //default implement  duplex-->true
+        //when set by user,the exp is must be a variable,not allow expression
+        const fn = e => this.vm[this.exp] = e.target.value;
+        this.node.addEventListener('input', fn, false);
+    }
+    // destroy() {
+    //     super.destroy()
+    //     nullify(this.exp, this.prop)
+    // }
+}
+
+class If extends Base {
+    constructor(opts) {
+        super(opts);
+    }
+    bind() {
+        var holderNode = document.createTextNode('');
+        var parentNode = this.node.parentNode;
+        parentNode.insertBefore(holderNode, this.node);
+        parentNode.removeChild(this.node);
+        const cb = (val) => {
+            if (val) {
+                parentNode.insertBefore(this.node, holderNode);
+            } else {
+                parentNode.removeChild(this.node);
+            }
+        };
+        super.bind(cb);
+    }
+}
+
+class For extends Base{
+    constructor(opts) {
+        super(opts);
+    }
+    bind() {
+
+        super.bind(cb);
+    }
+}
+
 /**
  * DomEvent
  */
@@ -289,89 +386,6 @@ class Detictive {
 	}
 }
 
-class Bind extends Detictive {
-    constructor() {
-        super();
-    }
-}
-
-class On extends Detictive{
-    constructor() {
-        super();
-    }
-}
-
-class Base {
-    constructor(opts) {
-        this.name = opts.name;
-        this.vm = opts.vm;
-        this.node = opts.node;
-    }
-    bind(cb) {
-        // model  html
-        // {{}}
-        // :id
-        Register.registDomListener4Hubs(cb, this.exp, this.vm);
-    }
-    // destroy() {
-    //     nullify(this.name, this.vm, this.node)
-    // }
-}
-
-class Model extends Base {
-    constructor(opts) {
-        super(opts);
-        this.exp = opts.expOrFn;
-        this.prop = 'value';
-    }
-    bind() {
-        const cb = (val) => {
-            this.node[this.prop] = val;
-        };
-        super.bind(cb);
-        this.addEvt();
-    }
-    addEvt() {
-        //default implement  duplex-->true
-        //when set by user,the exp is must be a variable,not allow expression
-        const fn = e => this.vm[this.exp] = e.target.value;
-        this.node.addEventListener('input', fn, false);
-    }
-    // destroy() {
-    //     super.destroy()
-    //     nullify(this.exp, this.prop)
-    // }
-}
-
-class If extends Base {
-    constructor(opts) {
-        super(opts);
-        this.exp = opts.expOrFn;
-        this.compiler = opts.compiler;
-    }
-    bind() {
-        this.compiler.compileChild(this.node);
-        var holderNode = document.createTextNode('');
-        var parentNode = this.node.parentNode;
-        parentNode.insertBefore(holderNode, this.node);
-        parentNode.removeChild(this.node);
-        const cb = (val) => {
-            if (val) {
-                parentNode.insertBefore(this.node, holderNode);
-            } else {
-                parentNode.removeChild(this.node);
-            }
-        };
-        super.bind(cb);
-    }
-}
-
-class For extends Detictive{
-    constructor() {
-        super();
-    }
-}
-
 class Text extends Detictive{
     constructor() {
         super();
@@ -381,7 +395,6 @@ class Text extends Detictive{
 class Html extends Base{
     constructor(opts) {
         super(opts);
-        this.exp = opts.expOrFn;
         this.prop = 'innerHTML';
     }
     bind() {
@@ -398,35 +411,35 @@ class Show extends Detictive{
     }
 }
 
-function directiveFactory(directive, opts) {
+function directiveFactory(opts) {
     var instance;
-    switch (directive) {
-        case ':':
-            instance = new Bind(opts);
-            break
-        case '@':
-            instance = new On(opts);
-            break
-        case 'model':
-            instance = new Model(opts);
-            break
-        case 'if':
-            instance = new If(opts);
-            break
-        case 'for':
-            instance = new For(opts);
-            break
-        case 'text':
-            instance = new Text(opts);
-            break
-        case 'html':
-            instance = new Html(opts);
-            break
-        case 'show':
-            instance = new Show(opts);
-            break
-        default:
-            break
+    if (opts.prefix == opts.vm.configs.attrPrefix) {
+        instance = new Bind(opts);
+    } else if (opts.prefix == opts.vm.configs.evtPrefix) {
+        instance = new On(opts);
+    } else {
+        switch (opts.directive) {
+            case 'model':
+                instance = new Model(opts);
+                break
+            case 'if':
+                instance = new If(opts);
+                break
+            case 'for':
+                instance = new For(opts);
+                break
+            case 'text':
+                instance = new Text(opts);
+                break
+            case 'html':
+                instance = new Html(opts);
+                break
+            case 'show':
+                instance = new Show(opts);
+                break
+            default:
+                break
+        }
     }
     return instance
 }
@@ -479,50 +492,42 @@ class Templater {
 		Array.from(node.attributes).forEach(attr => {
 			const attrName = attr.nodeName;
 			const { prefix, directive } = Attr.checkDirective(attrName, this.vm.configs);
-			const expOrFn = attr.nodeValue;
+			const exp = attr.nodeValue;//expOrfn
 			if (directive) {
 				node.removeAttribute(attrName);
 				//@click  ->click
 				//u-model ->value
-				var currentDirective = directiveFactory(directive, {
-					name: directive,
-					expOrFn: expOrFn,
-
+				var currentDirective = directiveFactory({
+					prefix,
+					directive: directive,
+					exp: exp,
 					node: node,
-					vm: this.vm,
-					compiler: this
+					vm: this.vm
 				});
-				if (prefix === this.vm.configs.evtPrefix) {
-					//@click
-					currentDirective.addEvt();
+				//first detect if for directive
+				if (directive === 'if' || directive === 'for') {
+					lasy = { isLasy: true, type: directive, exp: exp };
+					lasyDirective = currentDirective;
 				} else {
-					//first detect if for directive
-					if (directive === 'if' || directive === 'for') {
-						lasy = { isLasy: true, type: directive, exp: expOrFn };
-						lasyDirective = currentDirective;
-					} else {
-						//u-html u-model
-						//:id
-						currentDirective.bind();
-					}
+					//@click
+					//u-html u-model
+					//:id
+					currentDirective.bind();
 				}
 			}
 		});
+		this.compileChild(node);
 		if (lasy.isLasy) {
-			debugger
 			lasyDirective.bind();
-			debugger
-		} else {
-			this.compileChild(node);
 		}
 	}
 	compileText(node) {
 		if (Attr.isExpression(node.data)) {
 			//text with {{}}
-			const [, preTxt, expOrFn, nxtTxt] = Attr.expressionKey(node.data);
+			const [, preTxt, exp, nxtTxt] = Attr.expressionKey(node.data);
 			var currentDirective = new Directive({
 				name: 'text',
-				expOrFn: expOrFn,
+				exp: exp,
 
 				node: node,
 				preTxt: preTxt,
