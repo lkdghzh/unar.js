@@ -8,6 +8,19 @@ window.app = new Unar({
 		id: 'name',
 		i: true
 	},
+	computeds: {
+		c() {
+			return this.a + this.b
+		},
+		d: {
+			get() {
+				return this.a + this.b
+			},
+			set(val) {
+				console.log(val, 11)
+			}
+		}
+	},
 	methods: {
 		fn() {
 			console.log(this.a)
