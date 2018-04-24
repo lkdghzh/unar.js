@@ -13,9 +13,8 @@
 		<input u-model="b" />
 		<span  u-if="i" u-html="a"></span>
 		<button @click="fn">点击</button>
-	 -->
-	<div id="root">
-		<input u-model="a" :id="id" />
+
+			<input u-model="a" :id="id" />
 		<input u-model="a" />
 		<div id='test'>
 			<span u-if="i" u-html="a"></span>
@@ -23,8 +22,12 @@
 		<span u-html="c"></span>
 		---
 		<span u-html="d"></span>
-		
+		<br>
 		<button @click="fn">点击</button>
+	 -->
+	<div id="root">
+		<input type="text" u-model='e.a'/>
+		<input type="text" u-model='e.a'/>
 	</div>
 </body>
 <script src="./index.js"></script>

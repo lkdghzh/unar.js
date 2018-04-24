@@ -6,7 +6,8 @@ window.app = new Unar({
 		a: 1,
 		b: 2,
 		id: 'name',
-		i: true
+		i: true,
+		e:{a:'e.a'}
 	},
 	computeds: {
 		c() {

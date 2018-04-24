@@ -25,7 +25,7 @@ const hijack = (data, vm) => {
 	})
 }
 
-const accessor = (data, vm) => {
+const accessor = (data) => {
 	Object.keys(data).forEach(key => {
 		var hub = new Hub(key)
 		hubs.push(hub)
@@ -44,7 +44,7 @@ const accessor = (data, vm) => {
 				valCache = newVal
 				// object 
 				if (typeOf(newVal) === 'object') {
-					accessor(newVal, vm, path)
+					accessor(newVal)
 				}
 				// array
 				// if () {
@@ -55,12 +55,12 @@ const accessor = (data, vm) => {
 			}
 		})
 		if (typeOf(valCache) === 'object') {
-			accessor(valCache, vm, path)
+			accessor(valCache)
 		}
 	})
 }
 export const proxy = (data, vm) => {
-	accessor(data, vm)
+	accessor(data)
 	hijack(data, vm)
 }
 export const watch = (watchers, vm) => {
