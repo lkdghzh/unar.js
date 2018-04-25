@@ -128,13 +128,28 @@ var slicedToArray = function () {
   };
 }();
 
+var keywords = RegExp(['^break$', '^case$', '^catch$', '^continue$', '^default$', '^delete$', '^do$', '^else$', '^finally$', '^for$', '^function$', '^if$', '^in$', '^instanceof$', '^new$', '^return$', '^switch$', '^this$', '^throw$', '^try$', '^typeof$', '^var$', '^void$', '^while$', '^with$'].join('|'), 'g');
 var run = function run(exp, scope) {
+	if (keywords.test(exp)) {
+		console.error('when getting value of "' + exp + '",there\'s a unresolved error. "' + exp + '" is keyword,it shouldn\'t used as key in data');
+		return;
+	} else {
+		try {
+			var fn;
+			fn = new Function('vm', 'with(vm){return ' + exp + '}');
+			return fn(scope);
+		} catch (e) {
+			console.error('when getting value of "' + exp + '",there\'s a unresolved error');
+		}
+	}
+};
+var runSet = function runSet(exp, val, scope) {
 	try {
 		var fn;
-		fn = new Function('vm', 'with(vm){return ' + exp + '}');
+		fn = new Function('vm', 'with(vm){' + exp + ' = \'' + val + '\'}');
 		return fn(scope);
 	} catch (e) {
-		console.error(exp + ' has a unresolved error');
+		console.error('when setting value for ' + exp + ',there\'s a unresolved error');
 	}
 };
 
@@ -181,13 +196,19 @@ var typeOf$1 = function typeOf(o) {
 	var _target;
 	return ((_target = typeof o === 'undefined' ? 'undefined' : _typeof(o)) == "object" ? Object.prototype.toString.call(o).slice(8, -1) : _target).toLowerCase();
 };
+var keywords$1 = RegExp(['^break$', '^case$', '^catch$', '^continue$', '^default$', '^delete$', '^do$', '^else$', '^finally$', '^for$', '^function$', '^if$', '^in$', '^instanceof$', '^new$', '^return$', '^switch$', '^this$', '^throw$', '^try$', '^typeof$', '^var$', '^void$', '^while$', '^with$'].join('|'), 'g');
 var run$1 = function run(exp, scope) {
-	try {
-		var fn;
-		fn = new Function('vm', 'with(vm){return ' + exp + '}');
-		return fn(scope);
-	} catch (e) {
-		console.error(exp + ' has a unresolved error');
+	if (keywords$1.test(exp)) {
+		console.error('when getting value of "' + exp + '",there\'s a unresolved error. "' + exp + '" is keyword,it shouldn\'t used as key in data');
+		return;
+	} else {
+		try {
+			var fn;
+			fn = new Function('vm', 'with(vm){return ' + exp + '}');
+			return fn(scope);
+		} catch (e) {
+			console.error('when getting value of "' + exp + '",there\'s a unresolved error');
+		}
 	}
 };
 
@@ -244,7 +265,7 @@ var hijack = function hijack(data, vm) {
 	});
 };
 
-var accessor = function accessor(data, vm) {
+var accessor = function accessor(data) {
 	Object.keys(data).forEach(function (key) {
 		var hub = new Hub(key);
 		hubs.push(hub);
@@ -263,7 +284,7 @@ var accessor = function accessor(data, vm) {
 				valCache = newVal;
 				// object 
 				if (typeOf$1(newVal) === 'object') {
-					accessor(newVal, vm, path);
+					accessor(newVal);
 				}
 				// array
 				// if () {
@@ -274,12 +295,12 @@ var accessor = function accessor(data, vm) {
 			}
 		});
 		if (typeOf$1(valCache) === 'object') {
-			accessor(valCache, vm, path);
+			accessor(valCache);
 		}
 	});
 };
 var proxy = function proxy(data, vm) {
-	accessor(data, vm);
+	accessor(data);
 	hijack(data, vm);
 };
 var watch = function watch(watchers, vm) {
@@ -419,147 +440,20 @@ var Register = function () {
 	return Register;
 }();
 
-/**
- * DomEvent
- */
-var DomEvent = function () {
-	function DomEvent() {
-		classCallCheck(this, DomEvent);
-	}
-
-	createClass(DomEvent, null, [{
-		key: 'bind',
-		value: function bind(node, prop, val) {
-			//, oldValue
-			node[prop] = val;
-		}
-	}, {
-		key: 'lasyCompile',
-		value: function lasyCompile(node, prop, val, oldValue, holderNode) {
-			if (prop === 'if') {
-				if (val) {
-					holderNode.parentNode.insertBefore(node, holderNode);
-				} else {
-					holderNode.parentNode.removeChild(node);
-				}
-			} else {
-				//for
-			}
-		}
-	}, {
-		key: 'addEvt',
-		value: function addEvt(node, evt, fn) {
-			node.addEventListener(evt, fn, false);
-		}
-	}]);
-	return DomEvent;
-}();
-
-var props = {
-    model: 'value', //v-model
-    html: 'innerHTML', //v-html
-    text: 'textContent', //{{}}
-    class: 'className' //:class
-};
-
-/**
- * Detictive
- */
-
-var Detictive = function () {
-	function Detictive(opts) {
-		classCallCheck(this, Detictive);
-
-		this.name = opts.name; //model click
-		this.expOrFn = opts.expOrFn; //a fn1
-
-		this.domPropOrEvt = props[opts.name] ? props[opts.name] : opts.name; ////u-model ->value //@click  ->click
-		this.vm = opts.vm;
-		this.compiler = opts.compiler;
-		this.node = opts.node;
-		this.preTxt = opts.preTxt || '';
-		this.nxtTxt = opts.nxtTxt || '';
-	}
-
-	createClass(Detictive, [{
-		key: "bind",
-		value: function bind() {
-			var _this = this;
-
-			// model  html
-			// {{}}
-			// :id
-			var cb = function cb(val, oldVal) {
-				DomEvent.bind(_this.node, _this.domPropOrEvt, _this.preTxt + val + _this.nxtTxt, _this.preTxt + oldVal + _this.nxtTxt);
-			};
-			Register.registDomListener4Hubs(cb, this.expOrFn, this.vm);
-			if (this.domPropOrEvt === 'value') {
-				//when set by user,the exp is must be a variable.
-				// not allow expression
-				var fn = function fn(e) {
-					return _this.vm[_this.expOrFn] = e.target.value;
-				};
-				this.addEvt(fn, 'input');
-			}
-		}
-	}, {
-		key: "addEvt",
-		value: function addEvt() {
-			var fn = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.expOrFn;
-			var evt = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this.name;
-
-			//dom ,user input event ,default implement
-			//@
-			var fn = typeof fn === "function" ? fn : this.vm.methods[fn].bind(this.vm);
-			DomEvent.addEvt(this.node, evt, fn);
-		}
-	}, {
-		key: "lasyCompile",
-		value: function lasyCompile() {
-			var _this2 = this;
-
-			this.compiler.compileChild(this.node);
-			var holderNode = document.createTextNode('');
-			this.node.parentNode.insertBefore(holderNode, this.node);
-			this.node.parentNode.removeChild(this.node);
-			var cb = function cb(val, oldVal) {
-				DomEvent.lasyCompile(_this2.node, _this2.domPropOrEvt, val, oldVal, holderNode);
-			};
-			Register.registDomListener4Hubs(cb, this.expOrFn, this.vm);
-		}
-	}]);
-	return Detictive;
-}();
-
-var Bind = function (_Directive) {
-    inherits(Bind, _Directive);
-
-    function Bind() {
-        classCallCheck(this, Bind);
-        return possibleConstructorReturn(this, (Bind.__proto__ || Object.getPrototypeOf(Bind)).call(this));
-    }
-
-    return Bind;
-}(Detictive);
-
-var On = function (_Directive) {
-    inherits(On, _Directive);
-
-    function On() {
-        classCallCheck(this, On);
-        return possibleConstructorReturn(this, (On.__proto__ || Object.getPrototypeOf(On)).call(this));
-    }
-
-    return On;
-}(Detictive);
-
 var Base = function () {
-    function Base(opts) {
+    function Base(_ref) {
+        var prefix = _ref.prefix,
+            directive = _ref.directive,
+            exp = _ref.exp,
+            node = _ref.node,
+            vm = _ref.vm;
         classCallCheck(this, Base);
 
-        this.name = opts.name;
-        this.vm = opts.vm;
-        this.node = opts.node;
+        this.prefix = prefix;
+        this.directive = directive;
+        this.exp = exp;
+        this.vm = vm;
+        this.node = node;
     }
 
     createClass(Base, [{
@@ -578,6 +472,54 @@ var Base = function () {
     return Base;
 }();
 
+var Bind = function (_Base) {
+    inherits(Bind, _Base);
+
+    function Bind(opts) {
+        classCallCheck(this, Bind);
+
+        var _this = possibleConstructorReturn(this, (Bind.__proto__ || Object.getPrototypeOf(Bind)).call(this, opts));
+
+        _this.prop = _this.directive;
+        return _this;
+    }
+
+    createClass(Bind, [{
+        key: 'bind',
+        value: function bind() {
+            var _this2 = this;
+
+            var cb = function cb(val) {
+                _this2.node[_this2.prop] = val;
+            };
+            get(Bind.prototype.__proto__ || Object.getPrototypeOf(Bind.prototype), 'bind', this).call(this, cb);
+        }
+    }]);
+    return Bind;
+}(Base);
+
+var On = function (_Base) {
+    inherits(On, _Base);
+
+    function On(opts) {
+        classCallCheck(this, On);
+
+        var _this = possibleConstructorReturn(this, (On.__proto__ || Object.getPrototypeOf(On)).call(this, opts));
+
+        _this.evtName = _this.directive;
+        _this.evt = _this.exp;
+        return _this;
+    }
+
+    createClass(On, [{
+        key: 'bind',
+        value: function bind() {
+            this.node.addEventListener(this.evtName, this.vm.methods[this.evt].bind(this.vm), false);
+        }
+    }]);
+    return On;
+}(Base);
+
 var Model = function (_Base) {
     inherits(Model, _Base);
 
@@ -586,7 +528,6 @@ var Model = function (_Base) {
 
         var _this = possibleConstructorReturn(this, (Model.__proto__ || Object.getPrototypeOf(Model)).call(this, opts));
 
-        _this.exp = opts.expOrFn;
         _this.prop = 'value';
         return _this;
     }
@@ -610,7 +551,7 @@ var Model = function (_Base) {
             //default implement  duplex-->true
             //when set by user,the exp is must be a variable,not allow expression
             var fn = function fn(e) {
-                return _this3.vm[_this3.exp] = e.target.value;
+                return runSet(_this3.exp, e.target.value, _this3.vm);
             };
             this.node.addEventListener('input', fn, false);
         }
@@ -628,12 +569,7 @@ var If = function (_Base) {
 
     function If(opts) {
         classCallCheck(this, If);
-
-        var _this = possibleConstructorReturn(this, (If.__proto__ || Object.getPrototypeOf(If)).call(this, opts));
-
-        _this.exp = opts.expOrFn;
-        _this.compiler = opts.compiler;
-        return _this;
+        return possibleConstructorReturn(this, (If.__proto__ || Object.getPrototypeOf(If)).call(this, opts));
     }
 
     createClass(If, [{
@@ -641,7 +577,6 @@ var If = function (_Base) {
         value: function bind() {
             var _this2 = this;
 
-            this.compiler.compileChild(this.node);
             var holderNode = document.createTextNode('');
             var parentNode = this.node.parentNode;
             parentNode.insertBefore(holderNode, this.node);
@@ -659,19 +594,26 @@ var If = function (_Base) {
     return If;
 }(Base);
 
-var For = function (_Directive) {
-    inherits(For, _Directive);
+var For = function (_Base) {
+    inherits(For, _Base);
 
-    function For() {
+    function For(opts) {
         classCallCheck(this, For);
-        return possibleConstructorReturn(this, (For.__proto__ || Object.getPrototypeOf(For)).call(this));
+        return possibleConstructorReturn(this, (For.__proto__ || Object.getPrototypeOf(For)).call(this, opts));
     }
 
-    return For;
-}(Detictive);
+    createClass(For, [{
+        key: 'bind',
+        value: function bind() {
 
-var Text = function (_Directive) {
-    inherits(Text, _Directive);
+            get(For.prototype.__proto__ || Object.getPrototypeOf(For.prototype), 'bind', this).call(this, cb);
+        }
+    }]);
+    return For;
+}(Base);
+
+var Text = function (_Base) {
+    inherits(Text, _Base);
 
     function Text() {
         classCallCheck(this, Text);
@@ -679,7 +621,7 @@ var Text = function (_Directive) {
     }
 
     return Text;
-}(Detictive);
+}(Base);
 
 var Html = function (_Base) {
     inherits(Html, _Base);
@@ -689,7 +631,6 @@ var Html = function (_Base) {
 
         var _this = possibleConstructorReturn(this, (Html.__proto__ || Object.getPrototypeOf(Html)).call(this, opts));
 
-        _this.exp = opts.expOrFn;
         _this.prop = 'innerHTML';
         return _this;
     }
@@ -709,8 +650,8 @@ var Html = function (_Base) {
     return Html;
 }(Base);
 
-var Show = function (_Directive) {
-    inherits(Show, _Directive);
+var Show = function (_Base) {
+    inherits(Show, _Base);
 
     function Show() {
         classCallCheck(this, Show);
@@ -718,37 +659,37 @@ var Show = function (_Directive) {
     }
 
     return Show;
-}(Detictive);
+}(Base);
 
-function directiveFactory(directive, opts) {
+function directiveFactory(opts) {
     var instance;
-    switch (directive) {
-        case ':':
-            instance = new Bind(opts);
-            break;
-        case '@':
-            instance = new On(opts);
-            break;
-        case 'model':
-            instance = new Model(opts);
-            break;
-        case 'if':
-            instance = new If(opts);
-            break;
-        case 'for':
-            instance = new For(opts);
-            break;
-        case 'text':
-            instance = new Text(opts);
-            break;
-        case 'html':
-            instance = new Html(opts);
-            break;
-        case 'show':
-            instance = new Show(opts);
-            break;
-        default:
-            break;
+    if (opts.prefix == opts.vm.configs.attrPrefix) {
+        instance = new Bind(opts);
+    } else if (opts.prefix == opts.vm.configs.evtPrefix) {
+        instance = new On(opts);
+    } else {
+        switch (opts.directive) {
+            case 'model':
+                instance = new Model(opts);
+                break;
+            case 'if':
+                instance = new If(opts);
+                break;
+            case 'for':
+                instance = new For(opts);
+                break;
+            case 'text':
+                instance = new Text(opts);
+                break;
+            case 'html':
+                instance = new Html(opts);
+                break;
+            case 'show':
+                instance = new Show(opts);
+                break;
+            default:
+                break;
+        }
     }
     return instance;
 }
@@ -821,41 +762,33 @@ var Templater = function () {
 				    prefix = _Attr$checkDirective.prefix,
 				    directive = _Attr$checkDirective.directive;
 
-				var expOrFn = attr.nodeValue;
+				var exp = attr.nodeValue; //expOrfn
 				if (directive) {
 					node.removeAttribute(attrName);
 					//@click  ->click
 					//u-model ->value
-					var currentDirective = directiveFactory(directive, {
-						name: directive,
-						expOrFn: expOrFn,
-
+					var currentDirective = directiveFactory({
+						prefix: prefix,
+						directive: directive,
+						exp: exp,
 						node: node,
-						vm: _this2.vm,
-						compiler: _this2
+						vm: _this2.vm
 					});
-					if (prefix === _this2.vm.configs.evtPrefix) {
-						//@click
-						currentDirective.addEvt();
+					//first detect if for directive
+					if (directive === 'if' || directive === 'for') {
+						lasy = { isLasy: true, type: directive, exp: exp };
+						lasyDirective = currentDirective;
 					} else {
-						//first detect if for directive
-						if (directive === 'if' || directive === 'for') {
-							lasy = { isLasy: true, type: directive, exp: expOrFn };
-							lasyDirective = currentDirective;
-						} else {
-							//u-html u-model
-							//:id
-							currentDirective.bind();
-						}
+						//@click
+						//u-html u-model
+						//:id
+						currentDirective.bind();
 					}
 				}
 			});
+			this.compileChild(node);
 			if (lasy.isLasy) {
-				debugger;
 				lasyDirective.bind();
-				debugger;
-			} else {
-				this.compileChild(node);
 			}
 		}
 	}, {
@@ -866,12 +799,12 @@ var Templater = function () {
 				var _Attr$expressionKey = Attr.expressionKey(node.data),
 				    _Attr$expressionKey2 = slicedToArray(_Attr$expressionKey, 4),
 				    preTxt = _Attr$expressionKey2[1],
-				    expOrFn = _Attr$expressionKey2[2],
+				    exp = _Attr$expressionKey2[2],
 				    nxtTxt = _Attr$expressionKey2[3];
 
 				var currentDirective = new Directive({
 					name: 'text',
-					expOrFn: expOrFn,
+					exp: exp,
 
 					node: node,
 					preTxt: preTxt,
