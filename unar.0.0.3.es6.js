@@ -11,13 +11,53 @@
 	(global.Unar = factory());
 }(this, (function () { 'use strict';
 
+var keywords = RegExp([
+	'^break$',
+	'^case$',
+	'^catch$',
+	'^continue$',
+	'^default$',
+	'^delete$',
+	'^do$',
+	'^else$',
+	'^finally$',
+	'^for$',
+	'^function$',
+	'^if$',
+	'^in$',
+	'^instanceof$',
+	'^new$',
+	'^return$',
+	'^switch$',
+	'^this$',
+	'^throw$',
+	'^try$',
+	'^typeof$',
+	'^var$',
+	'^void$',
+	'^while$',
+	'^with$'].join('|'), 'g');
 const run = (exp, scope) => {
+	if (keywords.test(exp)) {
+		console.error(`when getting value of "${exp}",there's a unresolved error. "${exp}" is keyword,it shouldn't used as key in data`);
+		return 
+	} else {
+		try {
+			var fn;
+			fn = new Function('vm', `with(vm){return ${exp}}`);
+			return fn(scope)
+		} catch (e) {
+			console.error(`when getting value of "${exp}",there's a unresolved error`);
+		}
+	}
+};
+const runSet = (exp, val, scope) => {
 	try {
 		var fn;
-		fn = new Function('vm', 'with(vm){return ' + exp + '}');
+		fn = new Function('vm', `with(vm){${exp} = '${val}'}`);
 		return fn(scope)
 	} catch (e) {
-		console.error(`${exp} has a unresolved error`);
+		console.error(`when setting value for ${exp},there's a unresolved error`);
 	}
 };
 
@@ -56,13 +96,44 @@ const typeOf$1 = (o) => {
 	var _target;
 	return ((_target = typeof (o)) == "object" ? Object.prototype.toString.call(o).slice(8, -1) : _target).toLowerCase()
 };
+var keywords$1 = RegExp([
+	'^break$',
+	'^case$',
+	'^catch$',
+	'^continue$',
+	'^default$',
+	'^delete$',
+	'^do$',
+	'^else$',
+	'^finally$',
+	'^for$',
+	'^function$',
+	'^if$',
+	'^in$',
+	'^instanceof$',
+	'^new$',
+	'^return$',
+	'^switch$',
+	'^this$',
+	'^throw$',
+	'^try$',
+	'^typeof$',
+	'^var$',
+	'^void$',
+	'^while$',
+	'^with$'].join('|'), 'g');
 const run$1 = (exp, scope) => {
-	try {
-		var fn;
-		fn = new Function('vm', 'with(vm){return ' + exp + '}');
-		return fn(scope)
-	} catch (e) {
-		console.error(`${exp} has a unresolved error`);
+	if (keywords$1.test(exp)) {
+		console.error(`when getting value of "${exp}",there's a unresolved error. "${exp}" is keyword,it shouldn't used as key in data`);
+		return 
+	} else {
+		try {
+			var fn;
+			fn = new Function('vm', `with(vm){return ${exp}}`);
+			return fn(scope)
+		} catch (e) {
+			console.error(`when getting value of "${exp}",there's a unresolved error`);
+		}
 	}
 };
 
@@ -109,7 +180,7 @@ const hijack = (data, vm) => {
 	});
 };
 
-const accessor = (data, vm) => {
+const accessor = (data) => {
 	Object.keys(data).forEach(key => {
 		var hub = new Hub(key);
 		hubs.push(hub);
@@ -128,7 +199,7 @@ const accessor = (data, vm) => {
 				valCache = newVal;
 				// object 
 				if (typeOf$1(newVal) === 'object') {
-					accessor(newVal, vm, path);
+					accessor(newVal);
 				}
 				// array
 				// if () {
@@ -139,12 +210,12 @@ const accessor = (data, vm) => {
 			}
 		});
 		if (typeOf$1(valCache) === 'object') {
-			accessor(valCache, vm, path);
+			accessor(valCache);
 		}
 	});
 };
 const proxy = (data, vm) => {
-	accessor(data, vm);
+	accessor(data);
 	hijack(data, vm);
 };
 const watch = (watchers, vm) => {
@@ -269,7 +340,7 @@ class Model extends Base {
     addEvt() {
         //default implement  duplex-->true
         //when set by user,the exp is must be a variable,not allow expression
-        const fn = e => this.vm[this.exp] = e.target.value;
+        const fn = e => runSet(this.exp, e.target.value, this.vm);
         this.node.addEventListener('input', fn, false);
     }
     // destroy() {
