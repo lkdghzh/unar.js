@@ -1,4 +1,5 @@
 import Base from './base'
+import { runSet } from '../../utils'
 export default class Model extends Base {
     constructor(opts) {
         super(opts)
@@ -14,7 +15,7 @@ export default class Model extends Base {
     addEvt() {
         //default implement  duplex-->true
         //when set by user,the exp is must be a variable,not allow expression
-        const fn = e => this.vm[this.exp] = e.target.value
+        const fn = e => runSet(this.exp, e.target.value, this.vm)
         this.node.addEventListener('input', fn, false)
     }
     // destroy() {

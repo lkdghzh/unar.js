@@ -3,11 +3,12 @@ window.Unar = Unar
 window.app = new Unar({
 	el: "#root",
 	data: {
-		a: 1,
+		a: 'a',
 		b: 2,
 		id: 'name',
 		i: true,
-		e:{a:'e.a'}
+		iff:'if',
+		e: { a: 'e.a' }
 	},
 	computeds: {
 		c() {
@@ -22,8 +23,8 @@ window.app = new Unar({
 			}
 		}
 	},
-	watchers:{
-		a(val,oldVal){
+	watchers: {
+		a(val, oldVal) {
 			console.log(`${oldVal}-->${val}`)
 		}
 	},
