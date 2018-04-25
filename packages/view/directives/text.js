@@ -1,5 +1,5 @@
-import Directive from '../directive'
-export default class Text extends Directive{
+import Base from './base'
+export default class Text extends Base{
     constructor() {
         super()
     }
