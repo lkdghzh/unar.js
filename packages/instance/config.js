@@ -25,7 +25,32 @@ const hijack = (data, vm) => {
 	})
 }
 
+// 仅仅修改在data内初始化时的数组类型和在data内新赋值的数组类型两者的原型，
+// 在其他地方，并没有修改
+const getVariantProtoType = (fn) => {
+	//新建对象（inheritedPrototype）继承数组的原型，让这个对象拥有数组原型上的所有方法
+	var t = function () { }
+	t.prototype = Array.prototype
+	var inheritedPrototype = t
+
+	//重写这个对象（inheritedPrototype）的，修改本身的方法
+	['push', 'pop', 'shift', 'unshift', 'splice', 'sort', 'reverse'].forEach((method) => {
+		inheritedPrototype[method] = () => { fn(), inheritedPrototype[method]() }
+	})
+	return inheritedPrototype
+}
+const accessorArray = (arr, expHub) => {
+	var fn = () => { expHub.notify() }
+	arr.prototype = getVariantProtoType(fn)
+
+	arr.forEach((item) => {
+		accessor(item)
+	})
+}
 const accessor = (data) => {
+	if (typeOf(data) !== 'object') {
+		return
+	}
 	Object.keys(data).forEach(key => {
 		var hub = new Hub(key)
 		hubs.push(hub)
@@ -43,19 +68,20 @@ const accessor = (data) => {
 			set(newVal) {
 				valCache = newVal
 				// object 
-				if (typeOf(newVal) === 'object') {
-					accessor(newVal)
-				}
+				accessor(newVal)
 				// array
-				// if () {
-				// 	// TODO observe array
-				// }
+				if (typeOf(valCache) === 'array') {
+					accessorArray(valCache, hub)
+				}
 				//set value first,then notify dom update with newVal
 				hub.notify()
 			}
 		})
-		if (typeOf(valCache) === 'object') {
-			accessor(valCache)
+		// object 
+		accessor(valCache)
+		// array
+		if (typeOf(valCache) === 'array') {
+			accessorArray(valCache, hub)
 		}
 	})
 }
