@@ -52,15 +52,15 @@ const accessor = (data) => {
 		return
 	}
 	Object.keys(data).forEach(key => {
-		var hub = new Hub(key)
-		hubs.push(hub)
+		var expHub = new Hub(key)
+		hubs.push(expHub)
 		//Data properties->data[key]
 		var valCache = data[key]
 		//Accessor properties
 		Object.defineProperty(data, key, {
 			get() {
 				if (temp.listener) {
-					hub.addListener(temp.listener)
+					expHub.addListener(temp.listener)
 				}
 				console.log(`accessor->get:${key}`)
 				return valCache
@@ -71,17 +71,17 @@ const accessor = (data) => {
 				accessor(newVal)
 				// array
 				if (typeOf(valCache) === 'array') {
-					accessorArray(valCache, hub)
+					accessorArray(valCache, expHub)
 				}
 				//set value first,then notify dom update with newVal
-				hub.notify()
+				expHub.notify()
 			}
 		})
 		// object 
 		accessor(valCache)
 		// array
 		if (typeOf(valCache) === 'array') {
-			accessorArray(valCache, hub)
+			accessorArray(valCache, expHub)
 		}
 	})
 }
