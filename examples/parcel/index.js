@@ -8,7 +8,8 @@ window.app = new Unar({
 		id: 'name',
 		i: true,
 		iff:'if',
-		e: { a: 'e.a' }
+		e: { a: 'e.a' },
+		arr:[1,2,3]
 	},
 	computeds: {
 		c() {

@@ -34,8 +34,9 @@ const getVariantProtoType = (fn) => {
 	var inheritedPrototype = t
 
 	//重写这个对象（inheritedPrototype）的，修改本身的方法
-	['push', 'pop', 'shift', 'unshift', 'splice', 'sort', 'reverse'].forEach((method) => {
-		inheritedPrototype[method] = () => { fn(), inheritedPrototype[method]() }
+	var matutedMethods=['push', 'pop', 'shift', 'unshift', 'splice', 'sort', 'reverse']
+	matutedMethods.forEach((method) => {
+		inheritedPrototype[method] = () => { fn(); inheritedPrototype[method]() }
 	})
 	return inheritedPrototype
 }
