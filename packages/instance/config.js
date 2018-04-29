@@ -43,6 +43,7 @@ const accessorArray = (arr, expHub) => {
 	var fn = () => { expHub.notify() }
 	arr.prototype = getVariantProtoType(fn)
 
+	//[{a:1},{b:2}] special to object in array
 	arr.forEach((item) => {
 		accessor(item)
 	})
