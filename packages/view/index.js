@@ -8,7 +8,7 @@ import directivesFactory from "./directives/index"
 export default class Templater {
 	constructor(selector, vm) {
 		this.vm = vm
-		this.el = document.querySelector(selector)
+		this.el = typeof selector === 'string' ? document.querySelector(selector) : selector
 		this.el.appendChild(this.init())
 	}
 	init() {
@@ -58,7 +58,8 @@ export default class Templater {
 					directive: directive,
 					exp: exp,
 					node: node,
-					vm: this.vm
+					vm: this.vm,
+					compiler: this
 				})
 				//first detect if for directive
 				if (directive === 'if' || directive === 'for') {

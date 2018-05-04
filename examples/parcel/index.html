@@ -26,6 +26,9 @@
 		<button @click="fn">点击</button>
 	 -->
 	<div id="root">
+		<div u-for="a of arr">
+			<div u-html='a'></div>
+		</div>
 		<input u-model="arr" />
 		<input u-model="arr" />
 		<input u-model="a" :id="id" />
