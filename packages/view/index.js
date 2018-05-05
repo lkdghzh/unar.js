@@ -36,8 +36,8 @@ export default class Templater {
 		})
 	}
 	compileElement(node) {
-		let lasy = { isLasy: false, type: '', exp: '' }
-		let lasyDirective
+		let lasyDirective = null
+		let directiveDescriptor = { isLasy: false, type: '', exp: '' }
 		Array.from(node.attributes).forEach(attr => {
 			let attrName = attr.nodeName
 			let { prefix, directive } = Attr.checkDirective(attrName, this.vm.configs)
@@ -56,7 +56,7 @@ export default class Templater {
 				})
 				//first detect if for directive
 				if (directive === 'if' || directive === 'for') {
-					lasy = { isLasy: true, type: directive, exp: exp }
+					directiveDescriptor = { isLasy: true, type: directive, exp: exp }
 					lasyDirective = currentDirective
 				} else {
 					//@click
@@ -67,7 +67,7 @@ export default class Templater {
 			}
 		})
 		this.compile(node)
-		if (lasy.isLasy) {
+		if (directiveDescriptor.isLasy) {
 			lasyDirective.bind()
 		}
 	}
