@@ -13,7 +13,7 @@ export default class Templater {
 	init() {
 		let frag = document.createDocumentFragment()
 		this.fillFrag(frag)
-		this.compileChild(frag)
+		this.compile(frag)
 		this.el.appendChild(frag)
 	}
 	fillFrag(docFrag) {
@@ -26,33 +26,27 @@ export default class Templater {
 		}
 		return docFrag
 	}
-	compileChild(node) {
-		//translat dom to fragment
-		node.childNodes.forEach((node) => {
-			//init view
-			this.compileNode(node)
+	compile(node) {
+		node.childNodes.forEach((child) => {
+			if (child.nodeType === 1) {
+				this.compileElement(child)
+			} else if (child.nodeType === 3) {
+				this.compileText(child)
+			}
 		})
-	}
-	compileNode(node) {
-		if (node.nodeType === 1) {
-			//for (let attr of node.attributes) {
-			this.compileElement(node)
-		} else if (node.nodeType === 3) {
-			this.compileText(node)
-		}
 	}
 	compileElement(node) {
 		let lasy = { isLasy: false, type: '', exp: '' }
-		var lasyDirective
+		let lasyDirective
 		Array.from(node.attributes).forEach(attr => {
-			const attrName = attr.nodeName
-			const { prefix, directive } = Attr.checkDirective(attrName, this.vm.configs)
-			const exp = attr.nodeValue//expOrfn
+			let attrName = attr.nodeName
+			let { prefix, directive } = Attr.checkDirective(attrName, this.vm.configs)
+			let exp = attr.nodeValue//expOrfn
 			if (directive) {
 				node.removeAttribute(attrName)
 				//@click  ->click
 				//u-model ->value
-				var currentDirective = directivesFactory({
+				let currentDirective = directivesFactory({
 					prefix,
 					directive: directive,
 					exp: exp,
@@ -72,7 +66,7 @@ export default class Templater {
 				}
 			}
 		})
-		this.compileChild(node)
+		this.compile(node)
 		if (lasy.isLasy) {
 			lasyDirective.bind()
 		}
@@ -81,7 +75,7 @@ export default class Templater {
 		if (Attr.isExpression(node.data)) {
 			//text with {{}}
 			const [, preTxt, exp, nxtTxt] = Attr.expressionKey(node.data)
-			var currentDirective = new Directive({
+			let currentDirective = new Directive({
 				name: 'text',
 				exp: exp,
 
