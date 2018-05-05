@@ -9,13 +9,12 @@ export default class Templater {
 	constructor(selector, vm) {
 		this.vm = vm
 		this.el = typeof selector === 'string' ? document.querySelector(selector) : selector
-		this.el.appendChild(this.init())
 	}
 	init() {
-		const docFrag = document.createDocumentFragment()
-		var filledFrag = this.fillFrag(docFrag)
-		this.compileChild(filledFrag)
-		return docFrag
+		let frag = document.createDocumentFragment()
+		this.fillFrag(frag)
+		this.compileChild(frag)
+		this.el.appendChild(frag)
 	}
 	fillFrag(docFrag) {
 		for (let i = 0; i < this.el.childNodes.length; i++) {

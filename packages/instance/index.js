@@ -41,7 +41,8 @@ class Unar {
 		// it will not subscribe to the hubs inside the event
 
 		//compile fragment
-		new Templater(el, this)
+		let templeter=new Templater(el, this)
+		templeter.init()
 	}
 	// $watch() {}
 	// static use() {}
