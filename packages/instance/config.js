@@ -31,7 +31,7 @@ const getVariantProtoType = (fn) => {
 	//新建对象（inheritedPrototype）继承数组的原型，让这个对象拥有数组原型上的所有方法
 	var t = function () { }
 	t.prototype = Array.prototype
-	var inheritedPrototype = t
+	var inheritedPrototype = new t()
 
 	//重写这个对象（inheritedPrototype）的，修改本身的方法
 	var matutedMethods=['push', 'pop', 'shift', 'unshift', 'splice', 'sort', 'reverse']

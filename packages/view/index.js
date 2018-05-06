@@ -11,22 +11,22 @@ export default class Templater {
 		this.el = typeof selector === 'string' ? document.querySelector(selector) : selector
 	}
 	init() {
-		let frag = document.createDocumentFragment()
-		this.fillFrag(frag)
+		let frag = this.fillFrag()
 		this.compile(frag)
 		this.el.appendChild(frag)
 	}
-	fillFrag(docFrag) {
+	fillFrag() {
+		let frag = document.createDocumentFragment()
 		for (let i = 0; i < this.el.childNodes.length; i++) {
 			const node = this.el.childNodes[i]
 			if (this.isValidType(node)) {
-				docFrag.appendChild(node)
+				frag.appendChild(node)
 				--i
 			}
 		}
-		return docFrag
+		return frag
 	}
-	compile(node) {
+	compile(node = this.el) {
 		node.childNodes.forEach((child) => {
 			if (child.nodeType === 1) {
 				this.compileElement(child)
@@ -66,6 +66,7 @@ export default class Templater {
 				}
 			}
 		})
+		debugger
 		this.compile(node)
 		if (directiveDescriptor.isLasy) {
 			lasyDirective.bind()
