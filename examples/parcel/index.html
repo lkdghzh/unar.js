@@ -8,22 +8,35 @@
 
 <body>
 	<div id="root">
-		<div u-for="m of arr">
-			<div u-html='m'></div>
-		</div>
+		<fieldset>
+			<legend>[1,2,3]</legend>
+			<div u-for="m of arr">
+				<div u-html='m'></div>
+			</div>
+		</fieldset>
 		<hr/>
-		<div u-for="m of arr">
-			<div u-html='$index'></div>
-		</div>
+		<fieldset>
+			<legend>array index</legend>
+			<div u-for="m of arr">
+				<div u-html='index'></div>
+			</div>
+		</fieldset>
+
 		<hr/>
-		<div u-for="n of arr1">
+		<fieldset>
+			<legend>[{ id: 'a' }, { id: 'b'}, { id: 'c' }]</legend>
+			<div u-for="n of arr1">
+				<div u-html='n.id'></div>
+			</div>
+		</fieldset>
+		<hr/>
+		<!-- <div u-for="n of arr1">
 			<div u-html='n.id'></div>
-		</div>
-		<hr/>
+		</div> -->
 		<input u-model="arr" />
 		<input u-model="arr" />
+		<hr> there 's a bug :that cann't resolve template below ???
 		<hr>
-		there 's a bug :that cann't resolve template below???
 		<input u-model="a" :id="id" />
 		<input u-model="a" />
 		<span u-if="i" u-html="iff"></span>

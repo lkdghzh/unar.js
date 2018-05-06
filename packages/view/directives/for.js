@@ -25,7 +25,7 @@ export default class For extends Base {
                      * </div>
                      */
                     var childVM = Object.create(this.vm)
-                    childVM.$index = inx
+                    childVM.index = inx
                     childVM[itemName] = it
                     this.templater.compile(cloneNode,childVM)
                 })
