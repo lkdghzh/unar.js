@@ -6,7 +6,6 @@ export default class For extends Base {
         this.arr=this.exp.split('of')[1].replace(/\s/g, '').split('.')
     }
     bind() {
-        
         var itemName = this.exp.split('of')[0].replace(/\s/g, '')
         // var arrNames = exp.split('of')[1].replace(/\s/g, '').split('.')
         var parentNode = this.node.parentNode
