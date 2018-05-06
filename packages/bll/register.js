@@ -7,6 +7,7 @@ export default class Register {
 		// console.log(`初始化页面get：${exp}`)
 		temp.listener = new Listener(vm, exp, cb)
 		var newVal = run(exp, vm)
+		debugger
 		cb(newVal)
 		temp.listener = null
 	}

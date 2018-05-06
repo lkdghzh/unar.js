@@ -7,28 +7,15 @@
 </head>
 
 <body>
-	<!-- 
-		<input u-model="a" :id="id" />-{{a}}-
-		<input u-model="a" />
-		<input u-model="b" />
-		<span  u-if="i" u-html="a"></span>
-		<button @click="fn">点击</button>
-
-			<input u-model="a" :id="id" />
-		<input u-model="a" />
-		<div id='test'>
-			<span u-if="i" u-html="a"></span>
-		</div>
-		<span u-html="c"></span>
-		---
-		<span u-html="d"></span>
-		<br>
-		<button @click="fn">点击</button>
-	 -->
 	<div id="root">
-		<!-- <div u-for="a of arr">
-			<div u-html='a'></div>
-		</div> -->
+		<div u-for="m of arr">
+			<div u-html='m'></div>
+		</div>
+		<hr/>
+		<div u-for="n of arr1">
+			<div u-html='n.id'></div>
+		</div>
+		<hr/>
 		<input u-model="arr" />
 		<input u-model="arr" />
 		<input u-model="a" :id="id" />

@@ -9,7 +9,8 @@ window.app = new Unar({
 		i: true,
 		iff:'if',
 		e: { a: 'e.a' },
-		arr:[1,2,3]
+		arr:[1,2,3],
+		arr1: [{ id: 1 }, { id: 2 }, { id: 3 }]
 	},
 	computeds: {
 		c() {

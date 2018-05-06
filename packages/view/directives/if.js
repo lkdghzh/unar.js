@@ -3,8 +3,10 @@ import Base from './base'
 export default class If extends Base {
     constructor(opts) {
         super(opts)
+        this.templater = opts.templater
     }
     bind() {
+        this.templater.compile(this.node)
         var holderNode = document.createTextNode('')
         var parentNode = this.node.parentNode
         parentNode.insertBefore(holderNode, this.node)

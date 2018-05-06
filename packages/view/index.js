@@ -26,16 +26,16 @@ export default class Templater {
 		}
 		return frag
 	}
-	compile(node = this.el) {
+	compile(node = this.el, vm = this.vm) {
 		node.childNodes.forEach((child) => {
 			if (child.nodeType === 1) {
-				this.compileElement(child)
+				this.compileElement(child, vm)
 			} else if (child.nodeType === 3) {
-				this.compileText(child)
+				this.compileText(child, vm)
 			}
 		})
 	}
-	compileElement(node) {
+	compileElement(node, vm) {
 		let lasyDirective = null
 		let directiveDescriptor = { isLasy: false, type: '', exp: '' }
 		Array.from(node.attributes).forEach(attr => {
@@ -51,8 +51,8 @@ export default class Templater {
 					directive: directive,
 					exp: exp,
 					node: node,
-					vm: this.vm,
-					compiler: this
+					vm: vm,
+					templater: this
 				})
 				//first detect if for directive
 				if (directive === 'if' || directive === 'for') {
@@ -66,13 +66,13 @@ export default class Templater {
 				}
 			}
 		})
-		debugger
-		this.compile(node)
 		if (directiveDescriptor.isLasy) {
 			lasyDirective.bind()
+		}else{
+			this.compile(node, vm)
 		}
 	}
-	compileText(node) {
+	compileText(node, vm) {
 		if (Attr.isExpression(node.data)) {
 			//text with {{}}
 			const [, preTxt, exp, nxtTxt] = Attr.expressionKey(node.data)
@@ -83,7 +83,7 @@ export default class Templater {
 				node: node,
 				preTxt: preTxt,
 				nxtTxt: nxtTxt,
-				vm: this.vm
+				vm: vm
 			})
 			currentDirective.bind()
 		}
