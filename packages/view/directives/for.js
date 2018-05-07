@@ -6,15 +6,15 @@ export default class For extends Base {
         this.arr=this.exp.split('of')[1].replace(/\s/g, '')
     }
     bind() {
-        var item = this.exp.split('of')[0].replace(/\s/g, '')
-        var parentNode = this.node.parentNode
-        var holderNode = document.createTextNode('')
+        const item = this.exp.split('of')[0].replace(/\s/g, '')
+        const parentNode = this.node.parentNode
+        const holderNode = document.createTextNode('')
         parentNode.insertBefore(holderNode, this.node)
         parentNode.removeChild(this.node)
         const cb = (val) => {
             if (val) {
                 val.forEach((it, inx) => {
-                    var cloneNode = this.node.cloneNode(true)
+                    const cloneNode = this.node.cloneNode(true)
                     parentNode.insertBefore(cloneNode, holderNode)
                     /**
                      * we have a goal:can use it ,arr,$index in child-nodes eg.
@@ -23,10 +23,15 @@ export default class For extends Base {
                      *  <span u-html='it.id' :id='$index' :sth='arr[$index].id'></span>
                      * </div>
                      */
-                    this.vm[this.arr].index=inx
-                    var childVM = Object.create(this.vm)
+                    // this.vm[this.arr].index=inx
+                    const childVM = Object.create(this.vm)
                     childVM.index = inx
                     childVM[item] = it
+
+                    /*
+                     * this time arr1 ,temp.listener is not null, it will be pushed to-> first child {id:1} 's Hubs!!! bug
+                     * need to set arr1 temp.listener null before compile cloneNode(child)
+                    */
                     this.templater.compile(cloneNode,childVM)
                 })
             } else {
