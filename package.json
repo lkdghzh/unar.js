@@ -4,7 +4,7 @@
   "description": "unar.js",
   "main": "index.js",
   "scripts": {
-    "dev:parcel": "parcel ./examples/parcel/index.html --no-cache",
+    "dev:parcel": "parcel ./examples/parcel/index.html --no-cache --open",
     "dev:r": "rollup --watch --config scripts/rollup/config.js --environment TARGET:es6",
     "stage:r": "rollup --watch --config scripts/rollup/config.js --environment TARGET:es5",
     "prod:r": "rollup --watch --config scripts/rollup/config.js --environment TARGET:min",
