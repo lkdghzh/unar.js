@@ -3,11 +3,10 @@ export default class For extends Base {
     constructor(opts) {
         super(opts)
         this.templater = opts.templater
-        this.arr=this.exp.split('of')[1].replace(/\s/g, '').split('.')
+        this.arr=this.exp.split('of')[1].replace(/\s/g, '')
     }
     bind() {
         var item = this.exp.split('of')[0].replace(/\s/g, '')
-        var arr= this.exp.split('of')[1].replace(/\s/g, '').split('.')
         var parentNode = this.node.parentNode
         var holderNode = document.createTextNode('')
         parentNode.insertBefore(holderNode, this.node)
@@ -24,7 +23,7 @@ export default class For extends Base {
                      *  <span u-html='it.id' :id='$index' :sth='arr[$index].id'></span>
                      * </div>
                      */
-                    this.vm[arr].index=inx
+                    this.vm[this.arr].index=inx
                     var childVM = Object.create(this.vm)
                     childVM.index = inx
                     childVM[item] = it

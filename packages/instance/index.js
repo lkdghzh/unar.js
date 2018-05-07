@@ -39,7 +39,7 @@ class Unar {
 
 		// if the template does not define the properties of the data,
 		// it will not subscribe to the hubs inside the event
-
+		debugger
 		//compile fragment
 		let templater=new Templater(el, this)
 		templater.init()
