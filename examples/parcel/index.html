@@ -8,7 +8,7 @@
 
 <body>
 	<div id="root">
-		<fieldset>
+		<!-- <fieldset>
 			<legend>[1,2,3]</legend>
 			<div u-for="m of arr">
 				<div u-html='m'></div>
@@ -22,18 +22,18 @@
 			</div>
 		</fieldset>
 
-		<hr/>
+		<hr/> -->
 		<fieldset>
 			<legend>[{ id: 'a' }, { id: 'b'}, { id: 'c' }]</legend>
 			<div u-for="n of arr1">
 				<div u-html='n.id'></div>
 			</div>
 		</fieldset>
-		<hr/>
+		<!-- <hr/> -->
 		<!-- <div u-for="n of arr1">
 			<div u-html='n.id'></div>
 		</div> -->
-		<input u-model="arr" />
+		<!-- <input u-model="arr" />
 		<input u-model="arr" />
 		<hr> there 's a bug :that cann't resolve template below ???
 		<hr>
@@ -45,7 +45,7 @@
 		<br>
 		<input type="text" u-model='e.a' />
 		<input type="text" u-model='e.a' />
-		<button @click="fn">点击</button>
+		<button @click="fn">点击</button> -->
 	</div>
 </body>
 <script src="./index.js"></script>
