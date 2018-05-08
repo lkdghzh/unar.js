@@ -48,10 +48,10 @@ export default class Templater {
 				//u-model ->value
 				let currentDirective = directivesFactory({
 					prefix,
-					directive: directive,
-					exp: exp,
-					node: node,
-					vm: vm,
+					directive,
+					exp,
+					node,
+					vm,
 					templater: this
 				})
 				//first detect if for directive
@@ -68,7 +68,7 @@ export default class Templater {
 		})
 		if (directiveDescriptor.isLasy) {
 			lasyDirective.bind()
-		}else{
+		} else {
 			this.compile(node, vm)
 		}
 	}

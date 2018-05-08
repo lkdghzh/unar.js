@@ -3,10 +3,10 @@ import Listener from "../hub/listener"
 import { run } from '../Utils'
 
 export default class Register {
-	static registDomListener4Hubs(cb, exp, vm) {
+	static registDomListener4Hubs(cb, key, exp, vm) {
 		// console.log(`初始化页面get：${exp}`)
-		temp.listener = new Listener(vm, exp, cb)
-		var newVal = run(exp, vm)
+		temp.listener = new Listener({ vm, key, exp, cb })
+		var newVal = run(key, vm)
 		temp.listener = null
 		/*
 		 * During callback process, the template may be recompiled ,for directive eg.

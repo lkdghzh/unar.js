@@ -3,7 +3,7 @@ export default class For extends Base {
     constructor(opts) {
         super(opts)
         this.templater = opts.templater
-        this.arr=this.exp.split('of')[1].replace(/\s/g, '')
+        this.key=this.exp.split('of')[1].replace(/\s/g, '')
     }
     bind() {
         const item = this.exp.split('of')[0].replace(/\s/g, '')

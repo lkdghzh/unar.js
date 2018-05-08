@@ -12,7 +12,7 @@ export default class Base {
         // model  html
         // {{}}
         // :id
-        Register.registDomListener4Hubs(cb, this.arr ? this.arr : this.exp, this.vm)
+        Register.registDomListener4Hubs(cb, this.key,this.exp, this.vm)
     }
     // destroy() {
     //     nullify(this.name, this.vm, this.node)
