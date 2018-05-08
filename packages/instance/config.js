@@ -98,10 +98,10 @@ export const proxy = (data, vm) => {
 }
 export const watch = (watchers, vm) => {
 	//Object.entries({a:1,b:2})-->[["a", 1],["b", 2]]
-	for (let [exp, cb] of Object.entries(watchers)) {
+	for (let [key, cb] of Object.entries(watchers)) {
 		// console.log('watching...')
-		temp.listener = new Listener(vm, exp, cb)
-		run(exp, vm)
+		temp.listener = new Listener(vm,key, key, cb)
+		run(key, vm)
 		temp.listener = null
 	}
 }

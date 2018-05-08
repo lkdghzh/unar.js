@@ -3,7 +3,6 @@ import { runSet } from '../../utils'
 export default class Model extends Base {
     constructor(opts) {
         super(opts)
-        this.key=opts.exp
         this.prop = 'value'
     }
     bind() {

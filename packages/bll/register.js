@@ -5,7 +5,7 @@ import { run } from '../Utils'
 export default class Register {
 	static registDomListener4Hubs(cb, key, exp, vm) {
 		// console.log(`初始化页面get：${exp}`)
-		temp.listener = new Listener({ vm, key, exp, cb })
+		temp.listener = new Listener(vm, key, exp, cb )
 		var newVal = run(key, vm)
 		temp.listener = null
 		/*

@@ -1,7 +1,7 @@
 import { run } from "../utils"
 var id = 0
 class Listener {
-	constructor({vm, key,exp, cb}) {
+	constructor(vm, key,exp, cb) {
 		this.id = ++id
 		this.key=key
 		this.exp = exp

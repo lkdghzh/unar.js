@@ -4,6 +4,7 @@ export default class Base {
     constructor({ prefix, directive, exp, node, vm }) {
         this.prefix = prefix
         this.directive = directive
+        this.key=exp
         this.exp = exp
         this.vm = vm
         this.node = node
