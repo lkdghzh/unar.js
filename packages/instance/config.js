@@ -88,6 +88,13 @@ const accessor = (data) => {
 export const proxy = (data, vm) => {
 	accessor(data)
 	hijack(data, vm)
+	/**
+	 * can use app.prop to debugger 
+	 * arr:[{id:1},{id:2}]
+	 * app.arr  -hijack->get:arr  accessor->get:arr
+	 * app.arr[0].id  -hijack->get:arr  accessor->get:arr  accessor->get:id
+	 */
+	console.dir(data)
 }
 export const watch = (watchers, vm) => {
 	//Object.entries({a:1,b:2})-->[["a", 1],["b", 2]]
