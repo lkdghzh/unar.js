@@ -44,24 +44,26 @@ class Unar {
 		let templater=new Templater(el, this)
 		templater.init()
 	}
-	// $watch() {}
-	// static use() {}
-	// static extend() {}
-	// static $nextTick() {}
-	// $get() {
-	//     //utils.get(this, key, val)
-	// }
-	// $set() {
-	//     utils.set(this, key, val)
-	// }
-	// $created() {}
-	// $mounted() {}
-	// $computed() {}
-	// $remove() {}
-	// $destroy() {}
-	// $before() {}
-	// $after() {}
-	// 'emit', 'on', 'off', 'once'
+	/* todolist
+		$watch() {}
+		static use() {}
+		static extend() {}
+		static $nextTick() {}
+		$get() {
+			//utils.get(this, key, val)
+		}
+		$set() {
+			utils.set(this, key, val)
+		}
+		$created() {}
+		$mounted() {}
+		$computed() {}
+		$remove() {}
+		$destroy() {}
+		$before() {}
+		$after() {}
+		'emit', 'on', 'off', 'once'
+	*/
 }
 
 export default Unar
