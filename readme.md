@@ -1,5 +1,5 @@
  
-#todo
+# todolist
 + 解析json path的问题-->取值、赋值、检测。 /是否删除？
     + 自己写的问题
     + 参考 https://github.com/chaijs/pathval
@@ -7,6 +7,10 @@
 + 面向组件化（ocp）
     + 先做好一个组件的oop面向对象处理，然后才能粗粒化ocp面向组件
 + 是否转ts
++ 虚拟dom
+    + 自己研究 ，需要实测性能差距。https://github.com/lkdghzh/blog/tree/master/unar/knowledge
+    + 研究的virtual-dom库的使用 https://github.com/Matt-Esch/virtual-dom
+    + 研究的snabbdom库的使用 https://github.com/snabbdom/snabbdom
 # PLAN
 > :heavy_exclamation_mark: 45天,中间可能牵涉大变革 vdom ,life, ts 尽量不要插入
 
@@ -21,8 +25,8 @@ order | task | status
 2018-03-22  | Finding loopholes. lexical analysis. Need to convert ast. | :bangbang:
 2018-03-25  | show  :style class {{}}   | :hearts: 
 2018-04-12  | karma jasmine unit test config done  | :heavy_check_mark:
-2018/04/16  | for of ,if else elseif | :hearts: 
-2018/04/21  | if   | :heavy_check_mark: 
+2018/04/16  | else elseif | :hearts: 
+2018/04/21  | if  for  of| :heavy_check_mark: 
 2018/04/23  | observe Object  |:heavy_check_mark: 
 2018/04/30 | observe Array  | :heavy_check_mark: :hearts: 
 # options
