@@ -1,8 +1,9 @@
 import Base from './base'
+import compile from '../compile'
 export default class For extends Base {
     constructor(opts) {
         super(opts)
-        this.templater = opts.templater
+        // this.templater = opts.templater
         this.key=this.exp.split('of')[1].replace(/\s/g, '')
     }
     bind() {
@@ -32,7 +33,7 @@ export default class For extends Base {
                      * this time arr1 ,temp.listener is not null, it will be pushed to-> first child {id:1} 's Hubs!!! bug
                      * need to set arr1 temp.listener null before compile cloneNode(child)
                     */
-                    this.templater.compile(cloneNode,childVM)
+                    compile(cloneNode,childVM)
                 })
             } else {
                 parentNode.removeChild(this.node)

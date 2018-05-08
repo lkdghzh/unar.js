@@ -1,4 +1,5 @@
 import Base from './base'
+import compile from '../compile'
 
 export default class If extends Base {
     constructor(opts) {
@@ -6,7 +7,7 @@ export default class If extends Base {
         this.templater = opts.templater
     }
     bind() {
-        this.templater.compile(this.node)
+        compile(this.node)
         var holderNode = document.createTextNode('')
         var parentNode = this.node.parentNode
         parentNode.insertBefore(holderNode, this.node)
