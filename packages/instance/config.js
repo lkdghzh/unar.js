@@ -15,7 +15,7 @@ const hijack = (data, vm) => {
 				//it can replaced by this._data[key],this.$options.data[key] ,o.data[key]
 				//not allow valCache
 				//this will call `accessor get fn` 
-				console.log(`hijack->get:${key}`)
+				// console.log(`hijack->get:${key}`)
 				return data[key]
 			},
 			set(newVal) {
@@ -71,7 +71,7 @@ const accessor = (data) => {
 				if (temp.listener) {
 					hub.addListener(temp.listener)
 				}
-				console.log(`accessor->get:${key}`)
+				// console.log(`accessor->get:${key}`)
 				return valCache
 			},
 			set(newVal) {

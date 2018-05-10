@@ -18,6 +18,7 @@ function compileElement(node, vm) {
         let { prefix, directive } = Attr.checkDirective(attrName, vm.configs)
         let exp = attr.nodeValue//expOrfn
         if (directive) {
+            console.log(node.nodeName,attrName)
             node.removeAttribute(attrName)
             //@click  ->click
             //u-model ->value
