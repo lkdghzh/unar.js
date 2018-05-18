@@ -1,4 +1,5 @@
- 
+# UNAR
+[以中文查看](https://github.com/lkdghzh/unar.js/blob/master/readme-CH.md)
 # todolist
 + 解析json path的问题-->取值、赋值、检测。 /是否删除？
     + 自己写的问题

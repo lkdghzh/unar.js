@@ -1,0 +1,1 @@
+[以中文查看](https://github.com/lkdghzh/unar.js/blob/master/readme-CH.md)
