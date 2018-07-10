@@ -1,126 +1,17 @@
-# UNAR
-<div align=center><img width="500" src="https://github.com/lkdghzh/unar.js/blob/master/scrapper.jpg"/></div>
+## UNAR梦想
+> scrapper,这个小机器人是环太平洋2的一个角色，他本身被小女孩寄托着一个拯救社会的梦想。<br>
+>就像作者想把unar.js做成前端框架的领跑者一样,为提高javascript开发效率，做出一点点帮助。<br>
+> 作者眼中的unar好比环太平洋2中小女孩制造的scrapper
+<div align=center><img width="400" src="./scrapper.jpg"/></div>
 
-<!-- [以中文查看](https://github.com/lkdghzh/unar.js/blob/master/readme-CH.md) -->
+## [Unar介绍](https://github.com/lkdghzh/unar.js)
+> Unar是一个的mvvm框架,核心功能已经完成，还有很多[todolist](doc/use/senior.md)<br>
+> 参考vue，knockout,jquery相关开发库，<br>
+> 欢迎star:bowtie:
 
-## [Unar](https://github.com/lkdghzh/unar.js)
-> Unar是一个模仿vue重写的mvvm框架（已经完成核心），欢迎star:bowtie:
-1. [劫持、代理](https://github.com/lkdghzh/unar.js/blob/master/packages/instance/config.js#L11)
-1. [数据属性->存取器属性->收集依赖->实现mvvm双向绑定](https://github.com/lkdghzh/unar.js/blob/master/packages/instance/config.js#L59)
-1. [fragment编译模板](https://github.com/lkdghzh/unar.js/blob/master/packages/view/compile.js#L4)
-1. [指令工厂创建指令实例](https://github.com/lkdghzh/unar.js/blob/master/packages/view/compile.js#L25)
-1. [指令继承（oop思想）逻辑指令（if for）,操作指令（html value text）,属性指令（：class ：self）](https://github.com/lkdghzh/unar.js/tree/master/packages/view/directives)
+# 使用文档
+* [文档](doc/use/entry.md)
+* [实现技术点+TodoList](doc/use/senior.md)
 
-# todolist
-+ 解析json path的问题-->取值、赋值、检测。 /是否删除？
-    + 自己写的问题
-    + 参考 https://github.com/chaijs/pathval
-    + 参考 勾股的状态机 http://jiongks.name/blog/vue-code-review/
-+ 面向组件化（ocp）
-    + 先做好一个组件的oop面向对象处理，然后才能粗粒化ocp面向组件
-+ 是否转ts
-+ 虚拟dom
-    + 自己研究 ，需要实测性能差距。https://github.com/lkdghzh/blog/tree/master/unar/knowledge
-    + 研究的virtual-dom库的使用 https://github.com/Matt-Esch/virtual-dom
-    + 研究的snabbdom库的使用 https://github.com/snabbdom/snabbdom
-# PLAN
-> :heavy_exclamation_mark: 45天,中间可能牵涉大变革 vdom ,life, ts 尽量不要插入
-
-order | task | status
-----  |----  | ---- 
-2017-2018-03 | mvvm<->two-ways | :heavy_check_mark:
-2017-2018-03 | watchers | :heavy_check_mark:
-2017-2018-03 | computeds | :heavy_check_mark:
-2018-03-13  | configs | :heavy_check_mark:
-2018-03-14  | computeds ->set-hook  | :heavy_check_mark:
-2018-03-17  | model,selfattr ,html , @  | :heavy_check_mark: 
-2018-03-22  | Finding loopholes. lexical analysis. Need to convert ast. | :bangbang:
-2018-03-25  | show  :style class {{}}   | :hearts: 
-2018-04-12  | karma jasmine unit test config done  | :heavy_check_mark:
-2018/04/16  | else elseif | :hearts: 
-2018/04/21  | if  for  of| :heavy_check_mark: 
-2018/04/23  | observe Object  |:heavy_check_mark: 
-2018/04/30 | observe Array  | :heavy_check_mark: :hearts: 
-# options
-## when unar getter call ？
-```
-<input u-model="a" />
-...
-get() {
-    if (propType.switch) {
-        hub.addListener(propType.switch)
-    }
-    console.log(`accessor->get:${key}`)
-    return valCache
-}
-```
-+ 页面初始化时候，通过hijack数据劫持。 只有在new Listener()的时候调用。watchers里的属性也是new Listener()
-+ notify时候，通过hijack数据劫持。 只有在hub.notify===listeners.notify的时候调用。如果watchers里的属性的注册的cb，也会调用
-# Knowledge
-+ babel "babel-plugin-external-helpers" create Class function 
-+ babel "preset-stage-2" only transform static prop
-# virtual dom
-- fragment
-- create-virtual-dom
-- dom-diff
-- real-dom-patch
-- life-cycle
-# own configuration
-    new Unar({
-        ...
-        config:{
-            actionPrefix: "u-",
-            attrPrefix: ":",
-            evtPrefix: "@"
-        }
-    })
-    file-suffix:'uar'
-
-# parcel dev
-+ npm install -g parcel-bundler
-+ npm run dev:parcel
-
-```
-"plugins": ["external-helpers"] //need deleted manually in .babelrc
-```
-
-# package unar
-> scripts -rollup -config.js
-
-```
-"plugins": ["external-helpers"]//need added manually in .babelrc
-npm run dev:r   --->es6 umd
-npm run stage:r --->es5 umd 
-npm run prod:r  --->es5 umd min
-```
-# unit test
-```
-# Install Karma:
-npm install karma --save-dev
-
-# Install plugins that your project needs:
-npm install karma-jasmine karma-chrome-launcher karma-firefox-launcher jasmine-core --save-dev
-
-# Run Karma:
-./node_modules/karma/bin/karma start
-# Run Karma if installed global there is no instance
-npm install karma -g
-karma start
-
-#Build instance
-cd scripts/karma/unit/
-karma init
-# enter ... it will touch karma.conf.js
-touch test.js
-vim test.js
-i
-....
-esc
-:wq
-it includes spec.js  test instance and src eg(packages)
-# config karma.conf.js
-
-# write scripts in package.json
-"test:unit":"karma start scripts/karma/unit/karma.conf.js"
-npm run test:unit
-```
+# 二次开发文档
+* [文档](doc/develop/test.md)
