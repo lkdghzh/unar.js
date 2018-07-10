@@ -1,5 +1,8 @@
 # 入门
-
+## 例子
+> 开发unar，并写文档是一件非常占时间的事情,
+* [例子目录](../../examples)
+* [例子2](../../examples/version02/unar.html)
 ## own configuration
     new Unar({
         ...
